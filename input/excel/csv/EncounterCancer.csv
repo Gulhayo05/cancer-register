@@ -1,0 +1,25 @@
+System,Name,,Flags,,Cardinality,Type,example,Description & Constraints,,,ValueSets,,,
+,Encounter,,TU,,,DomainResource,,"Прием пациента, во время которого определяется состояние пациента и тип его лечения",,,System,CodeSystem,Code,Display
+,identifier,,,  D,0..*,Identifier,,business identifier  (EncounterCancer),,,https://terminology.dhp.uz/ValueSet/TypeTreatment,CancerCodeSystem,cancr0009.00001--cancr0009.00003,Сведения о лечении (Тип лечения)
+,class,,Σ,  D,0..*,CodeableConcept,,"Определяет код типа лечения (амбулатория, стационар…)
+Binding: https://terminology.dhp.uz/ValueSet/TypeTreatment  (required)",,, https://terminology.dhp.uz/ValueSet/PatientsCondition,CancerCodeSystem,cancr0044.00001--cancr0044.00003,Состояние пациента
+,subject,,Σ,  D,1..1,Reference(Patient),,Определяет пациента,,,,,,
+Состояние на дату последнего контакта (статус),subjectStatus,,Σ,  D,0..1,CodeableConcept,Жив,"Определяет код состояния пациента (жив, умер, выехал)
+Binding: https://terminology.dhp.uz/ValueSet/PatientsCondition  (required)",,,,,,
+,episodeOfCare,,Σ,  D,0..*,Reference(EpisodeOfCare) ,,"Определяет случай обслуживания, в рамках которого был произведен прием",,,,,,
+,basedOn,,,,0..*,Reference(CarePlan) ,,Определяет план лечения,,,,,,
+,serviceProvider,,,,0..1,Reference(Organization),,Определяет организацию,,,,,,
+Дата последнего контакта,period,,,,0..1,,18/02/2026,Определяет дату начала и дату окончания приема,,,,,,
+,participant.actor,,Σ,  D,1..1,Reference(Patient),,Определяет пациента,,,,,,
+,diagnosis,,Σ,  D,0..*,BackboneElement,,,,,,,,
+,,condition,Σ,  D,0..1,Reference(Condition) ,,Ссылка на ConditionCancerDiagnosis ICD10,,,,,,
+,,use,Σ,  D,0..1,CodeableConcept,,"Определяет код типа лечения (амбулатория, стационар…)
+Binding: https://terminology.dhp.uz/ValueSet/TypeTreatment  (required)",,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,

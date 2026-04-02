@@ -1,0 +1,141 @@
+code,RU,UZ,Eng
+I,"Лейкозы, миелопролиферативные заболевания и миелодиспластические заболевания","Leykozlar, miyeloproliferativ kasalliklar va miyelodisplastik kasalliklar","Leukemias, myeloproliferative diseases, and myelodysplastic diseases"
+a,Лимфоидные лейкозы,Limfoid leykozlar,Lymphoid leukemias
+a.2,Лейкозы из клеток-предшественников,Old hujayralardan rivojlangan leykozlar,Precursor cell leukemias
+a.3,Лейкозы зрелых B-клеток,Yetuk B-hujayrali leykozlar,Mature B-cell leukemias
+a.4,"Лимфоидный лейкоз, неуточнённый","Limfoid leykoz, aniqlanmagan","Lymphoid leukemia, NOS"
+b,Острые миелоидные лейкозы,O‘tkir miyeloid leykozlar,Acute myeloid leukemias
+c,Хронические миелопролиферативные заболевания,Surunkali miyeloproliferativ kasalliklar,Chronic myeloproliferative diseases
+d,Миелодиспластический синдром и другие миелопролиферативные заболевания,Miyelodisplastik sindrom va boshqa miyeloproliferativ kasalliklar,Myelodysplastic syndrome and other myeloproliferative diseases
+e,Неуточнённые и другие уточнённые лейкозы,Aniqlanmagan va boshqa aniqlangan leykozlar,Unspecified and other specified leukemias
+II,Лимфомы и ретикулоэндотелиальные новообразования,Limfomalar va retikuloendotelial o‘smalar,Lymphomas and reticuloendothelial neoplasms
+a,Лимфомы Ходжкина,Xodjkin limfomalari,Hodgkin lymphomas
+b,Неходжкинские лимфомы (кроме лимфомы Беркитта),Non-Xodjkin limfomalari (Berkitt limfomasidan tashqari),Non-Hodgkin lymphomas (except Burkitt lymphoma)
+b.1,Лимфомы из клеток-предшественников,Old hujayralardan rivojlangan limfomalar,Precursor cell lymphomas
+b.2,Лимфомы зрелых B-клеток (кроме лимфомы Беркитта),Yetuk B-hujayrali limfomalar (Berkitt limfomasidan tashqari),Mature B-cell lymphomas (except Burkitt lymphoma)
+b.3,Лимфомы зрелых T-клеток и NK-клеток,Yetuk T-hujayra va NK-hujayra limfomalari,Mature T-cell and NK-cell lymphomas
+b.4,"Неходжкинские лимфомы, неуточнённые","Non-Xodjkin limfomalari, aniqlanmagan","Non-Hodgkin lymphomas, NOS"
+c,Лимфома Беркитта,Berkitt limfomasi,Burkitt lymphoma
+d,Прочие лимфоретикулярные новообразования,Boshqa limforetikulyar o‘smalar,Miscellaneous lymphoreticular neoplasms
+e,Неуточнённые лимфомы,Aniqlanmagan limfomalar,Unspecified lymphomas
+III,Опухоли ЦНС и прочие внутричерепные и внутриспинальные новообразования,CNS va boshqa intrakranial va intraspinal o‘smalar,CNS and miscellaneous intracranial and intraspinal neoplasms
+a,Эпендимомы и опухоли сосудистого сплетения,Ependimomalar va tomirli pleksus o‘smalari,Ependymomas and choroid plexus tumor
+a.1,Эпендимомы,Ependimomalar,Ependymomas
+a.2,Опухоли сосудистого сплетения,Tomirli pleksus o‘smalari,Choroid plexus tumor
+b,Астроцитомы,Astrositomalar,Astrocytomas
+с,Внутричерепные и внутриспинальные эмбриональные опухоли,Intrakranial va intraspinal embrional o‘smalar,Intracranial and intraspinal embryonal tumors
+c.1,Медуллобластомы,Medulloblastomalar,Medulloblastomas
+c.2,Примитивная нейроэктодермальная опухоль (ПНЭТ),Primitiv neyroektodermal o‘sma (PNET),PNET
+c.3,Медуллоэпителиома,Medulloepitelioma,Medulloepithelioma
+c.4,Атипичная тератоидно-рабдоидная опухоль,Atipik teratoid/rabdoid o‘sma,Atypical teratoid/rhabdoid tumor
+d,Другие глиомы,Boshqa gliomalar,Other gliomas
+d.1,Олигодендроглиомы,Oligodendrogliomalar,Oligodendrogliomas
+d.2,Смешанные и неуточнённые глиомы,Aralash va aniqlanmagan gliomalar,Mixed and unspecified gliomas
+d.3,Нейроэпителиальные глиальные опухоли неясного происхождения,Kelib chiqishi noaniq neyroepitelial glial o‘smalar,Neuroepithelial glial tumors of uncertain origin
+e,Другие уточнённые внутричерепные и внутриспинальные новообразования,Boshqa aniqlangan intrakranial va intraspinal o‘smalar,Other specified intracranial and intraspinal neoplasms
+e.1,Аденомы и карциномы гипофиза,Gipofiz adenomasi va karsinomasi,Pituitary adenomas and carcinomas
+e.2,Опухоли селлярной области (краниофарингиомы),Sellar soha o‘smalari (kraniofaringiomalar),Tumors of the sellar region (craniopharyngiomas)
+e.3,Опухоли паренхимы шишковидной железы,Pineal parenxima o‘smalari,Pineal parenchymal tumors
+e.4,Нейрональные и смешанные нейронально-глиальные опухоли,Neyronal va aralash neyronal-glial o‘smalar,Neuronal and mixed neuronal-glial tumors
+e.5,Менингиомы,Meningiomalar,Meningiomas
+f,Неуточнённые внутричерепные и внутриспинальные новообразования,Aniqlanmagan intrakranial va intraspinal o‘smalar,Unspecified intracranial and intraspinal neoplasms
+IV,Нейробластома и другие опухоли клеток периферической нервной системы,Neyroblastoma va boshqa periferik nerv hujayralari o‘smalari,Neuroblastoma and other peripheral nervous cell tumors
+a,Нейробластома и ганглионейробластома,Neyroblastoma va ganglionevroblastoma,Neuroblastoma and ganglioneuroblastoma
+b,Другие опухоли клеток периферической нервной системы,Boshqa periferik nerv hujayralari o‘smalari,Other peripheral nervous cell tumors
+V,Ретинобластома,Retinoblastoma,Retinoblastoma
+VI,Опухоли почки,Buyrak o‘smalari,Renal tumors
+a,Нефробластома и другие неэпителиальные опухоли почки,Nefroblastoma va boshqa epitelial bo‘lmagan buyrak o‘smalari,Nephroblastoma and other nonepithelial renal tumors
+a.1,Нефробластома,Nefroblastoma,Nephroblastoma
+a.2,Рабдоидная опухоль почки,Buyrakning rabdoid o‘smasi,Rhabdoid renal tumor
+a.3,Саркомы почки,Buyrak sarkomalari,Kidney sarcomas
+a.4,pPNET почки,Buyrak pPNET,pPNET of kidney
+b,Карциномы почки,Buyrak karsinomasi,Renal carcinomas
+c,Неуточнённые злокачественные опухоли почки,Aniqlanmagan yomon sifatli buyrak o‘smalari,Unspecified malignant renal tumors
+VII,Опухоли печени,Jigar o‘smalari,Hepatic tumors
+a,Гепатобластома,Gepatoblastoma,Hepatoblastoma
+b,Карциномы печени,Jigar karsinomasi,Hepatic carcinomas
+c,Неуточнённые злокачественные опухоли печени,Aniqlanmagan yomon sifatli jigar o‘smalari,Unspecified malignant hepatic tumors
+VIII,Злокачественные опухоли костей,Suyaklarning yomon sifatli o‘smalari,Malignant bone tumors
+a,Остеосаркомы,Osteosarkomalar,Osteosarcomas
+b,Хондросаркомы,Xondrosarkomalar,Chondrosarcomas
+c,Опухоль Юинга и родственные саркомы костей,Ewing o‘smasi va unga o‘xshash suyak sarkomalari,Ewing tumor and related sarcomas of bone
+c.1,Опухоль Юинга и опухоль Аскина костей,Ewing va Askin suyak o‘smalari,Ewing tumor and Askin tumor of bone
+c.2,pPNET костей,Suyak pPNET,pPNET of bone
+d,Другие уточнённые злокачественные опухоли костей,Boshqa aniqlangan yomon sifatli suyak o‘smalari,Other specified malignant bone tumors
+d.1,Злокачественные фиброзные новообразования костей,Suyaklarning yomon sifatli fibroz o‘smalari,Malignant fibrous neoplasms of bone
+d.2,Злокачественные хордомы,Yomon sifatli xordomalar,Malignant chordomas
+d.3,Одонтогенные злокачественные опухоли,Odontogen yomon sifatli o‘smalar,Odontogenic malignant tumors
+d.4,Прочие злокачественные опухоли костей,Boshqa yomon sifatli suyak o‘smalari,Miscellaneous malignant bone tumors
+e,Неуточнённые злокачественные опухоли костей,Aniqlanmagan yomon sifatli suyak o‘smalari,Unspecified malignant bone tumors
+IX,Саркомы мягких тканей и другие вне-костные саркомы,Yumshoq to‘qima va boshqa ekstrasuyak sarkomalari, Soft tissue and other extraosseous sarcomas
+a,Рабдомиосаркомы,Rabdomiosarkomalar,Rhabdomyosarcomas
+b,"Фибросаркомы, опухоли оболочек периферических нервов и другие фиброзные новообразования","Fibrosarkomalar, periferik nerv qobig‘i o‘smalari va boshqa fibroz o‘smalar","Fibrosarcomas, peripheral nerve sheath tumors, and other fibrous neoplasms"
+b.1,Фибробластические и миофибробластические опухоли,Fibroblastik va miofibroblastik o‘smalar,Fibroblastic and myofibroblastic tumors
+b.2,Опухоли оболочек нервов,Nerv qobig‘i o‘smalari,Nerve sheath tumors
+b.3,Другие фиброматозные новообразования,Boshqa fibromatoz o‘smalar,Other fibromatous neoplasms
+c,Саркома Капоши,Kaposi sarkomasi,Kaposi sarcoma
+d,Другие уточнённые саркомы мягких тканей,Boshqa aniqlangan yumshoq to‘qima sarkomalari,Other specified soft tissue sarcomas
+d.1,Опухоль Юинга и опухоль Аскина мягких тканей,Yumshoq to‘qimalarning Ewing va Askin o‘smalari,Ewing tumor and Askin tumor of soft tissue
+d.2,pPNET мягких тканей,Yumshoq to‘qima pPNET,pPNET of soft tissue
+d.3,Внепочечная рабдоидная опухоль,Ekstrarenal rabdoid o‘sma,Extrarenal rhabdoid tumor
+d.4,Липосаркомы,Liposarkomalar,Liposarcomas
+d.5,Фиброгистиоцитарные опухоли,Fibrogistiotsitar o‘smalar,Fibrohistiocytic tumors
+d.6,Лейомиосаркомы,Leyomiosarkomalar,Leiomyosarcomas
+d.7,Синовиальные саркомы,Sinovial sarkomalar,Synovial sarcomas
+d.8,Опухоли кровеносных сосудов,Qon tomir o‘smalari,Blood vessel tumors
+d.9,Костные и хрящевые новообразования мягких тканей,Yumshoq to‘qimaning suyak va tog‘ay o‘smalari,Osseous and chondromatous neoplasms of soft tissue
+d.10,Альвеолярная саркома мягких тканей,Alveolyar yumshoq to‘qima sarkomasi,Alveolar soft parts sarcoma
+d.11,Прочие саркомы мягких тканей,Boshqa yumshoq to‘qima sarkomalari,Miscellaneous soft tissue sarcomas
+e,Неуточнённые саркомы мягких тканей,Aniqlanmagan yumshoq to‘qima sarkomalari,Unspecified soft tissue sarcomas
+X,"Опухоли зародышевых клеток, трофобластические опухоли и новообразования гонад","Jinsiy hujayra o‘smalari, trofoblastik o‘smalar va gonada o‘smalari","Germ cell tumors, trophoblastic tumors, and neoplasms of gonads"
+a,Внутричерепные и внутриспинальные опухоли зародышевых клеток,Intrakranial va intraspinal jinsiy hujayra o‘smalari,Intracranial and intraspinal germ cell tumors
+a.1,Внутричерепные и внутриспинальные герминомы,Intrakranial va intraspinal germinomalar,Intracranial and intraspinal germinomas
+a.2,Внутричерепные и внутриспинальные тератомы,Intrakranial va intraspinal teratomalar,Intracranial and intraspinal teratomas
+a.3,Внутричерепные и внутриспинальные эмбриональные карциномы,Intrakranial va intraspinal embrional karsinomalar,Intracranial and intraspinal embryonal carcinomas
+a.4,Внутричерепная и внутриспинальная опухоль желточного мешка,Intrakranial va intraspinal sariq xalta o‘smalari,Intracranial and intraspinal yolk sac tumor
+a.5,Внутричерепная и внутриспинальная хориокарцинома,Intrakranial va intraspinal xoriokarsinoma,Intracranial and intraspinal choriocarcinoma
+a.6,Внутричерепные и внутриспинальные опухоли смешанных форм,Intrakranial va intraspinal aralash turdagi o‘smalar,Intracranial and intraspinal tumors of mixed forms
+b,Злокачественные внечерепные и внегональные опухоли зародышевых клеток,Ekstrakranial va ekstragonadal yomon sifatli jinsiy hujayra o‘smalari,Malignant extracranial and extragonadal germ cell tumors
+b.1,Злокачественные герминомы внечерепных и внегональных локализаций,Ekstrakranial va ekstragonadal joylashuvdagi yomon sifatli germinomalar,Malignant germinomas of extracranial and extragonadal sites
+b.2,Злокачественные тератомы внечерепных и внегональных локализаций,Ekstrakranial va ekstragonadal joylashuvdagi yomon sifatli teratomalar,Malignant teratomas of extracranial and extragonadal sites
+b.3,Эмбриональные карциномы внечерепных и внегональных локализаций,Ekstrakranial va ekstragonadal embrional karsinomalar,Embryonal carcinomas of extracranial and extragonadal sites
+b.4,Опухоль желточного мешка внечерепных и внегональных локализаций,Ekstrakranial va ekstragonadal sariq xalta o‘smalari,Yolk sac tumor of extracranial and extragonadal sites
+b.5,Хориокарциномы внечерепных и внегональных локализаций,Ekstrakranial va ekstragonadal xoriokarsinomalar,Choriocarcinomas of extracranial and extragonadal sites
+b.6,Другие и неуточнённые злокачественные смешанные опухоли зародышевых клеток внечерепных и внегональных локализаций,Ekstrakranial va ekstragonadal boshqa va aniqlanmagan aralash jinsiy hujayra o‘smalari,Other and unspecified malignant mixed germ cell tumors of extracranial and extragonadal sites
+c,Злокачественные гонадные опухоли зародышевых клеток,Gonadal yomon sifatli jinsiy hujayra o‘smalari,Malignant gonadal germ cell tumors
+c.1,Злокачественные гонадные герминомы,Gonadal yomon sifatli germinomalar,Malignant gonadal germinomas
+c.2,Злокачественные гонадные тератомы,Gonadal yomon sifatli teratomalar,Malignant gonadal teratomas
+c.3,Гонадные эмбриональные карциномы,Gonadal embrional karsinomalar,Gonadal embryonal carcinomas
+c.4,Гонадная опухоль желточного мешка,Gonadal sariq xalta o‘smalari,Gonadal yolk sac tumor
+c.5,Гонадная хориокарцинома,Gonadal xoriokarsinoma,Gonadal choriocarcinoma
+c.6,Злокачественные гонадные опухоли смешанных форм,Gonadal aralash turdagi yomon sifatli o‘smalar,Malignant gonadal tumors of mixed forms
+c.7,Злокачественная гонадная гонадобластома,Gonadal yomon sifatli gonadoblastoma,Malignant gonadal gonadoblastoma
+d,Гонадные карциномы,Gonadal karsinomalar,Gonadal carcinomas
+e,Другие и неуточнённые злокачественные гонадные опухоли,Boshqa va aniqlanmagan gonadal yomon sifatli o‘smalar,Other and unspecified malignant gonadal tumors
+XI,Другие злокачественные эпителиальные новообразования и злокачественные меланомы,Boshqa yomon sifatli epitelial o‘smalar va melanomalar,Other malignant epithelial neoplasms and malignant melanomas
+a,Адренокортикальные карциномы,Adrenokortikal karsinomalar,Adrenocortical carcinomas
+b,Карциномы щитовидной железы,Qalqonsimon bez karsinomasi,Thyroid carcinomas
+c,Карциномы носоглотки,Nazofaringeal karsinomalar,Nasopharyngeal carcinomas
+d,Злокачественные меланомы,Yomon sifatli melanomalar,Malignant melanomas
+s,Карциномы кожи,Teri karsinomasi,Skin carcinomas
+f,Другие и неуточнённые карциномы,Boshqa va aniqlanmagan karsinomalar,Other and unspecified carcinomas
+f.1,Карциномы слюнных желез,So‘lak bezlari karsinomasi,Carcinomas of salivary glands
+f.2,Карциномы толстой и прямой кишки,Yo‘g‘on va to‘g‘ri ichak karsinomasi,Carcinomas of colon and rectum
+f.3,Карциномы аппендикса,Apendiks karsinomasi,Carcinomas of appendix
+f.4,Карциномы лёгких,O‘pka karsinomasi,Carcinomas of lung
+f.5,Карциномы тимуса,Timus karsinomasi,Carcinomas of thymus
+f.6,Карциномы молочной железы,Ko‘krak bezi karsinomasi,Carcinomas of breast
+f.7,Карциномы шейки матки,Bachadon bo‘yni karsinomasi,Carcinomas of cervix uteri
+f.8,Карциномы мочевого пузыря,Siydik pufagi karsinomasi,Carcinomas of bladder
+f.9,Карциномы глаза,Ko‘z karsinomasi,Carcinomas of eye
+f.10,Карциномы других уточнённых локализаций,Boshqa aniqlangan joylashuvdagi karsinomalar,Carcinomas of other specified sites
+f.11,Карциномы неуточнённой локализации,Aniqlanmagan joylashuvdagi karsinomalar,Carcinomas of unspecified site
+XII,Другие и неуточнённые злокачественные новообразования,Boshqa va aniqlanmagan yomon sifatli o‘smalar,Other and unspecified malignant neoplasms
+a,Другие уточнённые злокачественные опухоли,Boshqa aniqlangan yomon sifatli o‘smalar,Other specified malignant tumors
+a.1,Гастроинтестинальная стромальная опухоль,Gastrointestinal stromal o‘sma,Gastrointestinal stromal tumor
+a.2,Панкреатобластома,Pankreatoblastoma,Pancreatoblastoma
+a.3,Лёгочная бластома и плевропульмональная бластома,O‘pka blastomasi va plevropulmonal blastoma,Pulmonary blastoma and pleuropulmonary blastoma
+a.4,Другие сложные смешанные и стромальные новообразования,Boshqa murakkab aralash va stromal o‘smalar,Other complex mixed and stromal neoplasms
+a.5,Мезотелиома,Mezotelioma,Mesothelioma
+a.6,Другие уточнённые злокачественные опухоли,Boshqa aniqlangan yomon sifatli o‘smalar,Other specified malignant tumors
+b,Другие неуточнённые злокачественные опухоли,Boshqa aniqlanmagan yomon sifatli o‘smalar,Other unspecified malignant tumors

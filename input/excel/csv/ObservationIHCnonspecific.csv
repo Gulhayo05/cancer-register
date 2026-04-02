@@ -1,0 +1,15 @@
+,Name,,Flags,,Cardinality,Type,example,Description & Constraints,,,ValueSets,,,
+,Observation,,N,,,DomainResource,,"Неспецифическое исследование иммуногистохимии (ИГХ) антител, с целью выявления наличия/отсутствия опухолевого процесса",,,System,CodeSystem,Code,Display
+,identifier,,Σ,,0..*,Identifier,,business identifier  (IHCnonspecific),,,https://terminology.dhp.uz/ValueSet/NameTests ,CancerCodeSystem,cancr0013.00001--cancr0013.00004,Наименование исследования
+Тип исследования,code,,S,,1..1,CodeableConcept,ИГХ неспецифические+CD3,"Определяет наименование обследования для пациента
+Binding: https://terminology.dhp.uz/ValueSet/NameTests  (required)",,,https://terminology.dhp.uz/ValueSet/IHCNameAntibody ,CancerCodeSystem,cancr0003.00001 --cancr0003.00071,Антитела Иммуногистохимии (ИГХ)
+,subject,,S,,1..1,Reference(Patient ),,"Определяет пациента, для которого проводится обследование",,,https://terminology.dhp.uz/ValueSet/Cancerresult,CancerCodeSystem,cancr0002.00001 --cancr0002.00002,Интерпретация результа выявления опухоли
+Дата проведения исследования ,effective,,,,,,,,,,,,,
+,,effectiveDataTime,Σ,,0..1,dateTime,25/02/2026,Дата и время обследования,,,,,,
+,performer,,Σ,,0..*,Reference(Organization),,Определяет организацию поставщика информации о пациенте,,,,,,
+,value,"		",Σ,,0..*,,,,,,,,,
+Наименование антитела,,  valueCodeableConcept,,,0..1,CodeableConcept,CD3,https://terminology.dhp.uz/ValueSet/IHCNameAntibody ,,,,,,
+результат ,,interpretation,S,,0..*,CodeableConcept,Выявлен,"Код интерпретации результата выявление опухоли
+Определяет по результатам код  выявления опухоли
+Binding: https://terminology.dhp.uz/ValueSet/Cancerresult(required)",,,,,,
+ ,hasMember,,Σ,,0..*,Reference(Observetion),,,,,,,,

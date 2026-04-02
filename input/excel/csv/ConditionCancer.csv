@@ -1,0 +1,45 @@
+system,Name,,Flags,,Cardinality,Type,example,Description & Constraints,,,ValueSets,,,
+,Condition,,N,,,DomainResource,,Определение топографии опухоли. Постановка диагноза по МКБ-0-3,,,System,CodeSystem,Code,Display
+,identifier,,Σ,,0..*,Identifier,,business identifier  (ConditionCancerTopography),,,https://terminology.dhp.uz/ValueSet/ICD3topography,CodeSystemICD3topography,C000--C809,Топография опухоли
+МКБ -10,code,,Σ,  D,0..1,CodeableConcept,,"Определяет диагноз из МКБ10
+Binding: https://terminology.dhp.uz/ValueSet/CodeSystemICD10 (required)",,,https://terminology.dhp.uz/ValueSet/CategoryTopography,CodeSystemICD3topography,1--80,Общая категория топографии опухолиа
+Топография,bodysite,,Σ,  D,0..*,CodeableConcept,"С02 - язык
+С020 - языка верхняя поверхность БДУ      
+","
+Определяет диагноз из МКБ-0-3 Топография опухоли
+Binding: https://terminology.dhp.uz/ValueSet/ICD3topography (required)",,,https://terminology.dhp.uz/ValueSet/Tumor behavior,CancerCodeSystem,cancr0014.00001--cancr0014.00006,Поведение опухоли
+Морфология ,Slice for extension,,Σ,,,,,,,, https://terminology.dhp.uz/ValueSet/ICD3Morphology,CodeSystemICD3morphology,8000--9989,Морфология опухоли
+,,extension: Morphology,,,,,,,,,https://terminology.dhp.uz/ValueSet/DegreeDifferentiation,CancerCodeSystem,cancr0015.00001--cancr0015.00011,Степень дифференцировки
+,,  value,Σ,,0..1,CodeableConcept,"8000/1 - Новооброзавание, неясно, доброкачественное или злокачественное ","Определяет морфолгоию 
+Binding: https://terminology.dhp.uz/ValueSet/CategoryTopography  (required)",,,https://terminology.dhp.uz/ValueSet/diagnosis-source,CancerCodeSystem,cancr0017.00001--cancr0017.00011,Источник информации о диагнозе
+Степень дифференцировки,Slice for extension,,Σ,,,,,,,,https://terminology.dhp.uz/ValueSet/detection-condition,CancerCodeSystem,cancr0020.00001--cancr0020.00008,Условия выявления
+,,extension: GradeDifferentiation,,,,,,,,,https://terminology.dhp.uz/ValueSet/ICCC-3,CodySystemICCC-3,,МКДР-3 (ICCC-3)
+,,  value,Σ,,0..1,CodeableConcept,G2 - Высоко дифференцированная ,"Определяет общую категорию топографии опухоли
+Привязка: https://terminology.dhp.uz/ValueSet/DegreeDifferentiation (required)",,,,,,
+Источники информации о диагнозе,Slice for extension,,,,,,,,,,,,,
+,,extension: diagnosis-source,,,,,,,,,,,,
+,,  value,Σ,,0..1,CodeableConcept,Извещения филиала РСНПМЦОиР,https://terminology.dhp.uz/ValueSet/diagnosis-source,,,,,,
+Условия выявления,Slice for extension,,,,,,,,,,,,,
+,,extension: detection-condition,,,,,,,,,,,,
+,,  value,Σ,,0..1,CodeableConcept,Выявлен в кабинете Онколога,https://terminology.dhp.uz/ValueSet/detection-condition,,,,,,
+МКДР-3 (ICCC-3),Slice for extension,,,,,,,,,,,,,
+,,extension: ICCC-3-Group,,,,,,,,,,,,
+,,  value,Σ,,0..1,CodeableConcept,"
+III- ЦНС и различные внутричерепные и интраспинальные новообразования","Определяет группу МКДР-3
+https://terminology.dhp.uz/ValueSet/ICCC-3",,,,,,
+,,extension: ICCC-3,,,,,,,,,,,,
+,,  value,Σ,,0..1,CodeableConcept,"
+IIId2 - Смешанные и неуточненные глиомы","Определяет код МКДР-3
+https://terminology.dhp.uz/ValueSet/ICCC-3",,,,,,
+,subject,,S,  D,1..1,Reference(Patient ),,"Определяет пациента, состояние которого описывается",,,,,,
+,onsetDateTime,,Σ,  D,0..1,dateTime,,Дата установления диагноза,,,,,,
+,recordedDate,,Σ,  D,1..1,dateTime,,Дата взятия на учет ,,,,,,
+,actor,,Σ,  D,1..1,Reference(Organization),,Определяет организацию поставщика информации о пациенте,,,,,,
+Диагноз (текст),condition.note,,,,0..*,Annotation,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,

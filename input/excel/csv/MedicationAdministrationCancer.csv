@@ -1,0 +1,25 @@
+System,Name,,Flags,,Cardinality,Type,Example,Description & Constraints,,,ValueSets,,,
+,MedicationAdministration,,N,,,DomainResource,,Описывает проведение химиотерапии,,,System,CodeSystem,Code,Display
+,identifier,,Σ,,0..*,Identifier,,business identifier  (MedicationAdministrationCancerChemotherapy),,,https://terminology.dhp.uz/ValueSet/UnitsDrug,CancerCodeSystem,cancr0042.00001--cancr0042.00011,Единицы измерения количества препарата
+,basedOn,,Σ,,0..*,Reference(CarePlan),, ,,,https://terminology.dhp.uz/ValueSet/DrugAdministration ,CancerCodeSystem,cancr0040.00001--cancr0040.00013,Способы введения препарата
+Название препарата,medication,,Σ,  D,1..1,CodeableConcept,Актиномицин,"Определяет код введенного препарата
+Binding: https://terminology.dhp.uz/ValueSet/NameDrug  (required)",,,https://terminology.dhp.uz/ValueSet/NameDrug,CancerCodeSystem,cancr0038.00001--cancr0038.00068,Противоопухолевые онкологические препараты
+Дата введенния препарата,occurrence,,,,,,,,,,,,,
+, ,occurenceDateTime,Σ,  D,1..1,dateTime,10/10/2025,Дата введения препарата,,,,,,
+ ,dosage,,S,  D,0..1,BackboneElement,,,,,,,,
+,,dose,,,0..1,SimpleQuantity,,Описание количества препарата и единиц изм. Количества,,,,,,
+Суммарная доза,,    value,,,0..1,Quantity,20,Числовое значение количества препарата,,,,,,
+Ед. измерения,,    unit,,,0..1,CodeableConcept,мг,"Определяет код единицы измерения количества препарата
+Binding: https://terminology.dhp.uz/ValueSet/UnitsDrug  (required)",,,,,,
+Способ введения,,method,,,0..1,CodeableConcept,,"Определяет код способа введения препарата
+Binding: https://terminology.dhp.uz/ValueSet/DrugAdministration  (required)", ,,,,,
+,subject,,S,  D,1..1,Reference(Patient ),,"Определяет пациента, которому вводилось лекарство",,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,

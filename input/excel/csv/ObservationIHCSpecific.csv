@@ -1,0 +1,22 @@
+system,Name,,Flags,,Cardinality,Type,Example,Description & Constraints,,,ValueSets,,,
+,Observation,,N,,,DomainResource,,Специфическое исследование гормонов иммуногистохимии (ИГХ) с целью выявления наличия/отсутствия опухолевого процесса,,,System,CodeSystem,Code,Display
+,identifier,,Σ,,0..*,Identifier,,business identifier  (IHCspecific) ,,,https://terminology.dhp.uz/ValueSet/NameTests ,CancerCodeSystem,cancr0013.00001--cancr0013.00004,Наименование исследования
+ИГХ специфические ,code,,S,,1..1,CodeableConcept,ИГХ специфические ,"Определяет наименование обследования для пациента
+Binding: https://terminology.dhp.uz/ValueSet/NameTests  (required)",,,https://terminology.dhp.uz/ValueSet/IHCHormone,CancerCodeSystem,cancr0012.00001--cancr0012.00005,Гормоны Иммуногистохимии (ИГХ)
+,subject,,S,,0..1,Reference(Patient ),,"Определяет пациента, для которого проводится обследование",,,https://terminology.dhp.uz/ValueSet/IHCHormoneresult ,CancerCodeSystem,cancr0001.00001 --cancr0001.00008,Интерпретация показателей гормона
+Дата проведения исследования ,effective,,Σ,,0..1, ,,,,,,,,
+, ,effectiveDataTime, ,,,dateTime,01/02/2026,Дата и время обследования,,,https://terminology.dhp.uz/ValueSet/CancerResult,CancerCodeSystem,cancr0002.00001 --cancr0002.00002,Интерпретация результа выявления опухоли
+,performer,,Σ,,0..*,Reference(Organization),,Определяет организацию поставщика информации о пациенте,,,,,,
+,component,"		",Σ,,0..*,,,,,,,,,
+,,code,Σ,,1..1,code,Эстроген (%),"Определяет код параметра обследования
+Binding: https://terminology.dhp.uz/ValueSet/IHC Hormone (required)",,,,,,
+,,value,Σ,,0..1,,,,,,,,,
+процент/количество,,  valueQuantity,,, ,,,количественный результат параметра,,,,,,
+,,     unit,,,0..1,String,20,"единица измерения
+",,,,,,
+балл интенсивности ,,  valueCodeableConcept,,,0..1,CodeableConcept,Слабая (+),"код результата параметра
+Binding: https://terminology.dhp.uz/ValueSet/IHCHormoneresult (required)",,,,,,
+Результат,,interpretation,S,,0..*,CodeableConcept,Выявлен,"Код интерпретации результата выявление опухоли
+Определяет по результатам код  выявления опухоли
+Binding: https://terminology.dhp.uz/ValueSet/Cancerresult (required)",,,,,,
+,hasMember,,Σ,,0..*,Reference(Observetion),,,,,,,,

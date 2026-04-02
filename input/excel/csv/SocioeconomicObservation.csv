@@ -1,0 +1,18 @@
+system,Name,,Flags,,Cardinality,Type,Example,Description & Constraints,,ValueSets,,,
+,Observation,,N,,0..*,DomainResource,,,,System,CodeSystem,Code,Display
+,code,,S,,1..1,CodeableConcept,,,,https://terminology.dhp.uz/ValueSet/education,CancerCodeSystem,cancr0030.00001--cancr0030.00003,Образование
+Образование/ Провефессия , ,Slice for coding, ,,1..*,Coding,Профессия ,,,https://terminology.dhp.uz/ValueSet/profession,CancerCodeSystem,cancr0031.00001--cancr0031.00074,Профессии
+, ,  coding: socioeconoimcType,,,1..1,Coding,,,,,,,
+,Subject, ,S,,1..1,Reference(UZCorePatient),,,,,,,
+,Slice for effective[x], , ,,1..1,dateTime,,,,,,,
+,,effective[x]: effectiveDateTime, ,,1..1,dateTime,,,,,,,
+Высшее / Строитель ,value[x], ,S, ,0..1,CodeableConcept,Высшее,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,, ,,,,,,

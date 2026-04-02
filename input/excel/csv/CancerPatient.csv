@@ -1,0 +1,108 @@
+System,Name,,Flags,,Cardinality,Type,example,Description & Constraints,,,,,,
+,Patient,,N,,0..*,DomainResource, ,,,,,,,
+,Slice for extension,,,,0..*,extension,,,,,,,,
+,,extension: nationality,S,,0..1,,,"	Nationality
+URL: http://hl7.org/fhir/StructureDefinition/patient-nationality",,,,,,
+,,  Slice for extension,,,0..*,Extension,,,,,,,,
+,,    extension: code,,,0..1,Extension,,,,,,,,
+Национальность ,,    value[x],,,1..1,CodeableConcept,Узбек,Привязка: NationalityVS (0.4.0) (required),,,,,,
+,,extension: citizenship,S,,0..1,,,,,,,,,
+,,  Slice for extension,,,0..*,Extension,,"Nation(s) where the patient claims citizenship
+URL: http://hl7.org/fhir/StructureDefinition/patient-citizenship",,,,,,
+,,    extension: code,,,0..1,Extension,,,,,,,,
+Гражданство,,    value[x],,,1..1,CodeableConcept,Узбекистан,Привязка: CitizenshipVS (0.4.0) (required),,,,,,
+,,,,,,,,,,,,,,
+,Slice for identifier ,, SΣ,,1..*,Identifier,,An identifier for this patient,,,,,,
+ПИНФЛ,,identifier: nationalId , SΣ,,0..1,Identifier,,,,,,,,
+,,  Slice for extension, ,,0..1,Extension,,,,,,,,
+,,    extension: data_absent-reason,S,,0..1,code,,,,,,,,
+,,  use,?! Σ,,0..1,code,usual,usual | official | temp | secondary | old (If known),,,,,,
+,,,,,,,,Привязка: IdentifierUseVS (0.4.0) (required),,,,,,
+,,  type,Σ,,0..1,CodeableConcept,NI,Description of identifier,,,,,,
+,,,,,,,,Привязка: IdentifierTypeVS (0.4.0) (required),,,,,,
+,,   coding,,,1..*,Coding,,"Code defined by a terminology system
+Фиксированное значение: (комплексный)",,,,,,
+,,    system,,,1..1,uri,,"Identity of the terminology system
+Фиксированное значение: http://terminology.hl7.org/CodeSystem/v2-0203",,,,,,
+,,    code,,,1..1,code,NI,"Symbol in syntax defined by the system
+Фиксированное значение: NI",,,,,,
+,,    display ,,,1..1,string,,"	Representation defined by the system
+Фиксированное значение: National unique individual identifier",,,,,,
+,,  system, SΣ,,1..1,uri,dpm.uz,"	The namespace for the identifier value
+Required Pattern: https://dhp.uz/fhir/core/sid/pid/uz/ni",,,,,,
+,,  value,,,1..1,string,515050500505,"	The value that is unique
+Example General: 123456",,,,,,
+Паспорт серия и номер,,identifier: passportLocal, SΣ,,0..1,Identifier,,,,,,,,
+,,  Slice for extension, ,,0..1,Extension,,,,,,,,
+,,    extension: data_absent-reason,S,,0..1,code,,,,,,,,
+,,  use,?!Σ,,0..1,code,usual,usual | official | temp | secondary | old (If known),,,,,,
+,,,,,,,,Привязка: IdentifierUseVS (0.4.0) (required),,,,,,
+,,  type,Σ,,0..1,CodeableConcept,PPN,Description of identifier,,,,,,
+,,,,,,,,Привязка: IdentifierTypeVS (0.4.0) (required),,,,,,
+,,   coding,,,1..*,Coding,,"Code defined by a terminology system
+Фиксированное значение: (комплексный)",,,,,,
+,,    system,,,1..1,uri,,"Identity of the terminology system
+Фиксированное значение: http://terminology.hl7.org/CodeSystem/v2-0203",,,,,,
+,,    code,,,1..1,code,PPN,"Symbol in syntax defined by the system
+Фиксированное значение: PPN",,,,,,
+,,    display ,,,1..1,string,,"	Representation defined by the system
+Фиксированное значение: Passport number",,,,,,
+,,  system, SΣ,,1..1,uri,dpm.uz,"	The namespace for the identifier value
+Required Pattern: https://dhp.uz/fhir/core/sid/pid/uz/ppn/local",,,,,,
+,,  value,,,1..1,string,AB 123456,"	The value that is unique
+Example General: 123456",,,,,,
+,, ,,,,,,,,,,,,
+ID записи,,identifier: healthCardId, SΣ,,0..1,Identifier,,,,,,,,
+,,  Slice for extension, ,,0..1,Extension,,,,,,,,
+,,    extension: data_absent-reason,S,,0..1,code,,,,,,,,
+,,  use,?!Σ,,0..1,code,official,usual | official | temp | secondary | old (If known),,,,,,
+,,,,,,,,Привязка: IdentifierUseVS (0.4.0) (required),,,,,,
+,,  type,Σ,,0..1,CodeableConcept,HC,Description of identifier,,,,,,
+,,,,,,,,Привязка: IdentifierTypeVS (0.4.0) (required),,,,,,
+,,   coding,,,1..*,Coding,,"Code defined by a terminology system
+Фиксированное значение: (комплексный)",,,,,,
+,,    system,,,1..1,uri,,"Identity of the terminology system
+Фиксированное значение: http://terminology.hl7.org/CodeSystem/v2-0203",,,,,,
+,,    code,,,1..1,code,HC,"Symbol in syntax defined by the system
+Фиксированное значение: HC",,,,,,
+,,    display ,,,1..1,string,,"	Representation defined by the system
+Фиксированное значение: Health card number",,,,,,
+,,  system, SΣ,,1..1,uri,dhp.uz,"	The namespace for the identifier value
+Required Pattern: https://dhp.uz/fhir/core/sid/pid/uz/ppn/local",,,,,,
+,,  value,,,1..1,string,123456,"	The value that is unique
+Example General: 123456",,,,,,
+,,,,,,,,,,,,,,
+,active, ,?!SΣ,,0..1,boolean,active,Whether this patient's record is in active use,,,,,,
+Ф.И.О.,name, , SΣ,,0..*,HumanName,,A name associated with the patient,,,,,,
+,,  use,?!SΣ,,0..1,code,official,usual | official | temp | nickname | anonymous | old | maiden,,,,,,
+,,,,,,,,Привязка: NameUse (required): The use of a human name.,,,,,,
+,,  text, SΣ,,0..1,string,To'lanboev Tolibjon ,,,,,,,
+,,  family, SΣ,,0..1,string,To'lanboev,,,,,,,
+,,  given, SΣ,,0..*,string,Tolibjon,,,,,,,
+,,  suffix, SΣ,,0..*,string,,,,,,,,
+,,  period, SΣ,,0..*,period,,,,,,,,
+Номер телефона,telecom,,Σ,,0..*,,,Контанкты ,,,,,,
+,gender,, SΣ,,0..1,code,Мужчина,male | female | other | unknown,,,,,,
+,,,,,,,,Привязка: AdministrativeGender (required): The gender of a person used for administrative purposes.,,,,,,
+Дата рождения ,birthDate,, SΣ,,0..1,date,01/02/1990,,,,,,,
+Дата смерти,deceased[x],,,,,boolean,,,,,,,,
+,,  deceasedBoolean,,,,dateTime,,,,,,,,
+,,  deceasedDateTime,,,,,,,,,,,,
+,Slice for address, , SΣ,,0..*,,,,,,,,,
+,,  address: uzAddress, SΣ,,0..*,,,,,,,,,
+,,    use,?!SΣ,,0..1,code,temp,"Type of address, home | temp",,,,,,
+,,,,,,,,Привязка: AddressUseVS (0.3.0) (required),,,,,,
+,,    type, SΣ,,0..1,code,physical,postal | physical | both,,,,,,
+,,,,,,,,Привязка: AddressTypeVS (0.3.0) (required),,,,,,
+Адрес,,    text, SΣ,,0..1,string,"""Iltifot MFY, 58-Harbiy shaharcha mavzesi,
+53 Uy, 104 Kvartira""",Полный адрес,,,,,,
+,,    line, SΣ,,0..*,string,,полные адрес + почтовые индексы ,,,,,,
+Махалля,,    city, SΣ,,0..1,string,Буюк ипак йули МФЙ,Mahalla code (citizens' assembly),,,,,,
+,,,,,,,,Привязка: MahallaVS (0.4.0) (required),,,,,,
+Район,,    district, SΣ,,0..1,string,Мирзо Улугбекский район,District or city code,,,,,,
+,,,,,,,,Привязка: RegionsVS (0.4.0) (required),,,,,,
+Область,,    state, SΣ,,0..1,string,Город Ташкент,Region code,,,,,,
+,,,,,,,,Привязка: StateVS (0.4.0) (required),,,,,,
+Почтовый индекс,,    postalCode,Σ,,0..1,string,,Почтовый индекс,,,,,,
+,,    country, SΣ,,1..1,string,,Country code (ISO 3166-1 2 letter code),,,,,,
+,,    period, SΣ,,0..1,period,,,,,,,,

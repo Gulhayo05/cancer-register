@@ -1,0 +1,32 @@
+System,Name,,Flags,,Cardinality,Type,Example,Description & Constraints,,,ValueSets,,,
+,EpisodeOfCare,,TU,,,DomainResource,,Определяет случай обслуживания по данному заболеванию ,,,System,CodeSystem,Code,Display
+,identifier,,,  D,0..*,Identifier,,business identifier  (EpisodeOfCareCancer),,,https://terminology.dhp.uz/ValueSet/TypeTreatment,CancerCodeSystem,cancr0009.00001--cancr0009.00003,Сведения о лечении (Тип лечения)
+Сведения о лечении,type,,Σ,  D,0..*,CodeableConcept,Лечился стационарно,"Определяет код типа лечения (амбулатория, стационар…)
+Binding: https://terminology.dhp.uz/ValueSet/TypeTreatment  (required)",,,https://terminology.dhp.uz/ValueSet/CharacterTreatment,CancerCodeSystem,cancr0010.00001--cancr0010.00010,Характер лечения
+Характер лечения,Slice for extension, ,Σ,  D, , ,, ,,,https://terminology.dhp.uz/ValueSet/SpecialTreatment,CancerCodeSystem,cancr0011.00001--cancr0011.00019,Вид специального лечения
+,,extension: CharacterTreatment, ,  D, , , , ,,,,,,
+,,  value,,,1..1,CodeableConcept,Радикальное,"Определяет код характер лечения
+Привязка: https://terminology.dhp.uz/ValueSet/CharacterTreatment (required)",,,,,,
+Вид специального лечения,Slice for extension, ,Σ,,,, ,,,,,,,
+,,extension: CharacterTreatment, ,,,,,,,,,,,
+,,  value,,,,CodeableConcept,Хирургическое ,"Определяет вид специального лечения
+Binding: https://terminology.dhp.uz/ValueSet/SpecialTreatment  (required)",,,,,,
+,,,,,1..1,,,,,,,,,
+,patient,,Σ,  D,1..1, ,, ,,,,,,
+Место лечения (медучреждение),managingOrganization,,Σ,  D,0..1,Reference(Organization),ККР филиал РСНПМЦОиР,"Определяет организацию, поставившую на учет пациента",,,,,,
+ ,period,,Σ,  D,0..1,Period, ,Определяет дату начала и дату окончания наблюдения,,,,,,
+Дата начала лечения,,start,Σ,,0..1,dateTime,12/02/2026,,,,,,,
+Дата завершения лечения,,end,Σ,,0..1,dateTime,12/03/2026,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,, ,,,,,,

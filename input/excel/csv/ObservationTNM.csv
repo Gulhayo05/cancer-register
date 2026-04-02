@@ -1,0 +1,21 @@
+System,Name,,Flags,,Cardinality,Type,example,Description & Constraints,,,ValueSets,,,
+,Observation,,N,,,DomainResource,,Обследование с целью определения классификации опухоли пациента и степени поражения,,,System,CodeSystem,Code,Display
+,identifier,,Σ,,0..*,Identifier,,business identifier  (TNMclassification) ,,,https://terminology.dhp.uz/ValueSet/NameTests ,CancerCodeSystem,cancr0013.00001--cancr0013.00004,Наименование исследования
+TNM,code,,S,D,1..1,CodeableConcept,TNM,"Определяет наименование обследования/ классификации опухоли пациента
+Binding: https://terminology.dhp.uz/ValueSet/NameTests  (required)",,,https://terminology.dhp.uz/ValueSet/TNMcomponents ,CancerCodeSystem,cancr0028.00001--cancr0028.00006,Компоненты классификации TNM
+,subject,,S,  D,1..1,Reference(Patient ),,"Определяет пациента, для которого проводится обследование",,,https://terminology.dhp.uz/ValueSet/Degree,CancerCodeSystem,cancr0029.00001--cancr0029.00029,Степень поражения
+,effective ,,,,,,,,,,https://terminology.dhp.uz/ValueSet/CancerStage,CancerCodeSystem,"cancr0026.00001--cancr0026.00006, cancr0021.00001--cancr0021.00006",Стадия рака и уточнение стадии
+,,effectiveDataTime,Σ,  D,0..1,dateTime,,Дата и время обследования,,,,,,
+,performer,,Σ,  D,0..*,Reference(Organization),,Определяет организацию поставщика информации о пациенте,,,,,,
+,component,"		",Σ,C,0..*,,,,,,,,,
+cT/cN/cM,,code,Σ,  D,0..1,code,cT,"Определяет код параметра классификации опухоли
+Binding: https://terminology.dhp.uz/ValueSet/TNMcomponents (required)",,,,,,
+,,value,Σ,,0..1,,,,,,,,,
+Результат,,  valueCodeableConcept,,,0..1,CodeableConcept,1a,"код результата для компонента (степень поражения)
+Binding: https://terminology.dhp.uz/ValueSet/Degree (required)",,,,,,
+"Стадия:
+Стадия (обязательная)
+Уточненине стадии (опциально)",,interpretation,,,1..2,CodeableConcept,"II
+a","Код интерпретации результата
+Определяет по результатам код  стадии опухоли
+Binding: https://terminology.dhp.uz/ValueSet/CancerStage (required)",,,,,,

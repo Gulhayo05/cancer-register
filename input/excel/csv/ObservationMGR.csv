@@ -1,0 +1,21 @@
+System,Name,,Flags,,Cardinality,Type,Example,Description & Constraints,,,ValueSets,,,
+,Observation,,N,,,DomainResource,,Молекулярно – генетическое исследование с целью выявления вариантов генетических нарушений,,,System,CodeSystem,Code,Display
+,identifier,,Σ,,0..*,Identifier,,business identifier  (MGR),,,https://terminology.dhp.uz/ValueSet/NameTests ,CancerCodeSystem,cancr0013.00001--cancr0013.00004,Наименование исследования
+Тип исследования,code,,S,D,1..1,CodeableConcept,Молекулярно-генетическое исследование,"Определяет наименование обследования для пациента
+Binding: https://terminology.dhp.uz/ValueSet/NameTests  (required)",,,https://terminology.dhp.uz/ValueSet/ResearchMethod,CancerCodeSystem,cancr0004.00001--cancr0004.00006,Метод исследования
+,subject,,S,  D,0..1,Reference(Patient ),,"Определяет пациента, для которого проводится обследование",,,https://terminology.dhp.uz/ValueSet/MGRMarker,CancerCodeSystem,cancr0005.00001--cancr0005.00208,Маркеры для молекулярно-генетического исследования
+,effective,,,,,,,,,,https://terminology.dhp.uz/ValueSet/GeneticDisorder,CancerCodeSystem,cancr0006.00001--cancr0006.00006,Варианты генетического нарушения
+,,effectiveDataTime,Σ,  D,0..1,dateTime,,Дата и время обследования,,,https://terminology.dhp.uz/ValueSet/Cancerresult,CancerCodeSystem,cancr0002.00001 --cancr0002.00002,Интерпретация результа выявления опухоли
+,performer,,Σ,  D,0..*,Reference(Organization),,Определяет организацию поставщика информации о пациенте,,,,,,
+Метод исследования,method,,,,0..1,CodeableConcept,ПЦР,"Определяет метод исследования
+Binding: https://terminology.dhp.uz/ValueSet/ResearchMethod (required)",,,,,,
+,component,"		",Σ,C,0..*,,,,,,,,,
+Маркер (ген),,code,Σ,  D,1..1,code,ACD,"Определяет код параметра обследования
+Binding: https://terminology.dhp.uz/ValueSet/MGRMarker (required)",,,,,,
+,,value,Σ,,0..1,,,,,,,,,
+Вариант генетического нарушения,,  valueCodeableConcept,,, ,CodeableConcept,Мутация,"код варианта генетического нарушения
+Binding: https://terminology.dhp.uz/ValueSet/GeneticDisorder (required)",,,,,,
+Результат ,,interpretation,S,  D,0..*,CodeableConcept,Выявлен,"Код интерпретации результата выявление опухоли
+Определяет по результатам код  выявления опухоли
+Binding: https://terminology.dhp.uz/ValueSet/Cancerresult (required)",,,,,,
+,hasMember,,Σ,,0..*,Reference(Observetion),,,,,,,,

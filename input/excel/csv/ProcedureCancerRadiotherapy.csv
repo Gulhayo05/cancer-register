@@ -1,0 +1,44 @@
+System,Name,,Flags,,Cardinality,Type,Example,Description & Constraints,,,ValueSets,,,
+,Procedure,,N,,,DomainResource,,Описывает проведение лучевой терапии,,,System,CodeSystem,Code,Display
+,identifier,,Σ,,0..*,Identifier,,business identifier  (ProcedureCancerRadiationtherapy),,,https://terminology.dhp.uz/ValueSet/CharacterRadiationtherapy,CancerCodeSystem,cancr0034.00001--cancr0034.00008,Характер лучевой терапии
+Характер терапии,category,,Σ,D,0..*,CodeableConcept,,"Определяет код характера лучевой терапии
+Binding: https://terminology.dhp.uz/ValueSet/CharacterRadiationtherapy  (required)",,,https://terminology.dhp.uz/ValueSet/ImpactType,CancerCodeSystem,cancr0035.00001--cancr0035.00006,Тип воздействия
+Тип воздействия,code,,Σ,D,0..1,CodeableConcept,,"Определяет код типа воздействия
+Binding: https://terminology.dhp.uz/ValueSet/ImpactType  (required)",,,https://terminology.dhp.uz/ValueSet/ImpactZone,CancerCodeSystem,cancr0036.00001--cancr0036.00006,Зона воздействия
+Зона воздействия,Slice for extension,,S,D,0..1,,,,,,https://terminology.dhp.uz/ValueSet/Modifiers,CancerCodeSystem,cancr0037.00001--cancr0037.00005,Модификаторы
+,,extension: radiotherapy-zone,,,,,,,,,https://terminology.dhp.uz/ValueSet/RadiopharmDrug,CancerCodeSystem,cancr0041.00001--cancr0041.00034,Радиофармпрепараты
+,,value,,,,CodeableConcept,Основной очаг,"Определяет код зоны воздействия
+Binding: https://terminology.dhp.uz/ValueSet/ImpactZone  (required)",,,https://terminology.dhp.uz/ValueSet/IrradiationOrgan,CancerCodeSystem,cancr0039.00001--cancr0039.00010,Орган облучения
+Основной очаг,note,,,,0..*,Annotation,,Дополнительное описание основного очага (текст),,,,,,
+Модификаторы,Slice for extension,,,,,,,,,,,,,
+,,extension: radiotherapy-modifiers,,,,,,,,,,,,
+,,value,S,D,0..1,CodeableConcept,,"Определяет код модификатора
+Binding: https://terminology.dhp.uz/ValueSet/Modifiers  (required)",,,,,,
+Модификаторы(текст),Slice for extension,,,,,,,,,,,,,
+,,extension: radiotherapy-modifiers,,,,,,,,,,,,
+,,value,S,D,0..1,string,,,,,,,,
+Название препарата (Радиофарма),Slice for extension,,,,,,,,,,,,,
+,,extension: radiotherapy-radiopharmDrug,,,,,,,,,,,,
+,,value,S,D,0..1,CodeableConcept,Бром 82,"Определяет код радиофармпрепарата
+Binding: https://terminology.dhp.uz/ValueSet/RadiopharmDrug  (required)",,,,,,
+Орган облучения,bodySite,,Σ,D,0..*,CodeableConcept,Печень,"определяет код органа облучения
+Binding: https://terminology.dhp.uz/ValueSet/IrradiationOrgan  (required)",,,,,,
+Орган облучения (текст),slice for extension,,,,,,,,,,,,,
+,,extension: bodysite,,,,,,,,,,,,
+,,value,,,0..1,string,,,,,,,,
+,,,,,,,,,,,,,,
+Разовая доза,Slice for extension,,,,,,10,Числовое значение для разовой дозы облучения,,,,,,
+,,extension: radiotherapy-singleDose,,,,,,,,,,,,
+,,value,Σ,D,0..1,Quantity,,Числовое значение для разовой дозы облучения,,,,,,
+Суммарная доза,Slice for extension,,,,,,20, ,,,,,,
+,,extension: radiotherapy-totalDose,,,,,,,,,,,,
+,,value,Σ,D,0..1,Quantity,,Числовое значение для суммарной дозы облучения,,,,,,
+Эквивалентная доза,Slice for extension,,,,,,25,,,,,,,
+,,extension:radiotherapy-equivalentDose,,,,,,,,,,,,
+,,value,Σ,D,0..1,Quantity,,Числовое значение для эквивалентной дозы облучения,,,,,,
+,subject,,S,D,1..1,Reference(Patient ),,"Определяет пациента, которому производится процедура",,,,,,
+,occurrencePeriod,,,,0..1,Period,,Даты и время  начала и конца процедуры,,,,,,
+,actor,,Σ,D,1..1,Reference(Organization),,"Определяет организацию, где проводилась процедура",,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,

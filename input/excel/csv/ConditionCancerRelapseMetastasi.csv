@@ -1,0 +1,20 @@
+System,Name,,Flags,,Cardinality,Type,example,Description & Constraints,,,ValueSets,,,
+,Condition,,N,,,DomainResource,,Определение возникших процессов метастазирования и определение анатомической области поражения,,,System,CodeSystem,Code,Display
+,identifier,,Σ,,0..*,Identifier,,business identifier  (ConditionCancerRelapseMetastas),,,https://terminology.dhp.uz/ValueSet/ClinicalStatus,CancerCodeSystem,cancr0007.00001--cancr0007.00008,Наименование возникших процессов
+,clinicalStatus,,S, ,0..1,CodeableConcept,active,active | recurrence | relapse | inactive | remission | resolved | unknown,,,,,,
+,,,,,,,,"Определяет возникшие процессы
+Binding: https://terminology.dhp.uz/ValueSet/ClinicalStatus  (required)",,,https://terminology.dhp.uz/ValueSet/Anatomical location,CancerCodeSystem,cancr0008.00001--cancr0008.00010,Область поражения
+Возникший процесс,code,,,,0..1,CodeableConcept,Рецидив,"Определяет возникшие процессы
+Binding: https://terminology.dhp.uz/ValueSet/ClinicalStatus  (required)",,,,,,
+Область поражения ,bodySite,,Σ,,0..*,CodeableConcept,Кости,"Определяет анатомическую область поражения
+Binding: https://terminology.dhp.uz/ValueSet/Anatomical location  (required)",,,,,,
+,subject,,S,  D,1..1,Reference(Patient ),,"Определяет пациента, состояние которого описывается",,,,,,
+Дата выявление ,onsetDateTime,,Σ,  D,0..1,dateTime,,Дата выявления состояния,,,,,,
+Область поражения (текст),note,,,,0..*,Annotation ,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
