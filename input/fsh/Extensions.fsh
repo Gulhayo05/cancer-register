@@ -2,19 +2,22 @@ Extension: PatientPlaceOfBirthType
 Id: patient-placeOfBirthType
 Title: "Place of Birth Type"
 Description: "Extension to indicate the type of place where the patient was born (e.g. home, hospital, other)."
+
+* ^url = "https://dhp.uz/fhir/integrations/StructureDefinition/patient-placeOfBirthType"
 * ^status = #active
 * ^context.type = #element
 * ^experimental = true
 * ^context.expression = "Patient"
 
 * value[x] only CodeableConcept
-* valueCodeableConcept from https://terminology.dhp.uz/ValueSet/birth-place-vs (required)
+* valueCodeableConcept from BirthPlaceVS (required)
 * valueCodeableConcept ^short = "Type of the place where the patient was born"
 
 Extension: RelatedPersonEducation
 Id: relatedperson-education
 Title: "Related Person Education"
 Description: "Extension to indicate the education level of the related person."
+* ^url = "https://dhp.uz/fhir/integrations/StructureDefinition/relatedperson-education"
 * ^status = #draft
 * ^context.type = #element
 * ^experimental = true
@@ -47,16 +50,30 @@ Description: "gender 'other' implies differentiation of the gender indication 'o
 * severity = #error
 * expression = "gender.exists() and gender = 'other' implies gender.extension('https://dhp.uz/fhir/integrations/StructureDefinition/gender-other').exists()"
 
+// Extension: ManagingOrganizationAttachment
+// Id: managing-organization-attachment
+// Title: "Managing organization attachment date"
+// Description: "Date when the patient was attached to the managing organization. In Uzbekistan, patients can only change their managing organization once a year."
+// Context: Patient
+// * ^context.type = #element
+// * ^context.expression = "Patient"
+// * ^experimental = true
+// * value[x] 1..
+// * value[x] only date
+
 Extension: ManagingOrganizationAttachment
 Id: managing-organization-attachment
 Title: "Managing organization attachment date"
 Description: "Date when the patient was attached to the managing organization. In Uzbekistan, patients can only change their managing organization once a year."
-Context: Patient
+* ^url = "https://dhp.uz/fhir/integrations/StructureDefinition/managing-organization-attachment"
+* ^status = #draft
+* ^experimental = true
 * ^context.type = #element
 * ^context.expression = "Patient"
-* ^experimental = true
-* value[x] 1..
+
+* value[x] 1..1
 * value[x] only date
+
 
 Extension: MultipleBirthFlag
 Id: multiple-birth-flag

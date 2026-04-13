@@ -31,7 +31,7 @@ Description: "Uzbekistan Birth Patient profile, used to represent patients admin
 * contact.name ^short = "Full name of the contact person"
 * contact.telecom ^short = "Contact information"
 * contact.address ^short = "Address of the contact person"
-* contact.gender ^short = "Gender of the contact person"
+* contact.gwqa  1   6-ender ^short = "Gender of the contact person"
 
 * contact.organization only Reference(UZCoreOrganization)
 * contact.organization ^short = "The organization that the contact person represents"

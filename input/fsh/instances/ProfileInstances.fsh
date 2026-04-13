@@ -65,7 +65,7 @@ Description: "Example observation of birth for a newborn in Uzbekistan"
 * status = #final
 * category[0].coding.system = "http://terminology.hl7.org/CodeSystem/observation-category"
 * category[0].coding.code = #vital-signs
-* code = http://loinc.org#8339-4 "Birth weight"
+* code = http://loinc.org#8339-4 "Birth weight Measured"
 * subject = Reference(patient-of-birth-example)
 * effectiveDateTime = "2026-04-01T10:08:00+05:00"
 * performer[0] = Reference(practitioner-003)
@@ -75,16 +75,16 @@ Description: "Example observation of birth for a newborn in Uzbekistan"
 * valueQuantity.system = "http://unitsofmeasure.org"
 * valueQuantity.code = #cm
 
-* component[0].code = https://terminology.dhp.uz/CodeSystem/observation-life-criteria-cs#birth0003.00001 "Breathing"
+* component[0].code = ObservationLifeCriteriaCS#birth0003.00001 "Breathing"
 * component[0].valueBoolean = true
-* component[1].code = https://terminology.dhp.uz/CodeSystem/observation-life-criteria-cs#birth0003.00002 "Heartbeat"
+* component[1].code = ObservationLifeCriteriaCS#birth0003.00002 "Heartbeat"
 * component[1].valueBoolean = true
-* component[2].code = https://terminology.dhp.uz/CodeSystem/observation-life-criteria-cs#birth0003.00004 "Involuntary muscle contractions"
+* component[2].code = ObservationLifeCriteriaCS#birth0003.00004 "Involuntary muscle contractions"
 * component[2].valueBoolean = true
 
 
 
-// Patiet of Birth Instance
+//Patiet of Birth Instance
 Instance: patient-of-birth-example
 InstanceOf: PatientOfBirth
 Usage: #example
@@ -99,8 +99,14 @@ Description: "Example newborn patient in Uzbekistan"
 * gender = #male
 * birthDate = "2026-04-01"
 
+
+* extension[placeOfBirthType].url = "https://dhp.uz/fhir/integrations/StructureDefinition/patient-placeOfBirthType"
 * extension[placeOfBirthType].valueCodeableConcept = BirthPlaceCS#birth0004.00003 "Hospital"
+
+* extension[multipleBirth].url = "https://dhp.uz/fhir/integrations/StructureDefinition/multiple-birth-flag"
 * extension[multipleBirth].valueBoolean = false
+
+* extension[newbornBirthTime][0].url = "https://dhp.uz/fhir/integrations/StructureDefinition/newborn-birth-time"
 * extension[newbornBirthTime][0].valueDateTime = "2026-04-01T10:00:00+05:00"
 
 
@@ -115,10 +121,16 @@ Description: "Example newborn patient in Uzbekistan"
 * generalPractitioner[0] = Reference(practitioner-003)
 
 * managingOrganization = Reference(organization-birth-hospital-example)
-* extension[ManagingOrganizationAttachment].valueDate = "2026-04-01"
+
+* extension[https://dhp.uz/fhir/integrations/StructureDefinition/managing-organization-attachment].url = "https://dhp.uz/fhir/integrations/StructureDefinition/managing-organization-attachment"
+* extension[https://dhp.uz/fhir/integrations/StructureDefinition/managing-organization-attachment].valueDate = "2026-04-01"
+
 
 * link[0].other = Reference(patient-mother-example)
 * link[0].type = #seealso
+
+
+
 
 
 
@@ -151,6 +163,7 @@ Description: "Example related person responsible for the newborn"
 * telecom[0].value = "+998901234567"
 * telecom[0].rank = 1
 
+* extension[education].url = "https://dhp.uz/fhir/integrations/StructureDefinition/relatedperson-education"
 * extension[education].valueCodeableConcept = https://terminology.dhp.uz/fhir/core/CodeSystem/education-cs#regis0005.00008 "Higher education"
 
 

@@ -20,7 +20,7 @@ Description: "Assessment of the newborn's condition"
 
 * code MS
 * code ^short = "Observation type (code/type)"
-* code from https://terminology.dhp.uz/ValueSet/loinc-birth-vs (extensible)
+* code from LOINCBirthVS (extensible)
 
 * subject MS
 * subject ^short = "About the patient (child)"

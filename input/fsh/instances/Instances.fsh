@@ -95,3 +95,47 @@ Description: "Example patient using gender-other extension"
 * gender.extension[0].valueCoding.system = "https://terminology.dhp.uz/fhir/core/CodeSystem/gender-other-cs"
 * gender.extension[0].valueCoding.code = #regis0007.00004
 * gender.extension[0].valueCoding.display = "Changed gender to female"
+
+
+
+
+
+Instance: patient-managing-organization-attachment-example
+InstanceOf: Patient
+Usage: #example
+Title: "Patient Managing Organization Attachment Example"
+Description: "Example demonstrating the ManagingOrganizationAttachment extension."
+
+* name.text = "Example Patient"
+* gender = #male
+* birthDate = "2026-04-01"
+
+* extension.url = "https://dhp.uz/fhir/integrations/StructureDefinition/managing-organization-attachment"
+* extension.valueDate = "2026-04-01"
+
+
+Instance: patient-multiple-birth-example
+InstanceOf: Patient
+Usage: #example
+Title: "Multiple Birth Example"
+Description: "Example demonstrating the MultipleBirthFlag extension."
+
+* name.text = "Twin Baby A"
+* gender = #female
+* birthDate = "2026-04-01"
+
+* extension.url = "https://dhp.uz/fhir/integrations/StructureDefinition/multiple-birth-flag"
+* extension.valueBoolean = true
+
+Instance: patient-newborn-birth-time-example
+InstanceOf: Patient
+Usage: #example
+Title: "Newborn Birth Time Example"
+Description: "Example demonstrating the NewbornBirthTime extension."
+
+* name.text = "Baby Example"
+* gender = #male
+* birthDate = "2026-04-01"
+
+* extension.url = "https://dhp.uz/fhir/integrations/StructureDefinition/newborn-birth-time"
+* extension.valueDateTime = "2026-04-01T10:00:00+05:00"
