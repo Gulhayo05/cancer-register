@@ -6,7 +6,7 @@ Description: "Composition profile for Form 011 (Hemodialysis Session Record) doc
 
 * identifier 1..*
 * status = #final
-* type = $loinc#11516-2 "Physician Episode of care medical records"
+* type = $loinc#29749-9 "Dialysis records"
 * category 1..1
 * category = $document-category-cs#form-011 "Hemodialysis session record"
 * subject 1..1
@@ -31,6 +31,7 @@ Description: "Composition profile for Form 011 (Hemodialysis Session Record) doc
 * section[vitalSigns].code = $loinc#8716-3 "Vital signs note"
 * section[vitalSigns].entry 1..*
 * section[vitalSigns].entry only Reference(UZCoreObservation)
+* section[vitalSigns].entry ^short = "Vital signs panel (BP, heart rate, temperature, SpO2)"
 
 * section[dialysisParameters].title 1..1
 * section[dialysisParameters].code 1..1

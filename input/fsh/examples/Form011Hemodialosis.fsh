@@ -50,7 +50,7 @@ Usage: #inline
 * identifier[+].system = "https://dhp.uz/fhir/core/sid/doc/uz/form-number"
 * identifier[=].value = "011"
 * status = #final
-* type = $loinc#11516-2 "Physician Episode of care medical records"
+* type = $loinc#29749-9 "Dialysis records"
 * category = $document-category-cs#form-011 "Hemodialysis session record"
 * subject = Reference(urn:uuid:b2c3d4e5-f6a7-8901-bcde-f12345678901)
 * encounter = Reference(urn:uuid:c3d4e5f6-a7b8-9012-cdef-123456789012)
