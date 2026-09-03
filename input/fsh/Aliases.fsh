@@ -166,3 +166,8 @@ Alias: $signature-type-cs = https://terminology.dhp.uz/fhir/core/CodeSystem/sign
 
 Alias: $flag-status-cs = http://hl7.org/fhir/flag-status
 Alias: $profession-specialization-cs = https://terminology.dhp.uz/fhir/core/CodeSystem/profession-specialization-cs
+
+
+Alias: $forms-observation-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/form-observation-cs
+Alias: $forms-observation-values-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/forms-observation-values-cs
+
