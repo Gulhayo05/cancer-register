@@ -16,7 +16,6 @@ Usage: #example
 
 * language = #en
 * extension[nationality].extension[code].valueCodeableConcept = $nationality-cs#44
-* extension[citizenship].extension[code].valueCodeableConcept = urn:iso:std:iso:3166#UZ "Uzbekistan"
 
 * identifier[nationalId]
   * value = "515050500505"
