@@ -706,7 +706,7 @@ Usage: #inline
 * status = #completed
 * patient = Reference(urn:uuid:09700002-1111-2222-3333-444444444444)
 * relationship = $v3-RoleCode#MTH "mother"
-* condition.code.text = "Diabetes mellitus"
+* condition.code = $sct#4783006 
 * note.text = "Наследственность по матери: сахарный диабет"
 
 Instance: familymemberhistory-father-097
@@ -716,7 +716,7 @@ Usage: #inline
 * status = #completed
 * patient = Reference(urn:uuid:09700002-1111-2222-3333-444444444444)
 * relationship = $v3-RoleCode#FTH "father"
-* condition.code = http://snomed.info/sct#4386001 "Bronchospasm"
+* condition.code = $sct#4386001 "Bronchospasm"
 * note.text = "Наследственность по отцу: бронхиальная астма"
 
 Instance: observation-gravida-097
@@ -773,8 +773,6 @@ Usage: #inline
 * language = #en
 * status = #final
 * code.text = "TBD - labor first stage duration/specifics identifier code"
-// Row 38: no code hint given in mapping sheet at all, only element type
-// (valueString) - genuinely unresolved, not a guess.
 * subject = Reference(urn:uuid:0970003b-1111-2222-3333-444444444444)
 * encounter = Reference(urn:uuid:09700005-1111-2222-3333-444444444444)
 * performer = Reference(urn:uuid:097000d3-1111-2222-3333-444444444444)
@@ -1040,7 +1038,7 @@ Instance: medication-eye-prophylaxis-097
 InstanceOf: Medication
 Usage: #inline
 * language = #en
-* code.text = "Erythromycin ophthalmic ointment 0.5%"
+* code = $sct#30427009
 * batch.lotNumber = "TBD"
 * batch.expirationDate = "2027-06-01"
 
@@ -1958,7 +1956,7 @@ Instance: medication-vitamin-k-097
 InstanceOf: Medication
 Usage: #inline
 * language = #en
-* code.text = "Phytomenadione (Vitamin K)"
+* code = $sct#74226000
 * batch.lotNumber = "VK-2026-0417"
 * batch.expirationDate = "2027-06-01"
 
@@ -2561,7 +2559,7 @@ Instance: provenance-physician-signature-097
 InstanceOf: Provenance
 Usage: #inline
 * language = #en
-* target = Reference(urn:uuid:09700001-1111-2222-3333-444444444444)
+* target = Reference(Bundle/example-form-097-newborn-development)
 * recorded = "2026-06-01T09:00:00+05:00"
 * agent.type = http://terminology.hl7.org/CodeSystem/provenance-participant-type#attester "Attester"
 * agent.who = Reference(urn:uuid:097000d1-1111-2222-3333-444444444444)
