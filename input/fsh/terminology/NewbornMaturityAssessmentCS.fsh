@@ -58,3 +58,9 @@ Description: "Local codes for newborn maturity assessment, Form097 newborn devel
   * ^designation[=].value = "Зрелость женских половых органов"
   * ^designation[+].language = #en
   * ^designation[=].value = "Female genital maturity"
+
+* #chr-0126-0010 "Yangi tug'ilgan chaqaloqning neyromushak yetukligini baholash"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "Оценка нейромышечной зрелости новорождённого"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "Newborn neuromuscular maturity assessment"
