@@ -28,3 +28,11 @@ Description: "Local codes for newborn birth and anthropometry, Form097 newborn d
   * ^designation[=].value = "Контакт кожа к коже матери и новорождённого"
   * ^designation[+].language = #en
   * ^designation[=].value = "Skin-to-skin contact between mother and newborn"
+
+// Fhir_mapping row 53: spec says "SNOMED Chest circumference" but gives no code and
+// no exact active LOINC/SNOMED concept could be confirmed - governed local code.
+* #chr-0122-0005 "Ko'krak qafasi aylanasi"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "Окружность грудной клетки"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "Chest circumference"

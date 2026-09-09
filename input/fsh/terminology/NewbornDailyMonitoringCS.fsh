@@ -82,3 +82,9 @@ Description: "Local codes for newborn daily monitoring, Form097 newborn developm
   * ^designation[=].value = "Уровень активности"
   * ^designation[+].language = #en
   * ^designation[=].value = "Activity level"
+
+* #chr-0125-0014 "Yangi tug'ilgan chaqaloqni kundalik kuzatuv varag'i"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "Лист наблюдения за новорождённым"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "Newborn daily review panel"

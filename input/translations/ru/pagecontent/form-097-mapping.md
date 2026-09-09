@@ -29,14 +29,14 @@
 | Manzil | Адрес | Patient.address | - | 12 Amir Temur ko'chasi, Toshkent |
 | Millati | Национальность | Patient.extension[nationality] | Локальный код | UZBEK |
 | Ish joyi/kasbi | Место работы/профессия | Observation.valueCodeableConcept | SNOMED CT `224406003` "Details relating to place of work and employer" + локальный код профессии | Lecturer |
-| Onaning qon guruhi | Группа крови матери | Observation.valueCodeableConcept | LOINC `90905-1` "ABO + Rh Bld Mother" | Blood group A Rh(D) negative |
-| Onaning rezus-omili | Резус-фактор матери | Observation.valueCodeableConcept | LOINC `54416-3` + SNOMED CT | Rh negative |
-| Otaning qon guruhi | Группа крови отца | Observation.valueCodeableConcept | LOINC `90906-9` "ABO + Rh Bld Father" | Blood group A |
+| Onaning qon guruhi | Группа крови матери | Observation.code `90905-1` + valueCodeableConcept | LOINC `90905-1`; value bound to `abo-blood-group-vs` (SNOMED CT) | Blood group A Rh(D) negative |
+| Onaning rezus-omili | Резус-фактор матери | Observation.code `54416-3` + valueCodeableConcept | LOINC `54416-3`; value bound to `rh-factor-vs` (SNOMED CT) | Rh negative |
+| Otaning qon guruhi | Группа крови отца | Observation.code `90906-9` + valueCodeableConcept | LOINC `90906-9`; value bound to `abo-blood-group-vs` (SNOMED CT) | Blood group A |
 | Homiladorlik soni | Число беременностей | Observation.valueInteger | LOINC `11996-6` "Pregnancies" | 4 |
 | Tug'ruq soni | Число родов | Observation.valueInteger | LOINC `11977-6` "Parity" | 2 |
 | Homiladorlik muddati | Срок беременности | Observation.valueQuantity | LOINC `11884-4` "Gestational age Estimated" | 40 weeks |
 | Homiladorlik asorati | Осложнение беременности | [Condition](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-condition.html).code | ICD-10 | O24.4 |
-| Amniotik suyuqlik ko'rinishi | Вид околоплодных вод | Observation.valueCodeableConcept | LOINC `1887-9` "Appearance of amniotic fluid" | Transparent |
+| Amniotik suyuqlik ko'rinishi | Вид околоплодных вод | Observation.code `1887-9` + valueCodeableConcept | LOINC `1887-9`; значение привязано к `amniotic-fluid-characteristic-vs` (SNOMED CT `168090003` + локальные `chr-0084-*`) | Transparent |
 | Naslli anamnez (ona) | Наследственный анамнез (мать) | FamilyMemberHistory.condition.code | - | Diabetes mellitus |
 | Naslli anamnez (ota) | Наследственный анамнез (отец) | FamilyMemberHistory.condition.code | SNOMED CT | Bronchospasm |
 
@@ -49,17 +49,18 @@
 | Tug'ilgan bo'yi | Рост при рождении | Observation.valueQuantity | LOINC `89269-5` "Body height Measured --at birth" | 51 cm |
 | Tug'ruq o'z vaqtidami | Своевременность родов | Observation.valueCodeableConcept | Локальный код | Timely delivery |
 | Chaqaloqning muddat holati | Срок рождения новорождённого | Observation.valueCodeableConcept | Локальный код | Term |
-| Hayotiylik natijasi | Исход плода | Observation.valueCodeableConcept | SNOMED CT `281050002` "Livebirth" | Alive |
-| Chaqaloq qon guruhi | Группа крови новорождённого | Observation.valueCodeableConcept | LOINC `883-9` "ABO group [Type] in Blood" | Group II (A) |
-| Chaqaloq rezus-omili | Резус-фактор новорождённого | Observation.valueCodeableConcept | LOINC `14908-8` "Rh [Type] in Blood from Newborn" | Rh positive |
+| Hayotiylik natijasi | Исход плода | Observation.valueCodeableConcept | value bound to `newborn-vital-status-vs` (SNOMED CT `281050002` / `276506001`) | Alive |
+| Chaqaloq qon guruhi | Группа крови новорождённого | Observation.code `883-9` + valueCodeableConcept | LOINC `883-9`; value bound to `abo-blood-group-vs` (SNOMED CT) | Group II (A) |
+| Chaqaloq rezus-omili | Резус-фактор новорождённого | Observation.code `14908-8` + valueCodeableConcept | LOINC `14908-8`; value bound to `rh-factor-vs` (SNOMED CT) | Rh positive |
 | Bosh aylanasi | Окружность головы | Observation.valueQuantity | LOINC `9843-4` "Head Occipital-frontal circumference" | 34 cm |
-| Ko'krak aylanasi | Окружность груди | Observation.valueQuantity | Локальный код (в ожидании) | 33 cm |
-| Nafas olish belgisi | Признак дыхания | Observation.valueBoolean | Локальный код (в ожидании) | true |
-| Yurak urishi belgisi | Признак сердцебиения | Observation.valueBoolean | Локальный код (в ожидании) | true |
-| Kindik tomirlari pulsatsiyasi | Пульсация пуповины | Observation.valueBoolean | Локальный код (в ожидании) | true |
-| Ixtiyorsiz mushak qisqarishi | Непроизвольное сокращение мышц | Observation.valueBoolean | Локальный код (в ожидании) | true |
+| Ko'krak aylanasi | Окружность груди | Observation.valueQuantity | Local code `chr-0122-0005` "Chest circumference" (no exact active LOINC/SNOMED concept) | 33 cm |
+| Nafas olish belgisi | Признак дыхания | Observation.valueBoolean | Локальный код `chr-0127-0001` (нет активного понятия SNOMED CT) | true |
+| Yurak urishi belgisi | Признак сердцебиения | Observation.valueBoolean | Локальный код `chr-0127-0002` (нет активного понятия SNOMED CT) | true |
+| Kindik tomirlari pulsatsiyasi | Пульсация пуповины | Observation.valueBoolean | Локальный код `chr-0127-0003` (нет активного понятия SNOMED CT) | true |
+| Ixtiyorsiz mushak qisqarishi | Непроизвольное сокращение мышц | Observation.valueBoolean | Локальный код `chr-0127-0004` (нет активного понятия SNOMED CT) | true |
 | Teri-teriga kontakt vaqti | Время контакта кожа к коже | Observation.valueQuantity | Локальный код | 5 min |
 | Teri-teriga kontakt davomiyligi | Продолжительность контакта кожа к коже | Observation.valueQuantity | Локальный код | 40 min |
+| Ko'krakka berilgan vaqt | Время первого прикладывания к груди | Observation.valueCodeableConcept | Локальный код `chr-0122-0001`, привязка к `breastfeeding-initiation-time-vs` | Within 30–60 minutes |
 | Gonoblennoreya profilaktikasi | Профилактика гонобленореи | [Medication](http://hl7.org/fhir/StructureDefinition/Medication).code | ATC `S01AA17` | Erythromycin ophthalmic ointment |
 | Apgar bali (1-daqiqa) | Оценка по Апгар (1 мин) | Observation.valueInteger + component[] | LOINC `9272-6` "1 minute Apgar Score" + 5 компонентов | 8 |
 | Apgar bali (5-daqiqa) | Оценка по Апгар (5 мин) | Observation.valueInteger + component[] | LOINC `9274-2` "5 minute Apgar Score" + 5 компонентов | 9 |
@@ -78,13 +79,13 @@
 | Sianoz mavjudligi | Наличие цианоза | Observation.valueBoolean | SNOMED CT `3415004` "Cyanosis" | false |
 | Kindik qoldig'i holati | Состояние остатка пуповины | Observation.valueCodeableConcept | Локальный код `chr-0123-0004` | Satisfactory |
 | Nevrologik holat | Неврологический статус | Observation.valueCodeableConcept | Локальный код `chr-0123-0014` | Normal |
-| Bosh fontanellari o'lchami (kichik) | Размер малого родничка | Observation.valueQuantity | SNOMED CT `249160002` "Anterior fontanel size" | 1 cm |
+| Bosh fontanellari o'lchami (kichik) | Размер малого родничка | Observation.valueQuantity | Локальный код `chr-0123-0019` "Fontanelle size" | 1 cm |
 | Bosh fontanellari o'lchami (katta) | Размер большого родничка | Observation.valueQuantity | Локальный код `chr-0123-0019` "Fontanelle size" | 2.5 cm |
 | Ko'z shakli | Форма глаз | Observation.valueCodeableConcept | Локальный код | Almond-shaped |
 | Nafas olish sur'ati | Частота дыхания | Observation.valueQuantity | LOINC `9279-1` "Respiratory rate" | 40/min |
 | Yurak urish sur'ati | Частота сердечных сокращений | Observation.valueQuantity | LOINC `8867-4` "Heart rate" | 140/min |
 | Sилверман shkalasi | Шкала Сильвермана | Observation.valueInteger + interpretation | Локальный код `chr-0123-0034` | 0 points |
-| Yurak chegaralari / shovqinlar / ritmi | Границы/шумы/ритм сердца | Observation.component.valueCodeableConcept | Локальный код `cardiac-examination-aspect-cs` | Normal |
+| Yurak chegaralari / shovqinlar / ritmi | Границы/шумы/ритм сердца | Одна Observation, 3 компонента: component.code -> `cardiac-examination-aspect-vs`, component.value -> `normal-abnormal-status-vs` | Normal |
 | Qorin holati | Состояние живота | Observation.valueCodeableConcept | Локальный код `chr-0123-0028` | Normal |
 | Jigar/taloq o'lchami | Размер печени/селезёнки | Observation.valueCodeableConcept | Локальный код | Normal |
 | Tashqi jinsiy a'zolar holati | Состояние наружных половых органов | Observation.valueCodeableConcept | Локальный код / SNOMED CT | Male pattern |

@@ -168,11 +168,7 @@ Alias: $flag-status-cs = http://hl7.org/fhir/flag-status
 Alias: $profession-specialization-cs = https://terminology.dhp.uz/fhir/core/CodeSystem/profession-specialization-cs
 
 
-// ============================================================
-// ALIASES — Form097 Newborn Development
-// Add these to the repo's central Aliases.fsh (or keep as a
-// standalone file if the build includes all .fsh files in the tree)
-// ============================================================
+// ===================== ALIASES — Form097 Newborn Development =====================
 
 Alias: $document-category-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/document-category-cs
 Alias: $loinc = http://loinc.org
@@ -217,6 +213,9 @@ Alias: $newborn-daily-monitoring-cs = https://terminology.dhp.uz/fhir/integratio
 Alias: $newborn-maturity-assessment-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/newborn-maturity-assessment-cs
 Alias: $newborn-care-feeding-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/newborn-care-feeding-cs
 Alias: $newborn-birth-anthropometry-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/newborn-birth-anthropometry-cs
+Alias: $breastfeeding-initiation-time-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/breastfeeding-initiation-time-cs
+Alias: $amniotic-fluid-appearance-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/amniotic-fluid-appearance-cs
+Alias: $newborn-signs-of-life-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/newborn-signs-of-life-cs
 Alias: $newborn-care-location-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/newborn-care-location-cs
 Alias: $location-kinds-cs = https://terminology.dhp.uz/fhir/core/CodeSystem/location-kinds-cs
 // ===================== DMED early-detection screening questionnaires (moved from digital-health-ig) =====================
