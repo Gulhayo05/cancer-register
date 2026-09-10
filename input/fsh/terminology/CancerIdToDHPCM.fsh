@@ -1,10 +1,10 @@
-Instance: cancer-id-status-to-dhp-status-cm
+Instance: cancer-registry-status-to-dhp-status-cm
 InstanceOf: ConceptMap
 Usage: #definition
-Title: "Cancer ID Status To DHP Status"
-Description: "ConceptMap for mapping Cancer ID status codes to DHP status codes"
-* name = "CancerIdStatusToDHPStatusCM"
-* url = "https://dhp.uz/fhir/integrations/ConceptMap/cancer-id-status-to-dhp-status-cm"
+Title: "Cancer Registry Status to DHP Status"
+Description: "ConceptMap defining the mapping between cancer status codes used by the Cancer Registry and the corresponding status codes used by DHP."
+* name = "CancerRegistryStatusToDHPStatusCM"
+* url = "https://dhp.uz/fhir/integrations/ConceptMap/cancer-registry-status-to-dhp-status-cm"
 * status = #draft
 * experimental = false
 * publisher = "Uzinfocom"
@@ -164,47 +164,35 @@ Description: "ConceptMap for mapping Cancer ID status codes to DHP status codes"
 
 // Group 4: CancerIdCS to CancerLaterlityQualifierCS
 * group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerLaterlityQualifierCS)
-
-* group[=].element[+].code = #335
-* group[=].element[=].display = "Нет"
-* group[=].element[=].target[+].code = #cancer-0004-0001
-* group[=].element[=].target[=].display = "Нет"
-* group[=].element[=].target[=].relationship = #equivalent
+* group[=].target = Canonical(CancerLateralityQualifierCS)
 
 * group[=].element[+].code = #336
 * group[=].element[=].display = "Слева"
-* group[=].element[=].target[+].code = #cancer-0004-0002
-* group[=].element[=].target[=].display = "Слева"
+* group[=].element[=].target[+].code = #7771000 
+* group[=].element[=].target[=].display = "Left"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #337
 * group[=].element[=].display = "Справа"
-* group[=].element[=].target[+].code = #cancer-0004-0003
-* group[=].element[=].target[=].display = "Справа"
+* group[=].element[=].target[+].code = #24028007
+* group[=].element[=].target[=].display = "Right"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #338
 * group[=].element[=].display = "Оба органа"
-* group[=].element[=].target[+].code = #cancer-0004-0004
-* group[=].element[=].target[=].display = "Оба органа"
+* group[=].element[=].target[+].code = #51440002 
+* group[=].element[=].target[=].display = "Right and left"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #339
 * group[=].element[=].display = "Неизвестно"
-* group[=].element[=].target[+].code = #cancer-0004-0005
-* group[=].element[=].target[=].display = "Неизвестно"
+* group[=].element[=].target[+].code = #261665006
+* group[=].element[=].target[=].display = "Unknown"
 * group[=].element[=].target[=].relationship = #equivalent
 
-* group[=].element[+].code = #340
-* group[=].element[=].display = "Основная"
-* group[=].element[=].target[+].code = #cancer-0004-0006
-* group[=].element[=].target[=].display = "Основная"
-* group[=].element[=].target[=].relationship = #equivalent
-
-// Group 4: CancerIdCS to CancerDetectionCircumstanceCS
+// Group 5: CancerIdCS to CancerDetectionConditionCS
 * group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerDetectionCircumstanceCS)
+* group[=].target = Canonical(CancerDetectionConditionCS)
 
 * group[=].element[+].code = #346
 * group[=].element[=].display = "Обратился самостоятельно"
@@ -255,818 +243,731 @@ Description: "ConceptMap for mapping Cancer ID status codes to DHP status codes"
 * group[=].element[=].target[=].relationship = #equivalent
 
 
-// Group 5: CancerIdCS to CancerCCCtCategoryCS
+// Group 6: CancerIdCS to CancerCCCtCategoryCS
 * group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerCCCtCategoryCS)
+* group[=].target = Canonical(CancerCCCtCategorySnomedCS)
 
 * group[=].element[+].code = #412
 * group[=].element[=].display = "X"
-* group[=].element[=].target[+].code = #cancer-0006-0001
+* group[=].element[=].target[+].code = #1352975000
 * group[=].element[=].target[=].display = "X"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #413
 * group[=].element[=].display = "in situ"
-* group[=].element[=].target[+].code = #cancer-0006-0002
-* group[=].element[=].target[=].display = "in situ"
+* group[=].element[=].target[+].code = #1352984000
+* group[=].element[=].target[=].display = "is"
+* group[=].element[=].target[=].relationship = #equivalent
+
+* group[=].element[+].code = #414
+* group[=].element[=].display = "0"
+* group[=].element[=].target[+].code = #1352986003
+* group[=].element[=].target[=].display = "0"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #415
 * group[=].element[=].display = "1"
-* group[=].element[=].target[+].code = #cancer-0006-0003
+* group[=].element[=].target[+].code = #1352996007
 * group[=].element[=].target[=].display = "1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #416
 * group[=].element[=].display = "1a"
-* group[=].element[=].target[+].code = #cancer-0006-0004
+* group[=].element[=].target[+].code = #1352983006
 * group[=].element[=].target[=].display = "1a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #417
 * group[=].element[=].display = "1b"
-* group[=].element[=].target[+].code = #cancer-0006-0005
+* group[=].element[=].target[+].code = #1352968001
 * group[=].element[=].target[=].display = "1b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #418
 * group[=].element[=].display = "1c"
-* group[=].element[=].target[+].code = #cancer-0006-0006
+* group[=].element[=].target[+].code = #1352973007
 * group[=].element[=].target[=].display = "1c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #419
 * group[=].element[=].display = "1d"
-* group[=].element[=].target[+].code = #cancer-0006-0007
+* group[=].element[=].target[+].code = #1352978003
 * group[=].element[=].target[=].display = "1d"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #420
 * group[=].element[=].display = "2"
-* group[=].element[=].target[+].code = #cancer-0006-0008
+* group[=].element[=].target[+].code = #1352993004
 * group[=].element[=].target[=].display = "2"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #421
 * group[=].element[=].display = "2a"
-* group[=].element[=].target[+].code = #cancer-0006-0009
+* group[=].element[=].target[+].code = #1352962000
 * group[=].element[=].target[=].display = "2a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #422
 * group[=].element[=].display = "2b"
-* group[=].element[=].target[+].code = #cancer-0006-0010
+* group[=].element[=].target[+].code = #1352972002
 * group[=].element[=].target[=].display = "2b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #423
 * group[=].element[=].display = "2c"
-* group[=].element[=].target[+].code = #cancer-0006-0011
+* group[=].element[=].target[+].code = #1352969009
 * group[=].element[=].target[=].display = "2c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #424
 * group[=].element[=].display = "2d"
-* group[=].element[=].target[+].code = #cancer-0006-0012
+* group[=].element[=].target[+].code = #1352971009
 * group[=].element[=].target[=].display = "2d"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #425
 * group[=].element[=].display = "3"
-* group[=].element[=].target[+].code = #cancer-0006-0013
+* group[=].element[=].target[+].code = #1352966002
 * group[=].element[=].target[=].display = "3"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #426
 * group[=].element[=].display = "3a"
-* group[=].element[=].target[+].code = #cancer-0006-0014
+* group[=].element[=].target[+].code = #1352989005
 * group[=].element[=].target[=].display = "3a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #427
 * group[=].element[=].display = "3b"
-* group[=].element[=].target[+].code = #cancer-0006-0015
+* group[=].element[=].target[+].code = #1352991002
 * group[=].element[=].target[=].display = "3b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #428
 * group[=].element[=].display = "3c"
-* group[=].element[=].target[+].code = #cancer-0006-0016
+* group[=].element[=].target[+].code = #1352976004
 * group[=].element[=].target[=].display = "3c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #429
 * group[=].element[=].display = "3d"
-* group[=].element[=].target[+].code = #cancer-0006-0017
+* group[=].element[=].target[+].code = #1352994005
 * group[=].element[=].target[=].display = "3d"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #430
 * group[=].element[=].display = "3e"
-* group[=].element[=].target[+].code = #cancer-0006-0018
+* group[=].element[=].target[+].code = #1352974001
 * group[=].element[=].target[=].display = "3e"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #431
 * group[=].element[=].display = "4"
-* group[=].element[=].target[+].code = #cancer-0006-0019
+* group[=].element[=].target[+].code = #1352997003
 * group[=].element[=].target[=].display = "4"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #432
 * group[=].element[=].display = "4a"
-* group[=].element[=].target[+].code = #cancer-0006-0020
+* group[=].element[=].target[+].code = #1352982001
 * group[=].element[=].target[=].display = "4a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #433
 * group[=].element[=].display = "4b"
-* group[=].element[=].target[+].code = #cancer-0006-0021
+* group[=].element[=].target[+].code = #1352960008
 * group[=].element[=].target[=].display = "4b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #434
 * group[=].element[=].display = "4c"
-* group[=].element[=].target[+].code = #cancer-0006-0022
+* group[=].element[=].target[+].code = #1352980009
 * group[=].element[=].target[=].display = "4c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #435
 * group[=].element[=].display = "4d"
-* group[=].element[=].target[+].code = #cancer-0006-0023
+* group[=].element[=].target[+].code = #1352963005
 * group[=].element[=].target[=].display = "4d"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #436
 * group[=].element[=].display = "4e"
-* group[=].element[=].target[+].code = #cancer-0006-0024
+* group[=].element[=].target[+].code = #1352981008
 * group[=].element[=].target[=].display = "4e"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #872
 * group[=].element[=].display = "a"
-* group[=].element[=].target[+].code = #cancer-0006-0025
+* group[=].element[=].target[+].code = #1352961007
 * group[=].element[=].target[=].display = "a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #873
 * group[=].element[=].display = "1a1"
-* group[=].element[=].target[+].code = #cancer-0006-0026
+* group[=].element[=].target[+].code = #1352959003
 * group[=].element[=].target[=].display = "1a1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #874
 * group[=].element[=].display = "1a2"
-* group[=].element[=].target[+].code = #cancer-0006-0027
+* group[=].element[=].target[+].code = #1352988002
 * group[=].element[=].target[=].display = "1a2"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #875
 * group[=].element[=].display = "2a1"
-* group[=].element[=].target[+].code = #cancer-0006-0028
+* group[=].element[=].target[+].code = #1352990001
 * group[=].element[=].target[=].display = "2a1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #876
 * group[=].element[=].display = "2a2"
-* group[=].element[=].target[+].code = #cancer-0006-0029
+* group[=].element[=].target[+].code = #1352967006
 * group[=].element[=].target[=].display = "2a2"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #877
 * group[=].element[=].display = "1b1"
-* group[=].element[=].target[+].code = #cancer-0006-0030
+* group[=].element[=].target[+].code = #1352985004
 * group[=].element[=].target[=].display = "1b1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #878
 * group[=].element[=].display = "1b2"
-* group[=].element[=].target[+].code = #cancer-0006-0031
+* group[=].element[=].target[+].code = #1352992009
 * group[=].element[=].target[=].display = "1b2"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 6: CancerIdCS to CancerCCcNCategoryCS
+* group[+].source = Canonical(CancerIdCS)
+* group[=].target = Canonical(CancerCCCtCategoryCS)
+
+* group[=].element[+].code = #437
+* group[=].element[=].display = "m"
+* group[=].element[=].target[+].code = #cancer-0006-0001
+* group[=].element[=].target[=].display = "m"
+* group[=].element[=].target[=].relationship = #equivalent
+
+
+// Group 7: CancerIdCS to CancerCCcNCategoryCS
 * group[+].source = Canonical(CancerIdCS)
 * group[=].target = Canonical(CancerCCcNCategoryCS)
 
 * group[=].element[+].code = #871
 * group[=].element[=].display = "0"
-* group[=].element[=].target[+].code = #cancer-0007-0001
+* group[=].element[=].target[+].code = #1353041009
 * group[=].element[=].target[=].display = "0"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #438
 * group[=].element[=].display = "X"
-* group[=].element[=].target[+].code = #cancer-0007-0002
+* group[=].element[=].target[+].code = #1353039008
 * group[=].element[=].target[=].display = "X"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #439
 * group[=].element[=].display = "1"
-* group[=].element[=].target[+].code = #cancer-0007-0003
+* group[=].element[=].target[+].code = #1353043007
 * group[=].element[=].target[=].display = "1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #440
 * group[=].element[=].display = "1a"
-* group[=].element[=].target[+].code = #cancer-0007-0004
+* group[=].element[=].target[+].code = #1353046004
 * group[=].element[=].target[=].display = "1a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #441
 * group[=].element[=].display = "1b"
-* group[=].element[=].target[+].code = #cancer-0007-0005
+* group[=].element[=].target[+].code = #1353048003
 * group[=].element[=].target[=].display = "1b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #442
 * group[=].element[=].display = "1c"
-* group[=].element[=].target[+].code = #cancer-0007-0006
+* group[=].element[=].target[+].code = #1353044001
 * group[=].element[=].target[=].display = "1c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #443
 * group[=].element[=].display = "2"
-* group[=].element[=].target[+].code = #cancer-0007-0007
+* group[=].element[=].target[+].code = #1353047008
 * group[=].element[=].target[=].display = "2"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #444
 * group[=].element[=].display = "2a"
-* group[=].element[=].target[+].code = #cancer-0007-0008
+* group[=].element[=].target[+].code = #1353050006
 * group[=].element[=].target[=].display = "2a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #445
 * group[=].element[=].display = "2b"
-* group[=].element[=].target[+].code = #cancer-0007-0009
+* group[=].element[=].target[+].code = #1353055001
 * group[=].element[=].target[=].display = "2b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #446
 * group[=].element[=].display = "2c"
-* group[=].element[=].target[+].code = #cancer-0007-0010
+* group[=].element[=].target[+].code = #1353049006
 * group[=].element[=].target[=].display = "2c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #447
 * group[=].element[=].display = "3"
-* group[=].element[=].target[+].code = #cancer-0007-0011
+* group[=].element[=].target[+].code = #1353053008
 * group[=].element[=].target[=].display = "3"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #448
 * group[=].element[=].display = "3a"
-* group[=].element[=].target[+].code = #cancer-0007-0012
+* group[=].element[=].target[+].code = #1353057009
 * group[=].element[=].target[=].display = "3a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #449
 * group[=].element[=].display = "3b"
-* group[=].element[=].target[+].code = #cancer-0007-0013
+* group[=].element[=].target[+].code = #1353054002
 * group[=].element[=].target[=].display = "3b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #450
 * group[=].element[=].display = "3c"
-* group[=].element[=].target[+].code = #cancer-0007-0014
+* group[=].element[=].target[+].code = #1353051005
 * group[=].element[=].target[=].display = "3c"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 7: CancerIdCS to CancerCCcMCategoryCS
+// Group 8: CancerIdCS to CancerCCcMCategoryCS
 * group[+].source = Canonical(CancerIdCS)
 * group[=].target = Canonical(CancerCCcMCategoryCS)
 
-* group[=].element[+].code = #452
-* group[=].element[=].display = "0"
-* group[=].element[=].target[+].code = #cancer-0008-0001
-* group[=].element[=].target[=].display = "0"
-* group[=].element[=].target[=].relationship = #equivalent
-
 * group[=].element[+].code = #451
 * group[=].element[=].display = "X"
-* group[=].element[=].target[+].code = #cancer-0008-0002
+* group[=].element[=].target[+].code = #cancer-0008-0001
 * group[=].element[=].target[=].display = "X"
+* group[=].element[=].target[=].relationship = #equivalent
+
+* group[+].source = Canonical(CancerIdCS)
+* group[=].target = Canonical(CancerCCcMCategorySnomedCS)
+
+* group[=].element[+].code = #452
+* group[=].element[=].display = "0"
+* group[=].element[=].target[+].code = #1352512001
+* group[=].element[=].target[=].display = "0"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #453
 * group[=].element[=].display = "1"
-* group[=].element[=].target[+].code = #cancer-0008-0003
+* group[=].element[=].target[+].code = #1352513006
 * group[=].element[=].target[=].display = "1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #454
 * group[=].element[=].display = "1a"
-* group[=].element[=].target[+].code = #cancer-0008-0004
+* group[=].element[=].target[+].code = #1352517007
 * group[=].element[=].target[=].display = "1a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #455
 * group[=].element[=].display = "1b"
-* group[=].element[=].target[+].code = #cancer-0008-0005
+* group[=].element[=].target[+].code = #1352514000
 * group[=].element[=].target[=].display = "1b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #456
 * group[=].element[=].display = "1c"
-* group[=].element[=].target[+].code = #cancer-0008-0006
+* group[=].element[=].target[+].code = #1352516003
 * group[=].element[=].target[=].display = "1c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #457
 * group[=].element[=].display = "1d"
-* group[=].element[=].target[+].code = #cancer-0008-0007
+* group[=].element[=].target[+].code = #1352510009
 * group[=].element[=].target[=].display = "1d"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 8: CancerIdCS to CancerCCpTCategoryCS
+
+// Group 9: CancerIdCS to CancerCCpTCategoryCS
 * group[+].source = Canonical(CancerIdCS)
 * group[=].target = Canonical(CancerCCpTCategoryCS)
 
 * group[=].element[+].code = #461
 * group[=].element[=].display = "x"
-* group[=].element[=].target[+].code = #cancer-0009-0001
+* group[=].element[=].target[+].code = #1352532000
 * group[=].element[=].target[=].display = "X"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #462
 * group[=].element[=].display = "in situ"
-* group[=].element[=].target[+].code = #cancer-0009-0002
-* group[=].element[=].target[=].display = "in situ"
+* group[=].element[=].target[+].code = #1352558000
+* group[=].element[=].target[=].display = "is"
+* group[=].element[=].target[=].relationship = #equivalent
+
+* group[=].element[+].code = #463
+* group[=].element[=].display = "0"
+* group[=].element[=].target[+].code = #1352552004
+* group[=].element[=].target[=].display = "0"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #464
 * group[=].element[=].display = "1"
-* group[=].element[=].target[+].code = #cancer-0009-0003
+* group[=].element[=].target[+].code = #1352559008
 * group[=].element[=].target[=].display = "1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #465
 * group[=].element[=].display = "1a"
-* group[=].element[=].target[+].code = #cancer-0009-0004
+* group[=].element[=].target[+].code = #1352560003
 * group[=].element[=].target[=].display = "1a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #466
 * group[=].element[=].display = "1b"
-* group[=].element[=].target[+].code = #cancer-0009-0005
+* group[=].element[=].target[+].code = #1352543008
 * group[=].element[=].target[=].display = "1b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #467
 * group[=].element[=].display = "1c"
-* group[=].element[=].target[+].code = #cancer-0009-0006
+* group[=].element[=].target[+].code = #1352537006
 * group[=].element[=].target[=].display = "1c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #468
 * group[=].element[=].display = "2"
-* group[=].element[=].target[+].code = #cancer-0009-0007
+* group[=].element[=].target[+].code = #1352545001
 * group[=].element[=].target[=].display = "2"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #469
 * group[=].element[=].display = "2a"
-* group[=].element[=].target[+].code = #cancer-0009-0008
+* group[=].element[=].target[+].code = #1352564007
 * group[=].element[=].target[=].display = "2a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #470
 * group[=].element[=].display = "2b"
-* group[=].element[=].target[+].code = #cancer-0009-0009
+* group[=].element[=].target[+].code = #1352547009
 * group[=].element[=].target[=].display = "2b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #471
 * group[=].element[=].display = "2c"
-* group[=].element[=].target[+].code = #cancer-0009-0010
+* group[=].element[=].target[+].code = #1352569002
 * group[=].element[=].target[=].display = "2c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #472
 * group[=].element[=].display = "2d"
-* group[=].element[=].target[+].code = #cancer-0009-0011
+* group[=].element[=].target[+].code = #1352548004
 * group[=].element[=].target[=].display = "2d"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #473
 * group[=].element[=].display = "3"
-* group[=].element[=].target[+].code = #cancer-0009-0012
+* group[=].element[=].target[+].code = #1352533005
 * group[=].element[=].target[=].display = "3"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #474
 * group[=].element[=].display = "3a"
-* group[=].element[=].target[+].code = #cancer-0009-0013
+* group[=].element[=].target[+].code = #1352551006
 * group[=].element[=].target[=].display = "3a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #475
 * group[=].element[=].display = "3b"
-* group[=].element[=].target[+].code = #cancer-0009-0014
+* group[=].element[=].target[+].code = #1352534004
 * group[=].element[=].target[=].display = "3b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #476
 * group[=].element[=].display = "3c"
-* group[=].element[=].target[+].code = #cancer-0009-0015
+* group[=].element[=].target[+].code = #1352556001
 * group[=].element[=].target[=].display = "3c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #477
 * group[=].element[=].display = "3d"
-* group[=].element[=].target[+].code = #cancer-0009-0016
+* group[=].element[=].target[+].code = #1352531007
 * group[=].element[=].target[=].display = "3d"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #478
 * group[=].element[=].display = "4"
-* group[=].element[=].target[+].code = #cancer-0009-0017
+* group[=].element[=].target[+].code = #1352553009
 * group[=].element[=].target[=].display = "4"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #479
 * group[=].element[=].display = "4a"
-* group[=].element[=].target[+].code = #cancer-0009-0018
+* group[=].element[=].target[+].code = #1352538001
 * group[=].element[=].target[=].display = "4a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #480
 * group[=].element[=].display = "4b"
-* group[=].element[=].target[+].code = #cancer-0009-0019
+* group[=].element[=].target[+].code = #1352561004
 * group[=].element[=].target[=].display = "4b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #481
 * group[=].element[=].display = "4c"
-* group[=].element[=].target[+].code = #cancer-0009-0020
+* group[=].element[=].target[+].code = #1352540006
 * group[=].element[=].target[=].display = "4c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #482
 * group[=].element[=].display = "4d"
-* group[=].element[=].target[+].code = #cancer-0009-0021
+* group[=].element[=].target[+].code = #1352557005
 * group[=].element[=].target[=].display = "4d"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #879
 * group[=].element[=].display = "a"
-* group[=].element[=].target[+].code = #cancer-0009-0022
+* group[=].element[=].target[+].code = #1352539009
 * group[=].element[=].target[=].display = "a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #880
 * group[=].element[=].display = "1a1"
-* group[=].element[=].target[+].code = #cancer-0009-0023
+* group[=].element[=].target[+].code = #1352550007
 * group[=].element[=].target[=].display = "1a1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #881
 * group[=].element[=].display = "1a2"
-* group[=].element[=].target[+].code = #cancer-0009-0024
+* group[=].element[=].target[+].code = #1352566009
 * group[=].element[=].target[=].display = "1a2"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #882
 * group[=].element[=].display = "2a1"
-* group[=].element[=].target[+].code = #cancer-0009-0025
+* group[=].element[=].target[+].code = #1352546000
 * group[=].element[=].target[=].display = "2a1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #883
 * group[=].element[=].display = "2a2"
-* group[=].element[=].target[+].code = #cancer-0009-0026
+* group[=].element[=].target[+].code = #1352567000
 * group[=].element[=].target[=].display = "2a2"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #884
 * group[=].element[=].display = "1b1"
-* group[=].element[=].target[+].code = #cancer-0009-0027
+* group[=].element[=].target[+].code = #1352536002
 * group[=].element[=].target[=].display = "1b1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #885
 * group[=].element[=].display = "1b2"
-* group[=].element[=].target[+].code = #cancer-0009-0028
+* group[=].element[=].target[+].code = #1352554003
 * group[=].element[=].target[=].display = "1b2"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 9: CancerIdCS to CancerCCpNCategoryCS
+// Group 10: CancerIdCS to CancerCCpNCategoryCS
 * group[+].source = Canonical(CancerIdCS)
 * group[=].target = Canonical(CancerCCpNCategoryCS)
+* group[=].element[+].code = #484
+* group[=].element[=].display = "X"
+* group[=].element[=].target[+].code = #1352605004
+* group[=].element[=].target[=].display = "X"
+* group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #485
 * group[=].element[=].display = "0"
-* group[=].element[=].target[+].code = #cancer-0010-0001
+* group[=].element[=].target[+].code = #1352621009
 * group[=].element[=].target[=].display = "0"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #484
-* group[=].element[=].display = "X"
-* group[=].element[=].target[+].code = #cancer-0010-0002
-* group[=].element[=].target[=].display = "X"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #486
 * group[=].element[=].display = "1"
-* group[=].element[=].target[+].code = #cancer-0010-0003
+* group[=].element[=].target[+].code = #1352614009
 * group[=].element[=].target[=].display = "1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #487
 * group[=].element[=].display = "1a"
-* group[=].element[=].target[+].code = #cancer-0010-0004
+* group[=].element[=].target[+].code = #1352619004
 * group[=].element[=].target[=].display = "1a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #488
 * group[=].element[=].display = "1b"
-* group[=].element[=].target[+].code = #cancer-0010-0005
+* group[=].element[=].target[+].code = #1352616006
 * group[=].element[=].target[=].display = "1b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #489
 * group[=].element[=].display = "1c"
-* group[=].element[=].target[+].code = #cancer-0010-0006
+* group[=].element[=].target[+].code = #1352617002
 * group[=].element[=].target[=].display = "1c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #490
 * group[=].element[=].display = "2"
-* group[=].element[=].target[+].code = #cancer-0010-0007
+* group[=].element[=].target[+].code = #1352610000
 * group[=].element[=].target[=].display = "2"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #491
 * group[=].element[=].display = "2a"
-* group[=].element[=].target[+].code = #cancer-0010-0008
+* group[=].element[=].target[+].code = #1352608002
 * group[=].element[=].target[=].display = "2a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #492
 * group[=].element[=].display = "2b"
-* group[=].element[=].target[+].code = #cancer-0010-0009
+* group[=].element[=].target[+].code = #1352612008
 * group[=].element[=].target[=].display = "2b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #493
 * group[=].element[=].display = "2c"
-* group[=].element[=].target[+].code = #cancer-0010-0010
+* group[=].element[=].target[+].code = #1352613003
 * group[=].element[=].target[=].display = "2c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #494
 * group[=].element[=].display = "3"
-* group[=].element[=].target[+].code = #cancer-0010-0011
+* group[=].element[=].target[+].code = #1352622002
 * group[=].element[=].target[=].display = "3"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #495
 * group[=].element[=].display = "3a"
-* group[=].element[=].target[+].code = #cancer-0010-0012
+* group[=].element[=].target[+].code = #1352618007
 * group[=].element[=].target[=].display = "3a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #496
 * group[=].element[=].display = "3b"
-* group[=].element[=].target[+].code = #cancer-0010-0013
+* group[=].element[=].target[+].code = #1352623007
 * group[=].element[=].target[=].display = "3b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #497
 * group[=].element[=].display = "3c"
-* group[=].element[=].target[+].code = #cancer-0010-0014
+* group[=].element[=].target[+].code = #1352606003
 * group[=].element[=].target[=].display = "3c"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 10: CancerIdCS to CancerCCpMCategoryCS
+
+// Group 11: CancerIdCS to CancerCCpMCategoryCS
 * group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerCCpMCategoryCS)
-
-* group[=].element[+].code = #499
-* group[=].element[=].display = "0"
-* group[=].element[=].target[+].code = #cancer-0011-0001
-* group[=].element[=].target[=].display = "0"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #498
-* group[=].element[=].display = "X"
-* group[=].element[=].target[+].code = #cancer-0011-0002
-* group[=].element[=].target[=].display = "X"
-* group[=].element[=].target[=].relationship = #equivalent
+* group[=].target = Canonical(CancerCCpMCategorySnomedCS)
 
 * group[=].element[+].code = #500
 * group[=].element[=].display = "1"
-* group[=].element[=].target[+].code = #cancer-0011-0003
+* group[=].element[=].target[+].code = #1352583000
 * group[=].element[=].target[=].display = "1"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #501
 * group[=].element[=].display = "1a"
-* group[=].element[=].target[+].code = #cancer-0011-0004
+* group[=].element[=].target[+].code = #1352573004
 * group[=].element[=].target[=].display = "1a"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #502
 * group[=].element[=].display = "1b"
-* group[=].element[=].target[+].code = #cancer-0011-0005
+* group[=].element[=].target[+].code = #1352578008
 * group[=].element[=].target[=].display = "1b"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #503
 * group[=].element[=].display = "1c"
-* group[=].element[=].target[+].code = #cancer-0011-0006
+* group[=].element[=].target[+].code = #1229923005
 * group[=].element[=].target[=].display = "1c"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #504
 * group[=].element[=].display = "1d"
-* group[=].element[=].target[+].code = #cancer-0011-0007
+* group[=].element[=].target[+].code = #1352580002
 * group[=].element[=].target[=].display = "1d"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 11: CancerIdCS to CancerStageCS
 * group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerStageCS)
+* group[=].target = Canonical(CancerCCpMCategoryCS)
 
-* group[=].element[+].code = #385
+* group[=].element[+].code = #498
+* group[=].element[=].display = "X"
+* group[=].element[=].target[+].code = #cancer-0011-0001
+* group[=].element[=].target[=].display = "X"
+* group[=].element[=].target[=].relationship = #equivalent
+
+* group[=].element[+].code = #499
 * group[=].element[=].display = "0"
-* group[=].element[=].target[+].code = #cancer-0012-0001
+* group[=].element[=].target[+].code = #cancer-0011-0002
 * group[=].element[=].target[=].display = "0"
 * group[=].element[=].target[=].relationship = #equivalent
 
-* group[=].element[+].code = #386
-* group[=].element[=].display = "I"
-* group[=].element[=].target[+].code = #cancer-0012-0002
-* group[=].element[=].target[=].display = "I"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #387
-* group[=].element[=].display = "II"
-* group[=].element[=].target[+].code = #cancer-0012-0003
-* group[=].element[=].target[=].display = "II"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #388
-* group[=].element[=].display = "III"
-* group[=].element[=].target[+].code = #cancer-0012-0004
-* group[=].element[=].target[=].display = "III"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #389
-* group[=].element[=].display = "IV"
-* group[=].element[=].target[+].code = #cancer-0012-0005
-* group[=].element[=].target[=].display = "IV"
-* group[=].element[=].target[=].relationship = #equivalent
-
-// Group 12: CancerIdCS to CancerSubStageCS
+// Group 12: CancerIdCS to CancerBodyLocationCS
 * group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerSubStageCS)
-
-* group[=].element[+].code = #391
-* group[=].element[=].display = "a"
-* group[=].element[=].target[+].code = #cancer-0013-0001
-* group[=].element[=].target[=].display = "a"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #392
-* group[=].element[=].display = "b"
-* group[=].element[=].target[+].code = #cancer-0013-0002
-* group[=].element[=].target[=].display = "b"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #393
-* group[=].element[=].display = "c"
-* group[=].element[=].target[+].code = #cancer-0013-0003
-* group[=].element[=].target[=].display = "c"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #394
-* group[=].element[=].display = "d"
-* group[=].element[=].target[+].code = #cancer-0013-0004
-* group[=].element[=].target[=].display = "d"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #395
-* group[=].element[=].display = "E"
-* group[=].element[=].target[+].code = #cancer-0013-0005
-* group[=].element[=].target[=].display = "E"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #396
-* group[=].element[=].display = "S"
-* group[=].element[=].target[+].code = #cancer-0013-0006
-* group[=].element[=].target[=].display = "S"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #886
-* group[=].element[=].display = "a1"
-* group[=].element[=].target[+].code = #cancer-0013-0007
-* group[=].element[=].target[=].display = "a1"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #887
-* group[=].element[=].display = "a2"
-* group[=].element[=].target[+].code = #cancer-0013-0008
-* group[=].element[=].target[=].display = "a2"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #888
-* group[=].element[=].display = "b1"
-* group[=].element[=].target[+].code = #cancer-0013-0009
-* group[=].element[=].target[=].display = "b1"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #889
-* group[=].element[=].display = "b2"
-* group[=].element[=].target[+].code = #cancer-0013-0010
-* group[=].element[=].target[=].display = "b2"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #890
-* group[=].element[=].display = "c1"
-* group[=].element[=].target[+].code = #cancer-0013-0011
-* group[=].element[=].target[=].display = "c1"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #891
-* group[=].element[=].display = "c2"
-* group[=].element[=].target[+].code = #cancer-0013-0012
-* group[=].element[=].target[=].display = "c2"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #892
-* group[=].element[=].display = "a3"
-* group[=].element[=].target[+].code = #cancer-0013-0013
-* group[=].element[=].target[=].display = "a3"
-* group[=].element[=].target[=].relationship = #equivalent
-
-// Group 13: CancerIdCS to CancerDamageAreaCS
-* group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerDamageAreaCS)
+* group[=].target = Canonical(CancerBodyLocationCS)
 
 * group[=].element[+].code = #857
 * group[=].element[=].display = "Лимфоузлы"
-* group[=].element[=].target[+].code = #cancer-0014-0001
-* group[=].element[=].target[=].display = "Лимфоузлы"
+* group[=].element[=].target[+].code = $sct#59441001
+* group[=].element[=].target[=].display = "Structure of lymph node"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #858
 * group[=].element[=].display = "Кости"
-* group[=].element[=].target[+].code = #cancer-0014-0002
-* group[=].element[=].target[=].display = "Кости"
+* group[=].element[=].target[+].code = $sct#272673000
+* group[=].element[=].target[=].display = "Bone structure"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #859
 * group[=].element[=].display = "Печень"
-* group[=].element[=].target[+].code = #cancer-0014-0003
-* group[=].element[=].target[=].display = "Печень"
+* group[=].element[=].target[+].code = $sct#10200004
+* group[=].element[=].target[=].display = "Liver structure"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #860
 * group[=].element[=].display = "Легкое (плевра)"
-* group[=].element[=].target[+].code = #cancer-0014-0004
-* group[=].element[=].target[=].display = "Легкое (плевра)"
+* group[=].element[=].target[+].code = $sct#110549009
+* group[=].element[=].target[=].display = "Lung and pleura, CS"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #861
 * group[=].element[=].display = "Головной мозг"
-* group[=].element[=].target[+].code = #cancer-0014-0005
-* group[=].element[=].target[=].display = "Головной мозг"
+* group[=].element[=].target[+].code = $sct#12738006
+* group[=].element[=].target[=].display = "Brain structure"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #862
 * group[=].element[=].display = "Яичник"
-* group[=].element[=].target[+].code = #cancer-0014-0006
-* group[=].element[=].target[=].display = "Яичник"
+* group[=].element[=].target[+].code = $sct#15497006
+* group[=].element[=].target[=].display = "Ovarian structure"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #863
 * group[=].element[=].display = "Мягкие ткани"
-* group[=].element[=].target[+].code = #cancer-0014-0007
-* group[=].element[=].target[=].display = "Мягкие ткани"
+* group[=].element[=].target[+].code = $sct#87784001
+* group[=].element[=].target[=].display = "Soft tissue"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #864
 * group[=].element[=].display = "Надпочечник"
-* group[=].element[=].target[+].code = #cancer-0014-0008
-* group[=].element[=].target[=].display = "Надпочечник"
+* group[=].element[=].target[+].code = $sct#23451007
+* group[=].element[=].target[=].display = "Adrenal structure"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #865
 * group[=].element[=].display = "Другие органы"
-* group[=].element[=].target[+].code = #cancer-0014-0009
-* group[=].element[=].target[=].display = "Другие органы"
+* group[=].element[=].target[+].code = #74964007
+* group[=].element[=].target[=].display = "Other"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #866
 * group[=].element[=].display = "Брюшина"
-* group[=].element[=].target[+].code = #cancer-0014-0010
-* group[=].element[=].target[=].display = "Брюшина"
+* group[=].element[=].target[+].code = $sct#15425007
+* group[=].element[=].target[=].display = "Structure of serous membrane of peritoneum"
 * group[=].element[=].target[=].relationship = #equivalent
 
 
-// Group 15: CancerIdCS to CancerEmergingProcessCS
+// Group 13: CancerIdCS to CancerEmergingProcessCS
 * group[+].source = Canonical(CancerIdCS)
 * group[=].target = Canonical(CancerEmergingProcessCS)
 
@@ -1101,9 +1002,9 @@ Description: "ConceptMap for mapping Cancer ID status codes to DHP status codes"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #855
-* group[=].element[=].display = "Местнораспространенный процесс"
+* group[=].element[=].display = "Местнорапространенный процесс"
 * group[=].element[=].target[+].code = #cancer-0015-0006
-* group[=].element[=].target[=].display = "Местнораспространенный процесс"
+* group[=].element[=].target[=].display = "Местнорапространенный процесс"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #856
@@ -1112,161 +1013,91 @@ Description: "ConceptMap for mapping Cancer ID status codes to DHP status codes"
 * group[=].element[=].target[=].display = "Трансформация"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 16: CancerIdCS to CancerEncounterClassCS
-* group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerEncounterClassCS)
-
-* group[=].element[+].code = #648
-* group[=].element[=].display = "нет сведений"
-* group[=].element[=].target[+].code = #cancer-0016-0001
-* group[=].element[=].target[=].display = "нет сведений"
-* group[=].element[=].target[=].relationship = #equivalent
-
+// Group 14: CancerIdCS to EncounterDischargeDisposition
 * group[+].source = Canonical(CancerIdCS)
 * group[=].target = $v3-ActCode
 
 * group[=].element[+].code = #649
 * group[=].element[=].display = "лечился амбулаторно"
-* group[=].element[=].target[+].code = #IMP
-* group[=].element[=].target[=].display = "inpatient encounter"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #650
-* group[=].element[=].display = "лечился стационарно"
 * group[=].element[=].target[+].code = #AMB
 * group[=].element[=].target[=].display = "ambulatory"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 17: CancerIdCS to CancerCharacterTreatmentCS
+* group[=].element[+].code = #650
+* group[=].element[=].display = "лечился стационарно"
+* group[=].element[=].target[+].code = #IMP
+* group[=].element[=].target[=].display = "inpatient encounter"
+* group[=].element[=].target[=].relationship = #equivalent
+
+// Group 15: CancerIdCS to CancerTreatmentIntent
 * group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerCharacterTreatmentCS)
+* group[=].target = Canonical(CancerTreatmentIntentSnomedCS)
 
 * group[=].element[+].code = #651
 * group[=].element[=].display = "Не проводилось"
-* group[=].element[=].target[+].code = #cancer-0017-0001
-* group[=].element[=].target[=].display = "Не проводилось"
+* group[=].element[=].target[+].code = #262008008
+* group[=].element[=].target[=].display = "Not performed"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #652
 * group[=].element[=].display = "Радикальное"
-* group[=].element[=].target[+].code = #cancer-0017-0002
-* group[=].element[=].target[=].display = "Радикальное"
+* group[=].element[=].target[+].code = #373808002
+* group[=].element[=].target[=].display = "Curative - procedure intent"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #653
 * group[=].element[=].display = "Паллиативное"
-* group[=].element[=].target[+].code = #cancer-0017-0003
-* group[=].element[=].target[=].display = "Паллиативное"
+* group[=].element[=].target[+].code = #363676003
+* group[=].element[=].target[=].display = "Palliative intent"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #654
 * group[=].element[=].display = "Симптоматическое"
-* group[=].element[=].target[+].code = #cancer-0017-0004
-* group[=].element[=].target[=].display = "Симптоматическое"
+* group[=].element[=].target[+].code = #264931009
+* group[=].element[=].target[=].display = "Symptomatic"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #655
 * group[=].element[=].display = "Реабилитационное"
-* group[=].element[=].target[+].code = #cancer-0017-0005
-* group[=].element[=].target[=].display = "Реабилитационное"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #656
-* group[=].element[=].display = "Радикальное незавершенное"
-* group[=].element[=].target[+].code = #cancer-0017-0006
-* group[=].element[=].target[=].display = "Радикальное незавершенное"
-* group[=].element[=].target[=].relationship = #equivalent
+* group[=].element[=].target[+].code = #399707004
+* group[=].element[=].target[=].display = "Supportive - procedure intent"
+* group[=].element[=].target[=].relationship = #related-to
 
 * group[=].element[+].code = #657
 * group[=].element[=].display = "Профилактическое"
-* group[=].element[=].target[+].code = #cancer-0017-0007
-* group[=].element[=].target[=].display = "Профилактическое"
+* group[=].element[=].target[+].code = #129428001
+* group[=].element[=].target[=].display = "Preventive intent"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #658
 * group[=].element[=].display = "Обследование"
-* group[=].element[=].target[+].code = #cancer-0017-0008
-* group[=].element[=].target[=].display = "Обследование"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #659
-* group[=].element[=].display = "По поводу других заболеваний"
-* group[=].element[=].target[+].code = #cancer-0017-0009
-* group[=].element[=].target[=].display = "По поводу других заболеваний"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #660
-* group[=].element[=].display = "По поводу осложнений"
-* group[=].element[=].target[+].code = #cancer-0017-0010
-* group[=].element[=].target[=].display = "По поводу осложнений"
+* group[=].element[=].target[+].code = #261004008
+* group[=].element[=].target[=].display = "Diagnostic intent"
 * group[=].element[=].target[=].relationship = #equivalent
 
 
-// Group 18: CancerIdCS to CancerCharacterTreatmentCS
 * group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerCharacterTreatmentCS)
-
-* group[=].element[+].code = #651
-* group[=].element[=].display = "Не проводилось"
-* group[=].element[=].target[+].code = #cancer-0017-0001
-* group[=].element[=].target[=].display = "Не проводилось"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #652
-* group[=].element[=].display = "Радикальное"
-* group[=].element[=].target[+].code = #cancer-0017-0002
-* group[=].element[=].target[=].display = "Радикальное"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #653
-* group[=].element[=].display = "Паллиативное"
-* group[=].element[=].target[+].code = #cancer-0017-0003
-* group[=].element[=].target[=].display = "Паллиативное"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #654
-* group[=].element[=].display = "Симптоматическое"
-* group[=].element[=].target[+].code = #cancer-0017-0004
-* group[=].element[=].target[=].display = "Симптоматическое"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #655
-* group[=].element[=].display = "Реабилитационное"
-* group[=].element[=].target[+].code = #cancer-0017-0005
-* group[=].element[=].target[=].display = "Реабилитационное"
-* group[=].element[=].target[=].relationship = #equivalent
+* group[=].target = Canonical(CancerTreatmentIntentCS)
 
 * group[=].element[+].code = #656
 * group[=].element[=].display = "Радикальное незавершенное"
-* group[=].element[=].target[+].code = #cancer-0017-0006
-* group[=].element[=].target[=].display = "Радикальное незавершенное"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #657
-* group[=].element[=].display = "Профилактическое"
-* group[=].element[=].target[+].code = #cancer-0017-0007
-* group[=].element[=].target[=].display = "Профилактическое"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #658
-* group[=].element[=].display = "Обследование"
-* group[=].element[=].target[+].code = #cancer-0017-0008
-* group[=].element[=].target[=].display = "Обследование"
+* group[=].element[=].target[+].code = #cancer-0017-0001
+* group[=].element[=].target[=].display = "Tugallanmagan radikal"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #659
 * group[=].element[=].display = "По поводу других заболеваний"
-* group[=].element[=].target[+].code = #cancer-0017-0009
-* group[=].element[=].target[=].display = "По поводу других заболеваний"
+* group[=].element[=].target[+].code = #cancer-0017-0002
+* group[=].element[=].target[=].display = "Boshqa kasalliklar bo‘yicha"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #660
 * group[=].element[=].display = "По поводу осложнений"
-* group[=].element[=].target[+].code = #cancer-0017-0010
-* group[=].element[=].target[=].display = "По поводу осложнений"
+* group[=].element[=].target[+].code = #cancer-0017-0003
+* group[=].element[=].target[=].display = "Asoratlar bo‘yicha"
 * group[=].element[=].target[=].relationship = #equivalent
 
-// Group 19: CancerIdCS to CancerSpecialTreatmentCS
+// Group 16: CancerIdCS to CancerSpecialTreatmentCS
 * group[+].source = Canonical(CancerIdCS)
 * group[=].target = Canonical(CancerSpecialTreatmentCS)
 
@@ -1385,101 +1216,75 @@ Description: "ConceptMap for mapping Cancer ID status codes to DHP status codes"
 * group[=].element[=].target[=].relationship = #equivalent
 
 
-// Group 20: CancerIdCS to CancerTumorBehaviorCS
-* group[+].source = Canonical(CancerIdCS)
-* group[=].target = Canonical(CancerTumorBehaviorCS)
-
-* group[=].element[+].code = #867
-* group[=].element[=].display = "Доброкачественная"
-* group[=].element[=].target[+].code = #cancer-0019-0001
-* group[=].element[=].target[=].display = "Доброкачественная"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #868
-* group[=].element[=].display = "Неопределенная"
-* group[=].element[=].target[+].code = #cancer-0019-0002
-* group[=].element[=].target[=].display = "Неопределенная"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #869
-* group[=].element[=].display = "In situ"
-* group[=].element[=].target[+].code = #cancer-0019-0003
-* group[=].element[=].target[=].display = "In situ"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #870
-* group[=].element[=].display = "Злокачественная"
-* group[=].element[=].target[+].code = #cancer-0019-0004
-* group[=].element[=].target[=].display = "Злокачественная"
-* group[=].element[=].target[=].relationship = #equivalent
-
-
-// Group 21: CancerIdCS to CancerDegreeDifferentiationCS
+// Group 17: CancerIdCS to CancerDegreeDifferentiationCS
 * group[+].source = Canonical(CancerIdCS)
 * group[=].target = Canonical(CancerDegreeDifferentiationCS)
 
 * group[=].element[+].code = #363
 * group[=].element[=].display = "G1 (Высоко дифференцированная)"
-* group[=].element[=].target[+].code = #cancer-0020-0001
-* group[=].element[=].target[=].display = "G1 (Высоко дифференцированная)"
+* group[=].element[=].target[+].code = #1155701009
+* group[=].element[=].target[=].display = "G1: Well differentiated"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #364
 * group[=].element[=].display = "G2 (Средне дифференцированная)"
-* group[=].element[=].target[+].code = #cancer-0020-0002
-* group[=].element[=].target[=].display = "G2 (Средне дифференцированная)"
+* group[=].element[=].target[+].code = #1155703007
+* group[=].element[=].target[=].display = "G2: Moderately differentiated"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #365
 * group[=].element[=].display = "G3 (Низко дифференцированная)"
-* group[=].element[=].target[+].code = #cancer-0020-0003
-* group[=].element[=].target[=].display = "G3 (Низко дифференцированная)"
+* group[=].element[=].target[+].code = #1155704001
+* group[=].element[=].target[=].display = "G3: Poorly differentiated"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #366
 * group[=].element[=].display = "G4 (Недифференцированная)"
-* group[=].element[=].target[+].code = #cancer-0020-0004
-* group[=].element[=].target[=].display = "G4 (Недифференцированная)"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #367
-* group[=].element[=].display = "T-клеточная"
-* group[=].element[=].target[+].code = #cancer-0020-0005
-* group[=].element[=].target[=].display = "T-клеточная"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #368
-* group[=].element[=].display = "B-клеточная"
-* group[=].element[=].target[+].code = #cancer-0020-0006
-* group[=].element[=].target[=].display = "B-клеточная"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #369
-* group[=].element[=].display = "Нулевая клетка"
-* group[=].element[=].target[+].code = #cancer-0020-0007
-* group[=].element[=].target[=].display = "Нулевая клетка"
-* group[=].element[=].target[=].relationship = #equivalent
-
-* group[=].element[+].code = #370
-* group[=].element[=].display = "NK-клетка"
-* group[=].element[=].target[+].code = #cancer-0020-0008
-* group[=].element[=].target[=].display = "NK-клетка"
+* group[=].element[=].target[+].code = #1155702002
+* group[=].element[=].target[=].display = "G4: Undifferentiated"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #371
 * group[=].element[=].display = "Низкая степень / Low grade"
-* group[=].element[=].target[+].code = #cancer-0020-0009
-* group[=].element[=].target[=].display = "Низкая степень / Low grade"
+* group[=].element[=].target[+].code = #1155708003
+* group[=].element[=].target[=].display = "Low histologic grade"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #372
 * group[=].element[=].display = "Высокая степень / High grade"
-* group[=].element[=].target[+].code = #cancer-0020-0010
-* group[=].element[=].target[=].display = "Высокая степень / High grade"
+* group[=].element[=].target[+].code = #1155707008
+* group[=].element[=].target[=].display = "High histologic grade"
 * group[=].element[=].target[=].relationship = #equivalent
 
 * group[=].element[+].code = #373
 * group[=].element[=].display = "GX (Не может быть установлена)"
-* group[=].element[=].target[+].code = #cancer-0020-0011
-* group[=].element[=].target[=].display = "GX (Не может быть установлена)"
+* group[=].element[=].target[+].code = #1155705000
+* group[=].element[=].target[=].display = "GX: Histologic grade cannot be assessed"
+* group[=].element[=].target[=].relationship = #equivalent
+
+* group[+].source = Canonical(CancerIdCS)
+* group[=].target = $loinc
+
+* group[=].element[+].code = #367
+* group[=].element[=].display = "T-клеточная"
+* group[=].element[=].target[+].code = #LP14634-7
+* group[=].element[=].target[=].display = "T-cell"
+* group[=].element[=].target[=].relationship = #equivalent
+
+* group[=].element[+].code = #368
+* group[=].element[=].display = "B-клеточная"
+* group[=].element[=].target[+].code = #LP36861-0
+* group[=].element[=].target[=].display = "B-cell"
+* group[=].element[=].target[=].relationship = #equivalent
+
+* group[=].element[+].code = #369
+* group[=].element[=].display = "Нулевая клетка"
+* group[=].element[=].target[+].code = #LA4748-5
+* group[=].element[=].target[=].display = "Null cell"
+* group[=].element[=].target[=].relationship = #equivalent
+
+* group[=].element[+].code = #370
+* group[=].element[=].display = "NK-клетка"
+* group[=].element[=].target[+].code = #LA4573-7
+* group[=].element[=].target[=].display = "NK (natural killer) cell"
 * group[=].element[=].target[=].relationship = #equivalent

@@ -36,7 +36,7 @@ Description: "Cancer emerging process code system for Uzbekistan healthcare syst
 
 * #cancer-0015-0006 "Mahalliy tarqalgan jarayon"
   * ^designation[0].language = #ru
-  * ^designation[=].value = "Местнораспространенный процесс"
+  * ^designation[=].value = "Местнорапространенный процесс"
   * ^designation[+].language = #en
   * ^designation[=].value = "Locally advanced disease"
 

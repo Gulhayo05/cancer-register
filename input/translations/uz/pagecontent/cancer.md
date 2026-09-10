@@ -1,176 +1,177 @@
 <style>
-
-/* Bir xil, to‘liq kenglikdagi mapping jadvallari (bo‘limlarda ustunlar soni turlicha bo‘lishi mumkin). */
-
+/* Bo'limlardagi ustunlar soni turlicha bo'lsa ham, jadvallar to'liq kenglikda ko'rsatiladi. */
 .col-12 table { table-layout: fixed; width: 100%; }
-
 .col-12 th, .col-12 td { overflow-wrap: anywhere; word-break: break-word; vertical-align: top; }
-
 </style>
 
-Ushbu sahifada onkologik bemorlarni boshqarish ma’lumotlari FHIR resurslari ko‘rinishida qanday ifodalanishi hujjatlashtirilgan.
+Ushbu sahifada Onkologiya registri ma'lumotlarini FHIR resurslari ko'rinishida ifodalash tartibi bayon etilgan.
 
-### Umumiy ko‘rinish
+### Umumiy ma'lumot
 
-Cancer registry moduli onkologik bemorlarni ro‘yxatga olish, tashxislash, bosqichini aniqlash, davolash va kuzatuv ma’lumotlarini qamrab oladi. Ma’lumotlar Cancer axborot tizimidan olinadi va DHP tizimiga alohida, atomar FHIR resurslari sifatida qo‘shiladi. Resurslar har bir bo‘limda ko‘rsatilgan Cancer profillariga, aks holda esa UZ Core yoki standart FHIR profillariga mos keladi.
+Onkologiya registri saraton tashxislari, davolash epizodlari, tashriflar, o'sma morfologiyasi va xulqi, gistologik daraja, kasallikning rivojlanishi hamda TNM bosqichlarini qayd etadi. Ma'lumotlar DHP ga o'zaro bog'langan atomar FHIR resurslari sifatida yuboriladi. Har bir resurs tegishli bo'limda ko'rsatilgan Cancer profiliga va [UZ Core](https://dhp.uz/fhir/core/uz/artifacts.html) talablariga mos keladi.
 
-Konsepsiyaning standart ekvivalenti mavjud bo‘lgan barcha holatlarda resurslarda standart kod to‘g‘ridan-to‘g‘ri ishlatiladi — kodlangan tashxis uchun ICD-10, tana sohasi uchun esa SNOMED CT. Manba tizim o‘zining mahalliy kodlarini (registrdagi holat, tasdiqlash usuli, TNM kategoriyalari, topografiya, morfologiya, davolash xarakteri va boshqalar) saqlaydi; har bir mahalliy kod o‘zining Cancer CodeSystem tizimida saqlanadi va mos standart yoki DHP kodiga ConceptMap orqali bog‘lanadi. Shu sababli integrator o‘zida mavjud bo‘lgan kod uchun standart/target kodni har doim topishi mumkin. Resurslarda aniq (`equivalent`) moslik mavjud bo‘lgan joylarda standart yoki DHP kodidan foydalaniladi — har bir maydonga bog‘langan value set ushbu kodni taqdim etadi va faqat aniq standart ekvivalenti mavjud bo‘lmagan hollarda mahalliy kodni saqlab qoladi (masalan, TNM kategoriya darajalari, bosqichning quyi klassifikatsiyalari va davolash usullarining kombinatsiyalari tashqi terminologiyalarda 1:1 ekvivalentga ega emas). Quyidagi har bir bo‘lim tegishli profilni, aniq misol resursni va kod saqlaydigan har bir maydon uchun value set hamda misol kodni ko‘rsatadi.
+Asosiy resurs — `CancerCondition`. `CancerEpisodeOfCare` davolash kursini birlashtiradi, `CancerEncounter` esa shu kurs doirasidagi tashrifni qayd etadi. `focus` orqali tashxisga bog'langan kuzatuvlar morfologiya, xulq, daraja, rivojlanish va bosqichlashni tavsiflaydi. Barcha resurslar bir bemorga havola qiladi.
 
-Odatdagi yozuv quyidagi resurslarni o‘zaro bog‘laydi: [patient](#bemorni-ro‘yxatga-olish-patient), [primary cancer diagnosis](#birlamchi-tashxisni-qayd-etish-cancerconditionprimary) va tegishli [secondary/metastatic condition](#metastatik-yoki-retsidiv-kasallikni-qayd-etish-cancerconditionsecondary), davolash kursini guruhlovchi [episode of care](#davolash-kursini-guruhlash-cancerepisodeofcare), bemorning holati va davolash rejasi aniqlanadigan [encounter](#tashrifni-hujjatlashtirish-cancerencounter), shuningdek, tekshiruv natijasida olingan [staging observations](#bosqichni-qayd-etish-cancerobservationtnmcategory-va-cancerobservationtnmstagegroup) (alohida TNM kategoriyalari va umumiy stage group).
+Mavjud bo'lsa, standart ICD-10, ICD-O-3, SNOMED CT va LOINC kodlari ishlatiladi. Registrga xos tushunchalar mahalliy Cancer CodeSystem larida saqlanadi. ConceptMap lar registrning raqamli identifikatorlarini DHP terminologiyasiga o'giradi.
 
-### Bemorni ro‘yxatga olish (Patient)
+### Saraton tashxisini qayd etish (CancerCondition)
 
-Har bir saraton yozuvining subyekti. Cancer uchun maxsus Patient profili mavjud emas; bevosita UZ Core profilidan foydalaniladi.
+Saraton tashxisi, registr identifikatori, laterallik, aniqlanish sharti va umumiy TNM bosqichini qayd etadi. Tashxis ICD-10 bilan kodlanadi. Laterallik `bodySite` da, aniqlanish sharti esa shu elementning kengaytmasida saqlanadi.
 
-Profile: [UZCorePatient](https://dhp.uz/fhir/core/StructureDefinition-uz-core-patient.html)
+Profil: [CancerCondition](StructureDefinition-cancer-condition.html)
 
-| Qayd etiladigan ma’lumot | Saqlanadigan joy |
-| :--- | :--- |
-| Milliy identifikator | `identifier` (national ID slice) |
-| Ism, jins, tug‘ilgan sana | `name`, `gender`, `birthDate` |
-| Manzil | `address` (UZ address slice) |
-| Mas’ul muassasa | `managingOrganization` → [Organization](#qo‘llab-quvvatlovchi-resurslar) |
+Misol: [cancer-condition-example](Condition-cancer-condition-example.html)
 
-### Birlamchi tashxisni qayd etish (CancerConditionPrimary)
-
-O‘smaning topografiyasini (kelib chiqish joyi) va morfologiyasini (gistologik turi) belgilaydi. `Condition.code` tashxisni ICD-10 orqali kodlaydi; o‘smaga xos tafsilotlar — laterallik, ICD-O-3 topografiyasi va morfologiyasi, differensiallashish darajasi, o‘sma biologik xususiyati, aniqlanish holati, ICCC-3 guruhi va tasdiqlash usuli — base `Condition` elementida ular uchun to‘g‘ridan-to‘g‘ri joy mavjud emasligi sababli extensionlarda saqlanadi.
-
-Profile: [CancerConditionPrimary](StructureDefinition-cancer-condition-primary.html)
-
-Example: [cancer-condition-primary-example](Condition-cancer-condition-primary-example.html)
-
-| Qayd etiladigan ma’lumot | Value set | Misol kod | Saqlanadigan joy |
+| Qayd etiladigan ma'lumot | Qiymatlar to'plami | Kod misoli | Qayerda saqlanadi |
 | :--- | :--- | :--- | :--- |
-| Tashxis | ICD10VS | `ICD-10#C02` | `Condition.code` |
-| Laterallik | [CancerLaterlityQualifierCS](CodeSystem-cancer-laterlity-qualifier-cs.html) | `cancer-laterlity-qualifier-cs#cancer-0004-0002` (Chap tomonda / Слева / Left) | `extension[lateralityQualifier]` |
-| Topografiya (ICD-O-3) | [CancerICD3TopographyCS](CodeSystem-cancer-icd3-topography-cs.html) | `cancer-icd3-topography-cs#C020` (tilning yuqori yuzasi QA / языка верхняя поверхность БДУ) | `extension[topography]` |
-| Morfologiya (ICD-O-3) | [CancerICD3morphologyCS](CodeSystem-cancer-icd3-morphology-cs.html) | `cancer-icd3-morphology-cs#8000` (Xavfli o‘smalar QA / Новообразование злокачественное БДУ) | `extension[morphology]` |
-| Differensiallashish darajasi | [CancerDegreeDifferentiationCS](CodeSystem-cancer-degree-differentiation-cs.html) | `cancer-degree-differentiation-cs#cancer-0020-0002` (G2, o‘rtacha differensiallashgan) | `extension[gradeDifferentiation]` |
-| O‘sma biologik xususiyati | [CancerTumorBehaviorCS](CodeSystem-cancer-tumor-behavior-cs.html) | `cancer-tumor-behavior-cs#cancer-0019-0004` (Yomon sifatli / Malignant) | `extension[tumorBehavior]` |
-| Aniqlanish holati | [CancerDetectionCircumstanceCS](CodeSystem-cancer-detection-circumstance-cs.html) | `cancer-detection-circumstance-cs#cancer-0005-0002` (Onkonazorat kabinetida aniqlangan) | `extension[detectionCircumstance]` |
-| ICCC-3 guruhi | `$iccc-3-cs` | `iccc-3-cs#III` | `extension[cancer-iccc-3-group]` |
-| Tasdiqlash usuli | [CancerConfirmationMethodCS](CodeSystem-cancer-confirmation-method-cs.html) | `cancer-confirmation-method-cs#cancer-0002-0003` (Gistologiya / Histology) | `extension[confirmationMethod]` |
-| Klinik holat | [condition-clinical](https://dhp.uz/fhir/core/CodeSystem-clinical-status-cs.html) | `condition-clinical#active` | `clinicalStatus` |
-| Verifikatsiya holati | [condition-ver-status](https://dhp.uz/fhir/core/CodeSystem-condition-verification-status-cs.html) | `condition-ver-status#confirmed` | `verificationStatus` |
-| Kategoriya | [condition-category](http://terminology.hl7.org/CodeSystem/condition-category) | `condition-category#problem-list-item` | `category` |
-| Tana sohasi | SNOMED CT | `SNOMED CT#422005` | `bodySite` |
-| Boshlanish / qayd etilgan sana | - | `2026-08-15` / `2020-08-15` | `onsetDateTime` / `recordedDate` |
-| Umumiy bosqich | [CancerStageCS](CodeSystem-cancer-stage-cs.html) | `cancer-stage-cs#cancer-0012-0002` (I) | `stage.summary` |
-| Quyi bosqich | [CancerSubStageCS](CodeSystem-cancer-sub-stage-cs.html) | `cancer-sub-stage-cs#cancer-0013-0007` (a1) | `stage.summary` |
-| Bosqichlash dalili | - | [CancerObservationTNMStageGroup](#bosqichni-qayd-etish-cancerobservationtnmcategory-va-cancerobservationtnmstagegroup) ga reference | `stage.assessment` |
-| Subyekt / encounter | - | [Patient](#bemorni-ro‘yxatga-olish-patient) / [CancerEncounter](#tashrifni-hujjatlashtirish-cancerencounter) ga reference | `subject` / `encounter` |
-| Mas’ul klinitsist | - | [PractitionerRole](#qo‘llab-quvvatlovchi-resurslar) ga reference | `participant.actor` |
+| Onkologiya registri identifikatori | - | `57dcdd0a-5a68-4cc6-8503-5ab15a41c62b` | `identifier[cancerRegistry]` |
+| Tashxis | [CancerICD10VS](ValueSet-cancer-icd-10-vs.html) | `ICD-10#C02` | `Condition.code` |
+| Tashxis manbasi/turi | UZ Core tashxis turi | `diagnosis-type-cs#cancer-0003-0003` | `extension[diagnosisType]` |
+| ICCC-3 guruhi | ICCC-3 | `iccc-3-cs#IIId2` | `extension[cancer-iccc-3-group]` |
+| Laterallik | [CancerLateralityQualifierVS](ValueSet-cancer-laterality-qualifier-vs.html) | `SNOMED CT#7771000` (chap) | `bodySite` |
+| Aniqlanish sharti | [CancerDetectionConditionVS](ValueSet-cancer-detection-condition-vs.html) | `cancer-detection-condition-cs#cancer-0005-0002` | `bodySite.extension[detection-condition]` |
+| Umumiy bosqich | [CancerTNMStageVS](ValueSet-cancer-tnm-stage-vs.html) | `SNOMED CT#1352944009` (UICC II bosqich) | `stage.summary` |
+| Bosqichlash asosi | - | bosqich guruhi Observation resursiga havola | `stage.assessment` |
+| Bemor / tashrif | - | Patient va CancerEncounter ga havolalar | `subject` / `encounter` |
+| Boshlanish / ro'yxatga olish sanasi | - | `2026-08-15` / `2026-08-20` | `onsetDateTime` / `recordedDate` |
+| Mas'ul tashkilot | - | Organization ga havola | `participant.actor` |
 
-Topografiya, morfologiya, laterallik, aniqlanish holati, tasdiqlash usuli, differensiallashish darajasi yoki o‘sma xususiyati kodlarining hech birida 1:1 tashqi terminologik ekvivalent mavjud emas. Shu sababli ularning har biri Cancer’dan olingan mahalliy kodni (`cancer-000X-YYYY`) saqlaydi; faqat asosiy tashxis (ICD-10) va tana sohasi (SNOMED CT) standart kodlardan foydalanadi.
+### Davolash kursini birlashtirish (CancerEpisodeOfCare)
 
-Ro‘yxatga olish darajasidagi holatni aniqlash usuli (`CancerIdCS` #505–#513) va chiqarilish holatiga o‘xshash hayotiy holat (#29–#33) kodlari [cancer-id-status-to-dhp-status-cm](ConceptMap-cancer-id-status-to-dhp-status-cm.html) ConceptMap orqali tegishli DHP tashxis turi va discharge disposition code systemlariga hamda Cancer-specific `CancerDiagnosisTypeCS` / `CancerEncounterDischargeDispositionCS` code systemlariga moslashtiriladi.
+Tashxis va uning davolash kursini birlashtiradi. Standart SNOMED CT davolash maqsadi afzal hisoblanadi. Registr qiymatiga standart tushuncha mos kelmasa, mahalliy maqsad kesimi ishlatiladi. Davolash usuli mahalliy Cancer kodi sifatida saqlanadi.
 
-Manba tizimining raqamli `CancerIdICD3TopographyCS` topografiya kodlari [cancer-id-icd3-topography-to-cancer-icd3-topography-cm](ConceptMap-cancer-id-icd3-topography-to-cancer-icd3-topography-cm.html) ConceptMap orqali `CancerICD3TopographyCS` alfanumerik (`Cxxx`) kodlariga 1:1 moslashtiriladi. Shu sababli integrator ikkala kod to‘plamidan biriga ega bo‘lsa, ikkinchi kodga o‘tishi mumkin.
+Profil: [CancerEpisodeOfCare](StructureDefinition-cancer-episode-of-care.html)
 
-### Metastatik yoki retsidiv kasallikni qayd etish (CancerConditionSecondary)
+Misol: [cancer-episode-of-care-example](EpisodeOfCare-cancer-episode-of-care-example.html)
 
-Metastatik, retsidiv yoki boshqa ikkilamchi onkologik jarayonni va u ta’sir qilgan anatomik sohani qayd etadi hamda uni birlamchi tashxis bilan bog‘laydi.
-
-Profile: [CancerConditionSecondary](StructureDefinition-condition-cancer-secondary.html)
-
-Example: [cancer-condition-secondary-example](Condition-cancer-condition-secondary-example.html)
-
-| Qayd etiladigan ma’lumot | Value set | Misol kod | Saqlanadigan joy |
+| Qayd etiladigan ma'lumot | Qiymatlar to'plami | Kod misoli | Qayerda saqlanadi |
 | :--- | :--- | :--- | :--- |
-| Birlamchi tashxis bilan bog‘lanish | - | [CancerConditionPrimary](#birlamchi-tashxisni-qayd-etish-cancerconditionprimary) ga reference | `extension[relatedCondition]` |
-| Jarayonning tabiati | [CancerEmergingProcessCS](CodeSystem-cancer-emerging-process-cs.html) | `cancer-emerging-process-cs#cancer-0015-0001` (Retsidiv / Рецидив / Recurrence) | `code` |
-| Zararlangan anatomik soha | [CancerDamageAreaCS](CodeSystem-cancer-damage-area-cs.html) | `cancer-damage-area-cs#cancer-0014-0002` (Suyaklar / Кости / Bones) | `bodySite` |
-| Klinik / verifikatsiya holati | - | `condition-clinical#active` / `condition-verification-status#confirmed` | `clinicalStatus` / `verificationStatus` |
-| Subyekt / encounter | - | [Patient](#bemorni-ro‘yxatga-olish-patient) / [CancerEncounter](#tashrifni-hujjatlashtirish-cancerencounter) ga reference | `subject` / `encounter` |
-| Boshlanish sanasi | - | `2026-08-15` | `onsetDateTime` |
+| Onkologiya registri identifikatori | - | registr UUID si | `identifier[cancerRegistry]` |
+| DHP xizmat turi | UZ Core EpisodeOfCare turi | `episode-of-care-type#mserv-0001-00004` | `type[serviceType]` |
+| Standart davolash maqsadi | [CancerTreatmentIntentSnomedVS](ValueSet-cancer-treatment-intent-snomed-vs.html) | `SNOMED CT#373808002` (radikal) | `type[treatmentIntent]` |
+| Mahalliy davolash maqsadi | [CancerTreatmentIntentVS](ValueSet-cancer-treatment-intent-vs.html) | `cancer-treatment-intent-cs#cancer-0017-0001` | `type[localTreatmentIntent]` |
+| Davolash usuli | [CancerSpecialTreatmentVS](ValueSet-cancer-special-treatment-vs.html) | `cancer-special-treatment-cs#cancer-0018-0002` (jarrohlik davolash) | `type[specialTreatment]` |
+| Tashxis | - | CancerCondition ga havola | `diagnosis.condition` |
+| Bemor / tashkilot / davolash koordinatori | - | resurslarga havolalar | `patient` / `managingOrganization` / `careManager` |
+| Davolash davri | - | boshlanish va ixtiyoriy tugash sanasi | `period` |
 
-Retsidiv/metastatik jarayon va zararlangan soha tushunchalarining hech birida ushbu registr uchun standart terminologik ekvivalent mavjud emas. Shu sababli ikkala tushuncha ham Cancer mahalliy kodlari sifatida saqlanadi.
+### Tashrifni qayd etish (CancerEncounter)
 
-### Tashrifni hujjatlashtirish (CancerEncounter)
+Saraton bilan bog'liq tashrifni qayd etadi va uni davolash epizodi hamda tashxis bilan bog'laydi.
 
-Bemorning onkologik holati va davolashi baholanadigan encounter. UZ Core Encounter profilini onkologik encounter class va unga tegishli episode of care bilan majburiy bog‘lanish orqali kengaytiradi.
+Profil: [CancerEncounter](StructureDefinition-cancer-encounter.html)
 
-Profile: [CancerEncounter](StructureDefinition-cancer-encounter.html)
+Misol: [cancer-encounter-example](Encounter-cancer-encounter-example.html)
 
-Example: [cancer-encounter-example](Encounter-cancer-encounter-example.html)
-
-| Qayd etiladigan ma’lumot | Value set | Misol kod | Saqlanadigan joy |
-| :--- | :--- | :--- | :--- |
-| Class | [v3-ActCode](https://dhp.uz/fhir/core/CodeSystem-actcode-cs.html) | `v3-ActCode#IMP` (statsionar encounter) | `class` |
-| Holat | [EncounterStatus](https://hl7.org/fhir/R5/valueset-encounter-status.html) | `completed` | `status` |
-| Episode of care | - | [CancerEpisodeOfCare](#davolash-kursini-guruhlash-cancerepisodeofcare) ga reference | `episodeOfCare` |
-| Tashrif davri | - | `2026-08-18T09:00` dan `2026-08-18T10:30` gacha | `actualPeriod` |
-| Tashxis | - | [CancerConditionPrimary](#birlamchi-tashxisni-qayd-etish-cancerconditionprimary) ga reference | `diagnosis.condition` |
-| Tashxis roli | [encounter-diagnosis-use](https://hl7.org/fhir/R5/codesystem-encounter-diagnosis-use.html) | `encounter-diagnosis-use#final` (Yakuniy) | `diagnosis.use` |
-| Chiqarilish holati | [discharge-disposition-home-cs](https://dhp.uz/fhir/core/CodeSystem-discharge-disposition-home-cs.html) | `discharge-disposition-home-cs#mserv-0004-00002` | `admission.dischargeDisposition` |
-
-Registrning hayotiy holat/disposition kodlari (`CancerIdCS` #29–#33 — tirik, vafot etgan, ko‘chib ketgan, tashxis tasdiqlanmagan, kuzatuv davri tugagan) [cancer-id-status-to-dhp-status-cm](ConceptMap-cancer-id-status-to-dhp-status-cm.html) ConceptMap orqali ushbu DHP discharge-disposition code systemiga va Cancer-specific disposition kodlariga moslashtiriladi.
-
-### Davolash kursini guruhlash (CancerEpisodeOfCare)
-
-Episode of care bemorning saraton tashxisi va unga ko‘rsatilgan davolash kursini bir guruhga birlashtiradi hamda ushbu kursning davolash maqsadi (xarakteri) va usulini (maxsus davolash) qayd etadi.
-
-Profile: [CancerEpisodeOfCare](StructureDefinition-cancer-episode-of-care.html)
-
-Example: [cancer-episode-of-care-example](EpisodeOfCare-cancer-episode-of-care-example.html)
-
-| Qayd etiladigan ma’lumot | Value set | Misol kod | Saqlanadigan joy |
-| :--- | :--- | :--- | :--- |
-| Episode turi | [episode-of-care-type](https://dhp.uz/fhir/core/CodeSystem-episode-of-care-type-cs.html) | `episode-of-care-type#mserv-0001-00004` (Davolash xizmatlari) | `type[serviceType]` |
-| Davolash xarakteri | [CancerCharacterTreatmentCS](CodeSystem-cancer-character-treatment-cs.html) | `cancer-character-treatment-cs#cancer-0017-0002` (Radikal / Радикальное / Radical) | `type[characterTreatment]` |
-| Maxsus (davolash usuli) | [CancerSpecialTreatmentCS](CodeSystem-cancer-special-treatment-cs.html) | `cancer-special-treatment-cs#cancer-0018-0002` (Jarrohlik davolash / Хирургическое / Surgical treatment) | `type[specialTreatment]` |
-| Holat | [EpisodeOfCareStatus](https://hl7.org/fhir/R5/valueset-episode-of-care-status.html) | `active` | `status` |
-| Davolash davri | - | `2026-08-15` dan `2026-08-15` gacha | `period.start` / `period.end` |
-| Davolanayotgan tashxis | - | [CancerConditionPrimary](#birlamchi-tashxisni-qayd-etish-cancerconditionprimary) ga reference | `diagnosis.condition` |
-| Bemor / boshqaruvchi tashkilot | - | [Patient](#bemorni-ro‘yxatga-olish-patient) / [Organization](#qo‘llab-quvvatlovchi-resurslar) ga reference | `patient` / `managingOrganization` |
-| Davolash menejeri | - | [PractitionerRole](#qo‘llab-quvvatlovchi-resurslar) ga reference | `careManager` |
-
-Davolash xarakteri va maxsus davolash registrga xos kombinatsiyalarni ifodalaydi (masalan, “jarrohlik + tashqi nurli radiatsiya + kimyoterapiya” bitta qiymat sifatida). Ushbu kombinatsiyalar uchun standart terminologiyada ekvivalent mavjud emas, shuning uchun ikkalasi ham boshidan oxirigacha Cancer mahalliy kodlari sifatida saqlanadi.
-
-### Bosqichni qayd etish (CancerObservationTNMCategory va CancerObservationTNMStageGroup)
-
-Bosqichlash ikki observation profiliga bo‘linadi: har bir individual TNM kategoriyasi (cT, cN, cM, pT, pN, pM) uchun bittadan instance va tekshiruv natijasida aniqlangan umumiy stage grouping uchun bitta summary instance.
-
-#### Individual TNM kategoriyasi
-
-Profile: [CancerObservationTNMCategory](StructureDefinition-cancer-observation-tnm-category.html)
-
-Example: [cancer-observation-tnm-category-ct](Observation-cancer-observation-tnm-category-ct.html)
-
-| Qayd etiladigan ma’lumot | Value set | Misol kod | Saqlanadigan joy |
-| :--- | :--- | :--- | :--- |
-| Qaysi kategoriya qayd etilmoqda | [CancerTNMCategoryCS](CodeSystem-cancer-tnm-category-cs.html) | `cancer-tnm-category-cs#cancer-0022-0003` (cT category) | `Observation.code` |
-| Kategoriya qiymati | Yuqoridagi kategoriya bilan mos keladigan `CancerCCcTCategoryCS` / `CancerCCcNCategoryCS` / `CancerCCcMCategoryCS` / `CancerCCpTCategoryCS` / `CancerCCpNCategoryCS` / `CancerCCpMCategoryCS` dan biri | `cancer-cc-p-n-category-cs#cancer-0010-0001` (X) | `valueCodeableConcept` |
-| Holat | [ObservationStatus](https://hl7.org/fhir/R5/valueset-observation-status.html) | `final` | `status` |
-| Kategoriya (kuzatuv turi) | [observation-category](https://hl7.org/fhir/R5/valueset-observation-category.html) | `observation-category#imaging` | `category` |
-| Subyekt / focus | - | [Patient](#bemorni-ro‘yxatga-olish-patient) / [CancerConditionPrimary](#birlamchi-tashxisni-qayd-etish-cancerconditionprimary) ga reference | `subject` / `focus` |
-| Bajaruvchi | - | [PractitionerRole](#qo‘llab-quvvatlovchi-resurslar) ga reference | `performer` |
-
-Oltita kategoriya qiymatining har bir code systemi tegishli TNM o‘qiga xos shkala hisoblanadi (klinik yoki patologik, T, N yoki M). Shu sababli kategoriya qiymatlari Cancer mahalliy kodlarini saqlaydi; faqat qaysi o‘q qayd etilayotgani (`CancerTNMCategoryCS`) qat’iy yopiq ro‘yxat hisoblanadi.
-
-#### Umumiy stage group
-
-Profile: [CancerObservationTNMStageGroup](StructureDefinition-cancer-observation-tnm-stage-group.html)
-
-Example: [cancer-observation-tnm-stage-group-example](Observation-cancer-observation-tnm-stage-group-example.html)
-
-| Qayd etiladigan ma’lumot | Value set | Misol kod | Saqlanadigan joy |
-| :--- | :--- | :--- | :--- |
-| Observation turi | [CancerStageGroupCS](CodeSystem-cancer-stage-group-cs.html) | `cancer-stage-group-cs#cancer-0021-0001` (TNM bosqichlarini guruhlash / TNM stage grouping) | `Observation.code` |
-| Bosqich | `cancer-stage-group-cs#cancer-0021-0004` component kodi orqali [CancerStageCS](CodeSystem-cancer-stage-cs.html) | `cancer-stage-cs#cancer-0012-0002` (I) | `component[stage].valueCodeableConcept` |
-| Bosqich aniqlashtirishi (quyi bosqich) | `cancer-stage-group-cs#cancer-0021-0005` component kodi orqali [CancerSubStageCS](CodeSystem-cancer-sub-stage-cs.html) | `cancer-sub-stage-cs#cancer-0013-0007` (a1) | `component[stageClarification].valueCodeableConcept` |
-| Subyekt / focus | - | [Patient](#bemorni-ro‘yxatga-olish-patient) / [CancerConditionPrimary](#birlamchi-tashxisni-qayd-etish-cancerconditionprimary) ga reference | `subject` / `focus` |
-| Qo‘llab-quvvatlovchi kategoriya observationlari | - | [CancerObservationTNMCategory](#individual-tnm-kategoriyasi) ga reference(lar) | `hasMember` |
-| Samarali sana / bajaruvchi | - | `2025-08-15T10:30` / [PractitionerRole](#qo‘llab-quvvatlovchi-resurslar) ga reference | `effectiveDateTime` / `performer` |
-
-Bosqich va quyi bosqich oddiy ordinal/harf shkalalari (0, I–IV va a–d hamda a1/b2 kabi quyi bo‘linmalar) bo‘lib, ushbu registrda ularga mos standart staging terminologiyasi mavjud emas. Shu sababli ikkalasi ham Cancer mahalliy kodlari sifatida saqlanadi. `hasMember` stage-group observationni uni qo‘llab-quvvatlovchi individual kategoriya observationlari (masalan, cT) bilan bog‘lash uchun ishlatiladi.
-
-### Qo‘llab-quvvatlovchi resurslar
-
-Yuqoridagi yozuvlarda reference sifatida ishlatiladigan ushbu resurslar bevosita UZ Core profillaridan foydalanadi.
-
-| Resurs | Profil | Roli |
+| Qayd etiladigan ma'lumot | Misol | Qayerda saqlanadi |
 | :--- | :--- | :--- |
-| Organization | [UZCoreOrganization](https://dhp.uz/fhir/core/StructureDefinition-uz-core-organization.html) | Onkologik davolash muassasasi |
-| Practitioner | [UZCorePractitioner](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner.html) | Davolashda ishtirok etuvchi klinitsist |
-| PractitionerRole | [UZCorePractitionerRole](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner-role.html) | Klinitsistni muassasa bilan bog‘laydi |
+| Holat va sinf | `completed`, `v3-ActCode#IMP` | `status`, `class` |
+| Tashrif turi | `encounter-type-cs#mserv-0001-00002` | `type` |
+| Davolash epizodi | CancerEpisodeOfCare ga havola | `episodeOfCare` |
+| Tashxis va uning roli | CancerCondition, `final` | `diagnosis.condition`, `diagnosis.use` |
+| Bemor / tashkilot / davolovchi mutaxassis | resurslarga havolalar | `subject`, `serviceProvider`, `participant.actor` |
+| Tashrif davri | boshlanish va tugash sana-vaqti | `actualPeriod` |
+| Chiqarish natijasi | `encounter-discharge-disposition-home-cs#mserv-0004-00004` | `admission.dischargeDisposition` |
+
+### O'sma morfologiyasi paneli
+
+Panel o'sma xulqi va gistologik daraja kuzatuvlarini birlashtiradi. Tarkibiy kuzatuvlar `focus` orqali ayni `CancerCondition` ga havola qiladi.
+
+Profil: [CancerObservationTumorMorphology](StructureDefinition-cancer-observation-tumor-morphology.html)
+
+Misol: [cancer-observation-tumor-morphology-example](Observation-cancer-observation-tumor-morphology-example.html)
+
+| Qayd etiladigan ma'lumot | Kod misoli | Qayerda saqlanadi |
+| :--- | :--- | :--- |
+| Panel turi | `LOINC#77753-2` (o'sma morfologiyasi paneli) | `Observation.code` |
+| Xulq kuzatuvi | CancerObservationBehavior ga havola | `hasMember` |
+| Gistologik daraja kuzatuvi | CancerObservationHistologicGrade ga havola | `hasMember` |
+| Bemor / saraton tashxisi | Patient va CancerCondition ga havolalar | `subject` / `focus` |
+
+### O'sma xulqi va birlamchi joylashuvi
+
+ICD-O-3 morfologiya/xulq kodi va birlamchi topografiyani qayd etadi. `bodySite` ICD-O-3 topografiyasi bilan birga SNOMED CT anatomik kodini ham saqlaydi; shu kod UZ Core body-site bog'lanishini ham qanoatlantiradi.
+
+Profil: [CancerObservationBehavior](StructureDefinition-cancer-observation-behavior.html)
+
+Misol: [cancer-observation-behavior-example](Observation-cancer-observation-behavior-example.html)
+
+| Qayd etiladigan ma'lumot | Kod misoli | Qayerda saqlanadi |
+| :--- | :--- | :--- |
+| Kuzatuv turi | `LOINC#31206-6` (ICD-O-3 bo'yicha o'sma xulqi) | `Observation.code` |
+| Morfologiya va xulq | `ICD-O-3#8070/3` (yassi hujayrali karsinoma, QA) | `valueCodeableConcept` |
+| Birlamchi topografiya | `ICD-O-3#C15.1` (ko'krak qafasidagi qizilo'ngach) | `bodySite.coding[icdO3]` |
+| Anatomik ekvivalent | `SNOMED CT#59609004` (ko'krak qafasidagi qizilo'ngach tuzilmasi) | `bodySite.coding[snomed]` |
+
+### Gistologik daraja
+
+O'sma darajasi va uni tasdiqlash usulini qayd etadi.
+
+Profil: [CancerObservationHistologicGrade](StructureDefinition-cancer-observation-histologic-grade.html)
+
+Misol: [cancer-observation-histologic-grade-example](Observation-cancer-observation-histologic-grade-example.html)
+
+| Qayd etiladigan ma'lumot | Qiymatlar to'plami | Kod misoli | Qayerda saqlanadi |
+| :--- | :--- | :--- | :--- |
+| Kuzatuv turi | [CancerTumorMorphologyPanelVS](ValueSet-cancer-tumor-morphology-panel-vs.html) | `LOINC#21858-6` (saraton darajasi) | `Observation.code` |
+| Tasdiqlash usuli | [CancerConfirmationMethodVS](ValueSet-cancer-confirmation-method-vs.html) | `cancer-confirmation-method-cs#cancer-0002-0003` (gistologiya) | `method` |
+| Daraja | [CancerDegreeDifferentiationVS](ValueSet-cancer-degree-differentiation-vs.html) | `SNOMED CT#1155701009` (G1, yuqori darajada differensiallashgan) | `valueCodeableConcept` |
+
+### Rivojlanish yoki metastazni qayd etish
+
+Retsidiv, mintaqaviy yoki uzoq metastaz, progressiya yoxud boshqa rivojlanayotgan jarayon va zararlangan anatomik joyni qayd etadi.
+
+Profil: [CancerObservationMetastase](StructureDefinition-cancer-observation-metastase.html)
+
+Misol: [cancer-observation-metastase-example](Observation-cancer-observation-metastase-example.html)
+
+| Qayd etiladigan ma'lumot | Qiymatlar to'plami | Kod misoli | Qayerda saqlanadi |
+| :--- | :--- | :--- | :--- |
+| Kuzatuv turi | - | `LOINC#97509-4` (saraton kasalligining rivojlanishi) | `Observation.code` |
+| Rivojlanish turi | [CancerEmergingProcessVS](ValueSet-cancer-emerging-process-vs.html) | `cancer-emerging-process-cs#cancer-0015-0003` (uzoq metastazlar) | `valueCodeableConcept` |
+| Zararlangan joy | [CancerBodyLocationVS](ValueSet-cancer-body-location-vs.html) | `SNOMED CT#110549009` (o'pka va plevra) | `bodySite` |
+
+### TNM toifalarini qayd etish
+
+Mavjud har bir cT, pT, cN, pN, cM yoki pM toifasi uchun alohida Observation yaratiladi. `Observation.code` o'qni, `method` bosqichlash nashrini, `valueCodeableConcept` esa shu o'q uchun ruxsat etilgan toifa qiymatini bildiradi.
+
+Profil: [CancerObservationTNMCategory](StructureDefinition-cancer-observation-tnm-category.html)
+
+Misollar: [cT](Observation-cancer-observation-tnm-category-ct.html), [cN](Observation-cancer-observation-tnm-category-cn.html), [pN](Observation-cancer-observation-tnm-category-pn.html), [cM](Observation-cancer-observation-tnm-category-cm.html), [pM](Observation-cancer-observation-tnm-category-pm.html)
+
+| Qayd etiladigan ma'lumot | Qiymatlar to'plami | Kod misoli | Qayerda saqlanadi |
+| :--- | :--- | :--- | :--- |
+| TNM o'qi | [CancerTNMCategoryVS](ValueSet-cancer-tnm-category-vs.html) | `SNOMED CT#399504009` (cT toifasi) | `Observation.code` |
+| Bosqichlash nashri | [CancerStagingEditionVS](ValueSet-cancer-staging-edition-vs.html) | `SNOMED CT#897275008` (AJCC 8-nashri) | `method` |
+| Toifa qiymati | alohida cT/pT/cN/pN/cM/pM qiymatlar to'plami | `SNOMED CT#1352983006` (cT qiymati) | `valueCodeableConcept` |
+| Bemor / tashxis / ijrochi | resurslarga havolalar | Patient, CancerCondition va PractitionerRole | `subject` / `focus` / `performer` |
+
+Alohida o'qlar uchun qiymatlar to'plamlari: [CancerCCCtCategoryVS](ValueSet-cancer-ccc-t-category-vs.html), [CancerCCpTCategoryVS](ValueSet-cancer-cc-p-t-category-vs.html), [CancerCCcNCategoryVS](ValueSet-cancer-cc-c-n-category-vs.html), [CancerCCpNCategoryVS](ValueSet-cancer-cc-p-n-category-vs.html), [CancerCCcMCategoryVS](ValueSet-cancer-cc-c-m-category-vs.html) va [CancerCCpMCategoryVS](ValueSet-cancer-cc-p-m-category-vs.html). Ko'p qiymatlar SNOMED CT dan olinadi; aniq SNOMED CT toifasi mavjud bo'lmaganda mahalliy kodlar saqlanadi.
+
+### Umumiy TNM bosqichini qayd etish
+
+Umumiy bosqich va uni asoslovchi alohida TNM toifasi kuzatuvlariga havolalarni qayd etadi.
+
+Profil: [CancerObservationTNMStageGroup](StructureDefinition-cancer-observation-tnm-stage-group.html)
+
+Misol: [cancer-observation-tnm-stage-group-example](Observation-cancer-observation-tnm-stage-group-example.html)
+
+| Qayd etiladigan ma'lumot | Qiymatlar to'plami | Kod misoli | Qayerda saqlanadi |
+| :--- | :--- | :--- | :--- |
+| Kuzatuv turi | - | `SNOMED CT#399390009` (TNM bosqichlarini guruhlash) | `Observation.code` |
+| Umumiy bosqich | [CancerTNMStageVS](ValueSet-cancer-tnm-stage-vs.html) | `SNOMED CT#1352927005` (I bosqich) | `valueCodeableConcept` |
+| Asoslovchi toifalar | - | cT, cN, pN, cM va pM kuzatuvlariga havolalar | `hasMember` |
+
+### Onkologiya registri kodlarini o'girish
+
+Kiruvchi ma'lumotlarda DHP terminologiya kodlari o'rniga Onkologiya registrining raqamli identifikatorlari bo'lsa, quyidagi ConceptMap lardan foydalaniladi.
+
+| Manba ma'lumoti | ConceptMap | Maqsad terminologiya |
+| :--- | :--- | :--- |
+| Registr holati va tegishli mahalliy identifikatorlar | [Onkologiya registri holatidan DHP holatiga](ConceptMap-cancer-registry-status-to-dhp-status-cm.html) | DHP va Cancer CodeSystem lari |
+| Registr ICD-10 identifikatori | [Onkologiya registri ICD-10 dan DHP ICD-10 ga](ConceptMap-cancer-registry-icd10-to-dhp-icd10-cm.html) | ICD-10 |
+| Registr ICD-O-3 topografiya identifikatori | [Onkologiya registri ICD-O-3 topografiyasidan DHP ICD-O-3 topografiyasiga](ConceptMap-cancer-registry-icd3-topography-to-dhp-icd3-topography-cm.html) | ICD-O-3 |
+
+### Yordamchi resurslar
+
+Misollarda [UZCorePatient](https://dhp.uz/fhir/core/StructureDefinition-uz-core-patient.html), [UZCoreOrganization](https://dhp.uz/fhir/core/StructureDefinition-uz-core-organization.html) va [UZCorePractitionerRole](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner-role.html) resurslariga ham havola qilingan.

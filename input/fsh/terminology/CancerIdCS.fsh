@@ -1,7 +1,7 @@
 CodeSystem: CancerIdCS
 Id: cancer-id-cs
-Title: "Cancer ID translation in Russian and English"
-Description: "Cancer ID code system for Uzbekistan healthcare system"
+Title: "Cancer Registry Patient ID"
+Description: "Code system for identifiers assigned by the Cancer Registry to patients with cancer."
 * insert OriginalCodeSystemDraft(cancer-id-cs)
 
 * #29 "Tirik"
@@ -142,12 +142,6 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[+].language = #en
   * ^designation[=].value = "Extract from the medical record (outpatient card) of a private medical institution"
 
-* #335 "Yo‘q"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "Нет"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "No"
-
 * #336 "Chap tomonda"
   * ^designation[0].language = #ru
   * ^designation[=].value = "Слева"
@@ -171,12 +165,6 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[=].value = "Неизвестно"
   * ^designation[+].language = #en
   * ^designation[=].value = "Unknown"
-
-* #340 "Asosiy"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "Основная"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "Primary"
 
 * #346 "Mustaqil ravishda murojaat qilgan"
   * ^designation[0].language = #ru
@@ -237,6 +225,12 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[=].value = "in situ"
   * ^designation[+].language = #en
   * ^designation[=].value = "in situ"
+
+* #414 "0"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "0"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "0"
 
 * #415 "1"
   * ^designation[0].language = #ru
@@ -412,6 +406,12 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[+].language = #en
   * ^designation[=].value = "1b2"
 
+* #437 "m"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "m"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "m"
+
 * #871 "0"
   * ^designation[0].language = #ru
   * ^designation[=].value = "0"
@@ -496,17 +496,65 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[+].language = #en
   * ^designation[=].value = "3c"
 
-* #461 "X"
+* #451 "X"
   * ^designation[0].language = #ru
   * ^designation[=].value = "X"
   * ^designation[+].language = #en
   * ^designation[=].value = "X"
+
+* #452 "0"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "0"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "0"
+
+* #453 "1"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "1"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "1"
+
+* #454 "1a"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "1a"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "1a"
+
+* #455 "1b"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "1b"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "1b"
+
+* #456 "1c"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "1c"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "1c"
+
+* #457 "1d"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "1d"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "1d"
+
+* #461 "x"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "x"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "x"
 
 * #462 "in situ"
   * ^designation[0].language = #ru
   * ^designation[=].value = "in situ"
   * ^designation[+].language = #en
   * ^designation[=].value = "in situ"
+
+* #463 "0"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "0"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "0"
 
 * #464 "1"
   * ^designation[0].language = #ru
@@ -664,17 +712,17 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[+].language = #en
   * ^designation[=].value = "1b2"
 
-* #485 "0"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "0"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "0"
-
 * #484 "X"
   * ^designation[0].language = #ru
   * ^designation[=].value = "X"
   * ^designation[+].language = #en
   * ^designation[=].value = "X"
+
+* #485 "0"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "0"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "0"
 
 * #486 "1"
   * ^designation[0].language = #ru
@@ -747,17 +795,18 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[=].value = "3c"
   * ^designation[+].language = #en
   * ^designation[=].value = "3c"
-* #499 "0"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "0"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "0"
 
 * #498 "X"
   * ^designation[0].language = #ru
   * ^designation[=].value = "X"
   * ^designation[+].language = #en
   * ^designation[=].value = "X"
+
+* #499 "0"
+  * ^designation[0].language = #ru
+  * ^designation[=].value = "0"
+  * ^designation[+].language = #en
+  * ^designation[=].value = "0"
 
 * #500 "1"
   * ^designation[0].language = #ru
@@ -788,114 +837,6 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[=].value = "1d"
   * ^designation[+].language = #en
   * ^designation[=].value = "1d"
-
-* #385 "0"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "0"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "0"
-
-* #386 "I"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "I"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "I"
-
-* #387 "II"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "II"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "II"
-
-* #388 "III"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "III"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "III"
-
-* #389 "IV"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "IV"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "IV"
-
-* #391 "a"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "a"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "a"
-
-* #392 "b"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "b"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "b"
-
-* #393 "c"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "c"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "c"
-
-* #394 "d"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "d"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "d"
-
-* #395 "E"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "E"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "E"
-
-* #396 "S"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "S"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "S"
-
-* #886 "a1"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "a1"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "a1"
-
-* #887 "a2"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "a2"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "a2"
-
-* #888 "b1"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "b1"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "b1"
-
-* #889 "b2"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "b2"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "b2"
-
-* #890 "c1"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "c1"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "c1"
-
-* #891 "c2"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "c2"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "c2"
-
-* #892 "a3"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "a3"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "a3"
 
 * #857 "Limfa tugunlari"
   * ^designation[0].language = #ru
@@ -989,7 +930,7 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
 
 * #855 "Mahalliy tarqalgan jarayon"
   * ^designation[0].language = #ru
-  * ^designation[=].value = "Местнораспространенный процесс"
+  * ^designation[=].value = "Местнорапространенный процесс"
   * ^designation[+].language = #en
   * ^designation[=].value = "Locally advanced disease"
 
@@ -999,19 +940,13 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[+].language = #en
   * ^designation[=].value = "Transformation"
 
-* #648 "Ma’lumot yo‘q"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "нет сведений"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "No information"
-
-* #649 "Ambulator davolangan"
+* #649 "лечился амбулаторно"
   * ^designation[0].language = #ru
   * ^designation[=].value = "лечился амбулаторно"
   * ^designation[+].language = #en
   * ^designation[=].value = "Treated as an outpatient"
 
-* #650 "Statsionar davolangan"
+* #650 "лечился стационарно"
   * ^designation[0].language = #ru
   * ^designation[=].value = "лечился стационарно"
   * ^designation[+].language = #en
@@ -1191,30 +1126,6 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[+].language = #en
   * ^designation[=].value = "Combined radiation therapy: external beam radiation therapy + X-ray therapy"
 
-* #867 "Yaxshi sifatli"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "Доброкачественная"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "Benign"
-
-* #868 "Noaniq xulqli"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "Неопределенная"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "Uncertain behavior"
-
-* #869 "In situ"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "In situ"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "In situ"
-
-* #870 "Yomon sifatli"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "Злокачественная"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "Malignant"
-
 * #363 "G1 (Yuqori darajada differensiallashgan)"
   * ^designation[0].language = #ru
   * ^designation[=].value = "G1 (Высоко дифференцированная)"
@@ -1239,29 +1150,29 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[+].language = #en
   * ^designation[=].value = "G4 (Undifferentiated)"
 
-* #367 "T-hujayrali"
+* #367 "T-клеточная"
   * ^designation[0].language = #ru
   * ^designation[=].value = "T-клеточная"
   * ^designation[+].language = #en
   * ^designation[=].value = "T-cell"
 
-* #368 "B-hujayrali"
+* #368 "B-клеточная"
   * ^designation[0].language = #ru
   * ^designation[=].value = "B-клеточная"
   * ^designation[+].language = #en
   * ^designation[=].value = "B-cell"
 
-* #369 "Nol hujayrali"
+* #369 "Нулевая клетка"
   * ^designation[0].language = #ru
   * ^designation[=].value = "Нулевая клетка"
   * ^designation[+].language = #en
   * ^designation[=].value = "Null cell"
 
-* #370 "NK-hujayrali"
+* #370 "NK-клетка"
   * ^designation[0].language = #ru
   * ^designation[=].value = "NK-клетка"
   * ^designation[+].language = #en
-  * ^designation[=].value = "NK-cell"
+  * ^designation[=].value = "NK cell"
 
 * #371 "Past darajali"
   * ^designation[0].language = #ru
@@ -1280,47 +1191,3 @@ Description: "Cancer ID code system for Uzbekistan healthcare system"
   * ^designation[=].value = "GX (Не может быть установлена)"
   * ^designation[+].language = #en
   * ^designation[=].value = "GX (Grade cannot be assessed)"
-
-
-* #452 "0"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "0"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "0"
-
-* #451 "X"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "X"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "X"
-
-* #453 "1"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "1"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "1"
-
-* #454 "1a"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "1a"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "1a"
-
-* #455 "1b"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "1b"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "1b"
-
-* #456 "1c"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "1c"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "1c"
-
-* #457 "1d"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "1d"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "1d"
-  

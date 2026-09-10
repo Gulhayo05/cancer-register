@@ -194,3 +194,7 @@ Alias: $cerebrovascular-smoking-status-cs = https://terminology.dhp.uz/fhir/inte
 Alias: $diabetes-risk-category-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/diabetes-risk-category-cs
 Alias: $ihd-chest-pain-type-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/ihd-chest-pain-type-cs
 Alias: $cvd-risk-category-cs = https://terminology.dhp.uz/fhir/integrations/CodeSystem/cvd-risk-category-cs
+Alias: $icd-o-3-morphology-vs = https://terminology.dhp.uz/fhir/core/ValueSet/icd-o-3-morphology-vs
+Alias: $icd-o-3-topography-vs = https://terminology.dhp.uz/fhir/core/ValueSet/icd-o-3-topography-vs
+Alias: $icd-o-3 = http://terminology.hl7.org/CodeSystem/icd-o-3
+Alias: $nci = http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl

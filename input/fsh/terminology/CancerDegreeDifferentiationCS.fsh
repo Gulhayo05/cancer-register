@@ -1,71 +1,52 @@
 CodeSystem: CancerDegreeDifferentiationCS
 Id: cancer-degree-differentiation-cs
-Title: "Cancer degree of differentiation translation in Russian and English"
-Description: "Cancer degree of differentiation code system for Uzbekistan healthcare system"
-* insert OriginalCodeSystemDraft(cancer-degree-differentiation-cs)
+Title: "Cancer Degree Differentiation SNOMED CT Supplement"
+Description: "SNOMED CT supplement containing Uzbek and Russian designations for cancer degree of differentiation concepts used in the Uzbekistan healthcare system."
 
-* #cancer-0020-0001 "G1 (Yuqori darajada differensiallashgan)"
+* insert SupplementCodeSystemDraft(
+    cancer-degree-differentiation-cs,
+    $sct,
+    2026.1.0
+)
+
+* #1155701009 "G1: Well differentiated"
   * ^designation[0].language = #ru
   * ^designation[=].value = "G1 (Высоко дифференцированная)"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "G1 (Well differentiated)"
+  * ^designation[+].language = #uz
+  * ^designation[=].value = "G1 (Yuqori darajada differensiallashgan)"
 
-* #cancer-0020-0002 "G2 (O‘rtacha darajada differensiallashgan)"
+* #1155703007 "G2: Moderately differentiated"
   * ^designation[0].language = #ru
   * ^designation[=].value = "G2 (Средне дифференцированная)"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "G2 (Moderately differentiated)"
+  * ^designation[+].language = #uz
+  * ^designation[=].value = "G2 (O‘rtacha darajada differensiallashgan)"
 
-* #cancer-0020-0003 "G3 (Past darajada differensiallashgan)"
+* #1155704001 "G3: Poorly differentiated"
   * ^designation[0].language = #ru
   * ^designation[=].value = "G3 (Низко дифференцированная)"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "G3 (Poorly differentiated)"
+  * ^designation[+].language = #uz
+  * ^designation[=].value = "G3 (Past darajada differensiallashgan)"
 
-* #cancer-0020-0004 "G4 (Differensiallashmagan)"
+* #1155702002 "G4: Undifferentiated"
   * ^designation[0].language = #ru
   * ^designation[=].value = "G4 (Недифференцированная)"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "G4 (Undifferentiated)"
+  * ^designation[+].language = #uz
+  * ^designation[=].value = "G4 (Differensiallashmagan)"
 
-* #cancer-0020-0005 "T-hujayrali"
+* #1155708003 "Low histologic grade"
   * ^designation[0].language = #ru
-  * ^designation[=].value = "T-клеточная"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "T-cell"
+  * ^designation[=].value = "Низкая степень"
+  * ^designation[+].language = #uz
+  * ^designation[=].value = "Past darajali"
 
-* #cancer-0020-0006 "B-hujayrali"
+* #1155707008 "High histologic grade"
   * ^designation[0].language = #ru
-  * ^designation[=].value = "B-клеточная"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "B-cell"
+  * ^designation[=].value = "Высокая степень"
+  * ^designation[+].language = #uz
+  * ^designation[=].value = "Yuqori darajali"
 
-* #cancer-0020-0007 "Nol hujayrali"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "Нулевая клетка"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "Null cell"
-
-* #cancer-0020-0008 "NK-hujayrali"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "NK-клетка"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "NK-cell"
-
-* #cancer-0020-0009 "Past darajali"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "Низкая степень / Low grade"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "Low grade"
-
-* #cancer-0020-0010 "Yuqori darajali"
-  * ^designation[0].language = #ru
-  * ^designation[=].value = "Высокая степень / High grade"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "High grade"
-
-* #cancer-0020-0011 "GX (Darajasini aniqlab bo‘lmaydi)"
+* #1155705000 "GX: Histologic grade cannot be assessed"
   * ^designation[0].language = #ru
   * ^designation[=].value = "GX (Не может быть установлена)"
-  * ^designation[+].language = #en
-  * ^designation[=].value = "GX (Grade cannot be assessed)"
+  * ^designation[+].language = #uz
+  * ^designation[=].value = "GX (Darajasini aniqlab bo‘lmaydi)"

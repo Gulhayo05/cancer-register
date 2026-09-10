@@ -1,176 +1,177 @@
 <style>
-
-/* Равномерные таблицы сопоставления на всю ширину (количество столбцов в разделах может различаться). */
-
+/* Равномерные таблицы на всю ширину (количество столбцов в разделах может различаться). */
 .col-12 table { table-layout: fixed; width: 100%; }
-
 .col-12 th, .col-12 td { overflow-wrap: anywhere; word-break: break-word; vertical-align: top; }
-
 </style>
 
-На этой странице документировано, как данные по ведению онкологических случаев представлены в виде FHIR-ресурсов.
+На этой странице описано представление данных Онкологического регистра в виде ресурсов FHIR.
 
 ### Обзор
 
-Модуль Cancer registry охватывает регистрацию, диагностику, стадирование, лечение и последующее наблюдение онкологических пациентов. Данные поступают из информационной системы Cancer и добавляются в DHP в виде отдельных атомарных FHIR-ресурсов. Ресурсы соответствуют Cancer-профилям, указанным в каждом разделе, а в остальных случаях — профилям UZ Core или стандартным FHIR-профилям.
+Онкологический регистр хранит онкологические диагнозы, эпизоды лечения, обращения, морфологию и поведение опухоли, гистологическую степень, прогрессирование заболевания и стадирование TNM. Данные передаются в DHP как связанные атомарные FHIR-ресурсы. Каждый ресурс соответствует указанному в разделе Cancer-профилю и [UZ Core](https://dhp.uz/fhir/core/ru/artifacts.html).
 
-Везде, где для понятия существует стандартный эквивалент, в ресурсах непосредственно используется стандартный код — ICD-10 для кодированного диагноза и SNOMED CT для анатомической области. Исходная система хранит собственные локальные коды (регистрационный статус, метод подтверждения, категории TNM, топография, морфология, характер лечения и т. д.); каждый локальный код хранится в собственной Cancer CodeSystem и сопоставляется с соответствующим стандартным или DHP-кодом посредством ConceptMap. Таким образом, интегратор всегда может найти стандартный/целевой код для имеющегося у него кода. В ресурсах используется стандартный или DHP-код везде, где существует точное (`equivalent`) соответствие; связанный с каждым полем value set содержит такой код и сохраняет локальный код только в тех случаях, когда точного стандартного эквивалента нет (например, степени категорий TNM, подкатегории стадий и комбинации методов лечения, для которых отсутствует эквивалент 1:1 во внешней терминологии). В каждом разделе ниже указаны соответствующий профиль, конкретный пример ресурса, а также value set и пример кода для каждого поля, содержащего код.
+Центральным ресурсом является `CancerCondition`. `CancerEpisodeOfCare` объединяет курс лечения, а `CancerEncounter` описывает обращение в рамках этого курса. Связанные с диагнозом через `focus` наблюдения описывают морфологию, поведение, степень, прогрессирование и стадирование. Все ресурсы ссылаются на одного пациента.
 
-Типичная запись связывает между собой: [patient](#регистрация-пациента-patient), [primary cancer diagnosis](#регистрация-первичного-диагноза-cancerconditionprimary) и связанную [secondary/metastatic condition](#регистрация-метастатического-или-рецидивирующего-заболевания-cancerconditionsecondary), [episode of care](#группировка-курса-лечения-cancerepisodeofcare), объединяющий курс лечения, [encounter](#документирование-визита-cancerencounter), в рамках которого определяется состояние пациента и план лечения, а также [staging observations](#регистрация-стадирования-cancerobservationtnmcategory-и-cancerobservationtnmstagegroup) — отдельные категории TNM и общую группу стадии, полученные в результате обследования.
+Там, где возможно, используются стандартные коды ICD-10, ICD-O-3, SNOMED CT и LOINC. Специфичные для регистра понятия сохраняются в локальных Cancer CodeSystem. ConceptMap преобразуют числовые идентификаторы регистра в терминологию DHP.
 
-### Регистрация пациента (Patient)
+### Регистрация онкологического диагноза (CancerCondition)
 
-Субъект каждой онкологической записи. Специального Cancer-профиля Patient не существует; следует непосредственно использовать UZ Core.
+Содержит диагноз, идентификатор регистра, латеральность, условие выявления и общую стадию TNM. Диагноз кодируется по ICD-10. Латеральность записывается в `bodySite`, а условие выявления — в расширении этого элемента.
 
-Profile: [UZCorePatient](https://dhp.uz/fhir/core/StructureDefinition-uz-core-patient.html)
+Профиль: [CancerCondition](StructureDefinition-cancer-condition.html)
 
-| Информация для записи | Где хранится |
-| :--- | :--- |
-| Национальный идентификатор | `identifier` (national ID slice) |
-| Имя, пол, дата рождения | `name`, `gender`, `birthDate` |
-| Адрес | `address` (UZ address slice) |
-| Ответственная организация | `managingOrganization` → [Organization](#поддерживающие-ресурсы) |
+Пример: [cancer-condition-example](Condition-cancer-condition-example.html)
 
-### Регистрация первичного диагноза (CancerConditionPrimary)
-
-Определяет топографию опухоли (место первичного возникновения) и морфологию (гистологический тип). `Condition.code` содержит диагноз, закодированный по ICD-10; специфические для опухоли сведения — латеральность, топография и морфология ICD-O-3, степень дифференцировки, биологическое поведение опухоли, обстоятельства выявления, группа ICCC-3 и метод подтверждения — хранятся в extensions, поскольку в базовом `Condition` для них нет соответствующего элемента.
-
-Profile: [CancerConditionPrimary](StructureDefinition-cancer-condition-primary.html)
-
-Example: [cancer-condition-primary-example](Condition-cancer-condition-primary-example.html)
-
-| Информация для записи | Value set | Пример кода | Где хранится |
+| Записываемая информация | Набор значений | Пример кода | Элемент |
 | :--- | :--- | :--- | :--- |
-| Диагноз | ICD10VS | `ICD-10#C02` | `Condition.code` |
-| Латеральность | [CancerLaterlityQualifierCS](CodeSystem-cancer-laterlity-qualifier-cs.html) | `cancer-laterlity-qualifier-cs#cancer-0004-0002` (Слева / Chap tomonda / Left) | `extension[lateralityQualifier]` |
-| Топография (ICD-O-3) | [CancerICD3TopographyCS](CodeSystem-cancer-icd3-topography-cs.html) | `cancer-icd3-topography-cs#C020` (языка верхняя поверхность БДУ / tilning yuqori yuzasi QA) | `extension[topography]` |
-| Морфология (ICD-O-3) | [CancerICD3morphologyCS](CodeSystem-cancer-icd3-morphology-cs.html) | `cancer-icd3-morphology-cs#8000` (Новообразование злокачественное БДУ / Xavfli o‘smalar QA) | `extension[morphology]` |
-| Степень дифференцировки | [CancerDegreeDifferentiationCS](CodeSystem-cancer-degree-differentiation-cs.html) | `cancer-degree-differentiation-cs#cancer-0020-0002` (G2, умеренно дифференцированная) | `extension[gradeDifferentiation]` |
-| Биологическое поведение опухоли | [CancerTumorBehaviorCS](CodeSystem-cancer-tumor-behavior-cs.html) | `cancer-tumor-behavior-cs#cancer-0019-0004` (Злокачественная / Yomon sifatli / Malignant) | `extension[tumorBehavior]` |
-| Обстоятельства выявления | [CancerDetectionCircumstanceCS](CodeSystem-cancer-detection-circumstance-cs.html) | `cancer-detection-circumstance-cs#cancer-0005-0002` (Выявлено в кабинете онкоконтроля) | `extension[detectionCircumstance]` |
-| Группа ICCC-3 | `$iccc-3-cs` | `iccc-3-cs#III` | `extension[cancer-iccc-3-group]` |
-| Метод подтверждения | [CancerConfirmationMethodCS](CodeSystem-cancer-confirmation-method-cs.html) | `cancer-confirmation-method-cs#cancer-0002-0003` (Гистология / Histology) | `extension[confirmationMethod]` |
-| Клинический статус | [condition-clinical](https://dhp.uz/fhir/core/CodeSystem-clinical-status-cs.html) | `condition-clinical#active` | `clinicalStatus` |
-| Статус верификации | [condition-ver-status](https://dhp.uz/fhir/core/CodeSystem-condition-verification-status-cs.html) | `condition-ver-status#confirmed` | `verificationStatus` |
-| Категория | [condition-category](http://terminology.hl7.org/CodeSystem/condition-category) | `condition-category#problem-list-item` | `category` |
-| Анатомическая область | SNOMED CT | `SNOMED CT#422005` | `bodySite` |
-| Дата начала / дата регистрации | - | `2026-08-15` / `2020-08-15` | `onsetDateTime` / `recordedDate` |
-| Общая стадия | [CancerStageCS](CodeSystem-cancer-stage-cs.html) | `cancer-stage-cs#cancer-0012-0002` (I) | `stage.summary` |
-| Подстадия | [CancerSubStageCS](CodeSystem-cancer-sub-stage-cs.html) | `cancer-sub-stage-cs#cancer-0013-0007` (a1) | `stage.summary` |
-| Данные стадирования | - | ссылка на [CancerObservationTNMStageGroup](#регистрация-стадирования-cancerobservationtnmcategory-и-cancerobservationtnmstagegroup) | `stage.assessment` |
-| Субъект / encounter | - | ссылки на [Patient](#регистрация-пациента-patient) / [CancerEncounter](#документирование-визита-cancerencounter) | `subject` / `encounter` |
-| Ответственный клиницист | - | ссылка на [PractitionerRole](#поддерживающие-ресурсы) | `participant.actor` |
+| Идентификатор Онкологического регистра | - | `57dcdd0a-5a68-4cc6-8503-5ab15a41c62b` | `identifier[cancerRegistry]` |
+| Диагноз | [CancerICD10VS](ValueSet-cancer-icd-10-vs.html) | `ICD-10#C02` | `Condition.code` |
+| Источник/тип диагноза | тип диагноза UZ Core | `diagnosis-type-cs#cancer-0003-0003` | `extension[diagnosisType]` |
+| Группа ICCC-3 | ICCC-3 | `iccc-3-cs#IIId2` | `extension[cancer-iccc-3-group]` |
+| Латеральность | [CancerLateralityQualifierVS](ValueSet-cancer-laterality-qualifier-vs.html) | `SNOMED CT#7771000` (слева) | `bodySite` |
+| Условие выявления | [CancerDetectionConditionVS](ValueSet-cancer-detection-condition-vs.html) | `cancer-detection-condition-cs#cancer-0005-0002` | `bodySite.extension[detection-condition]` |
+| Общая стадия | [CancerTNMStageVS](ValueSet-cancer-tnm-stage-vs.html) | `SNOMED CT#1352944009` (стадия II UICC) | `stage.summary` |
+| Основание стадирования | - | ссылка на Observation общей стадии | `stage.assessment` |
+| Пациент / обращение | - | ссылки на Patient и CancerEncounter | `subject` / `encounter` |
+| Начало заболевания / дата регистрации | - | `2026-08-15` / `2026-08-20` | `onsetDateTime` / `recordedDate` |
+| Ответственная организация | - | ссылка на Organization | `participant.actor` |
 
-Ни один из кодов топографии, морфологии, латеральности, обстоятельств выявления, метода подтверждения, степени дифференцировки или биологического поведения опухоли не имеет точного эквивалента 1:1 во внешней терминологии. Поэтому каждый из них сохраняет локальный Cancer-код (`cancer-000X-YYYY`); только основной диагноз (ICD-10) и анатомическая область (SNOMED CT) используют стандартные коды.
+### Объединение курса лечения (CancerEpisodeOfCare)
 
-Регистрационные поля, такие как метод выявления случая (`CancerIdCS` коды #505–#513) и статус, аналогичный статусу при выписке (#29–#33), сопоставляются посредством ConceptMap [cancer-id-status-to-dhp-status-cm](ConceptMap-cancer-id-status-to-dhp-status-cm.html) с соответствующими системами кодов типа диагноза DHP и discharge disposition, а также с Cancer-specific `CancerDiagnosisTypeCS` / `CancerEncounterDischargeDispositionCS` code systems.
+Объединяет диагноз и курс его лечения. Предпочтительно стандартное намерение лечения SNOMED CT. Локальный срез намерения используется, когда для значения регистра нет стандартного понятия. Метод лечения остается локальным Cancer-кодом.
 
-Коды топографии из исходной системы — числовой `CancerIdICD3TopographyCS` — сопоставляются 1:1 с алфавитно-цифровыми кодами (`Cxxx`) `CancerICD3TopographyCS` посредством ConceptMap [cancer-id-icd3-topography-to-cancer-icd3-topography-cm](ConceptMap-cancer-id-icd3-topography-to-cancer-icd3-topography-cm.html). Поэтому интегратор, располагающий любым из этих наборов кодов, может определить соответствующий код из другого набора.
+Профиль: [CancerEpisodeOfCare](StructureDefinition-cancer-episode-of-care.html)
 
-### Регистрация метастатического или рецидивирующего заболевания (CancerConditionSecondary)
+Пример: [cancer-episode-of-care-example](EpisodeOfCare-cancer-episode-of-care-example.html)
 
-Описывает метастатический, рецидивирующий или иной вторичный онкологический процесс и анатомическую область, которую он затрагивает, а также связывает его с первичным диагнозом.
-
-Profile: [CancerConditionSecondary](StructureDefinition-condition-cancer-secondary.html)
-
-Example: [cancer-condition-secondary-example](Condition-cancer-condition-secondary-example.html)
-
-| Информация для записи | Value set | Пример кода | Где хранится |
+| Записываемая информация | Набор значений | Пример кода | Элемент |
 | :--- | :--- | :--- | :--- |
-| Связь с первичным диагнозом | - | ссылка на [CancerConditionPrimary](#регистрация-первичного-диагноза-cancerconditionprimary) | `extension[relatedCondition]` |
-| Характер процесса | [CancerEmergingProcessCS](CodeSystem-cancer-emerging-process-cs.html) | `cancer-emerging-process-cs#cancer-0015-0001` (Рецидив / Retsidiv / Recurrence) | `code` |
-| Затронутая анатомическая область | [CancerDamageAreaCS](CodeSystem-cancer-damage-area-cs.html) | `cancer-damage-area-cs#cancer-0014-0002` (Кости / Suyaklar / Bones) | `bodySite` |
-| Клинический / верификационный статус | - | `condition-clinical#active` / `condition-verification-status#confirmed` | `clinicalStatus` / `verificationStatus` |
-| Субъект / encounter | - | ссылки на [Patient](#регистрация-пациента-patient) / [CancerEncounter](#документирование-визита-cancerencounter) | `subject` / `encounter` |
-| Дата начала | - | `2026-08-15` | `onsetDateTime` |
+| Идентификатор Онкологического регистра | - | UUID регистра | `identifier[cancerRegistry]` |
+| Тип услуги DHP | тип EpisodeOfCare UZ Core | `episode-of-care-type#mserv-0001-00004` | `type[serviceType]` |
+| Стандартное намерение лечения | [CancerTreatmentIntentSnomedVS](ValueSet-cancer-treatment-intent-snomed-vs.html) | `SNOMED CT#373808002` (радикальное) | `type[treatmentIntent]` |
+| Локальное намерение лечения | [CancerTreatmentIntentVS](ValueSet-cancer-treatment-intent-vs.html) | `cancer-treatment-intent-cs#cancer-0017-0001` | `type[localTreatmentIntent]` |
+| Метод лечения | [CancerSpecialTreatmentVS](ValueSet-cancer-special-treatment-vs.html) | `cancer-special-treatment-cs#cancer-0018-0002` (хирургическое лечение) | `type[specialTreatment]` |
+| Диагноз | - | ссылка на CancerCondition | `diagnosis.condition` |
+| Пациент / организация / координатор | - | ссылки на ресурсы | `patient` / `managingOrganization` / `careManager` |
+| Период лечения | - | дата начала и необязательная дата окончания | `period` |
 
-Ни для понятия рецидивирующего/метастатического процесса, ни для понятия поражённой области в данном реестре нет стандартного терминологического эквивалента. Поэтому оба понятия сохраняются как локальные Cancer-коды.
+### Документирование обращения (CancerEncounter)
 
-### Документирование визита (CancerEncounter)
+Описывает онкологическое обращение и связывает его с эпизодом лечения и диагнозом.
 
-Encounter, в рамках которого оцениваются онкологическое состояние пациента и его лечение. Профиль расширяет Encounter UZ Core, задавая ограниченный encounter class и обязательную связь с соответствующим episode of care.
+Профиль: [CancerEncounter](StructureDefinition-cancer-encounter.html)
 
-Profile: [CancerEncounter](StructureDefinition-cancer-encounter.html)
+Пример: [cancer-encounter-example](Encounter-cancer-encounter-example.html)
 
-Example: [cancer-encounter-example](Encounter-cancer-encounter-example.html)
-
-| Информация для записи | Value set | Пример кода | Где хранится |
-| :--- | :--- | :--- | :--- |
-| Class | [v3-ActCode](https://dhp.uz/fhir/core/CodeSystem-actcode-cs.html) | `v3-ActCode#IMP` (стационарный encounter) | `class` |
-| Статус | [EncounterStatus](https://hl7.org/fhir/R5/valueset-encounter-status.html) | `completed` | `status` |
-| Episode of care | - | ссылка на [CancerEpisodeOfCare](#группировка-курса-лечения-cancerepisodeofcare) | `episodeOfCare` |
-| Период визита | - | с `2026-08-18T09:00` до `2026-08-18T10:30` | `actualPeriod` |
-| Диагноз | - | ссылка на [CancerConditionPrimary](#регистрация-первичного-диагноза-cancerconditionprimary) | `diagnosis.condition` |
-| Роль диагноза | [encounter-diagnosis-use](https://hl7.org/fhir/R5/codesystem-encounter-diagnosis-use.html) | `encounter-diagnosis-use#final` (Окончательный) | `diagnosis.use` |
-| Распоряжение при выписке | [discharge-disposition-home-cs](https://dhp.uz/fhir/core/CodeSystem-discharge-disposition-home-cs.html) | `discharge-disposition-home-cs#mserv-0004-00002` | `admission.dischargeDisposition` |
-
-Собственные коды реестра для статуса пациента/распоряжения (`CancerIdCS` #29–#33 — жив, умер, выбыл, диагноз не подтверждён, период наблюдения завершён) сопоставляются посредством ConceptMap [cancer-id-status-to-dhp-status-cm](ConceptMap-cancer-id-status-to-dhp-status-cm.html) с данной системой кодов DHP discharge-disposition и с Cancer-specific кодами disposition.
-
-### Группировка курса лечения (CancerEpisodeOfCare)
-
-Episode of care объединяет диагноз пациента и проводимый в связи с ним курс лечения, фиксируя как характер (направленность) лечения, так и метод (специальное лечение) этого курса.
-
-Profile: [CancerEpisodeOfCare](StructureDefinition-cancer-episode-of-care.html)
-
-Example: [cancer-episode-of-care-example](EpisodeOfCare-cancer-episode-of-care-example.html)
-
-| Информация для записи | Value set | Пример кода | Где хранится |
-| :--- | :--- | :--- | :--- |
-| Тип episode | [episode-of-care-type](https://dhp.uz/fhir/core/CodeSystem-episode-of-care-type-cs.html) | `episode-of-care-type#mserv-0001-00004` (Лечебные услуги) | `type[serviceType]` |
-| Характер лечения | [CancerCharacterTreatmentCS](CodeSystem-cancer-character-treatment-cs.html) | `cancer-character-treatment-cs#cancer-0017-0002` (Радикальное / Radikal / Radical) | `type[characterTreatment]` |
-| Специальное (модальное) лечение | [CancerSpecialTreatmentCS](CodeSystem-cancer-special-treatment-cs.html) | `cancer-special-treatment-cs#cancer-0018-0002` (Хирургическое лечение / Jarrohlik davolash / Surgical treatment) | `type[specialTreatment]` |
-| Статус | [EpisodeOfCareStatus](https://hl7.org/fhir/R5/valueset-episode-of-care-status.html) | `active` | `status` |
-| Период лечения | - | с `2026-08-15` по `2026-08-15` | `period.start` / `period.end` |
-| Лечимый диагноз | - | ссылка на [CancerConditionPrimary](#регистрация-первичного-диагноза-cancerconditionprimary) | `diagnosis.condition` |
-| Пациент / управляющая организация | - | ссылки на [Patient](#регистрация-пациента-patient) / [Organization](#поддерживающие-ресурсы) | `patient` / `managingOrganization` |
-| Ответственный за ведение | - | ссылка на [PractitionerRole](#поддерживающие-ресурсы) | `careManager` |
-
-Как характер лечения, так и специальное лечение представляют собой комбинации, специфичные для реестра (например, «хирургическое лечение + дистанционная лучевая терапия + химиотерапия» как одно значение). Для таких комбинаций не существует стандартной терминологии с эквивалентом 1:1, поэтому оба поля сохраняют локальные Cancer-коды на всём протяжении процесса.
-
-### Регистрация стадирования (CancerObservationTNMCategory и CancerObservationTNMStageGroup)
-
-Стадирование разделено между двумя профилями Observation: один экземпляр для каждой отдельной категории TNM (cT, cN, cM, pT, pN, pM) и один сводный экземпляр для общей группы стадии, который ссылается на наблюдения категорий, на основании которых она была определена.
-
-#### Отдельная категория TNM
-
-Profile: [CancerObservationTNMCategory](StructureDefinition-cancer-observation-tnm-category.html)
-
-Example: [cancer-observation-tnm-category-ct](Observation-cancer-observation-tnm-category-ct.html)
-
-| Информация для записи | Value set | Пример кода | Где хранится |
-| :--- | :--- | :--- | :--- |
-| Какая категория регистрируется | [CancerTNMCategoryCS](CodeSystem-cancer-tnm-category-cs.html) | `cancer-tnm-category-cs#cancer-0022-0003` (категория cT) | `Observation.code` |
-| Значение категории | одно из `CancerCCcTCategoryCS` / `CancerCCcNCategoryCS` / `CancerCCcMCategoryCS` / `CancerCCpTCategoryCS` / `CancerCCpNCategoryCS` / `CancerCCpMCategoryCS`, соответствующее закодированной выше категории | `cancer-cc-p-n-category-cs#cancer-0010-0001` (X) | `valueCodeableConcept` |
-| Статус | [ObservationStatus](https://hl7.org/fhir/R5/valueset-observation-status.html) | `final` | `status` |
-| Категория (вид наблюдения) | [observation-category](https://hl7.org/fhir/R5/valueset-observation-category.html) | `observation-category#imaging` | `category` |
-| Субъект / focus | - | ссылки на [Patient](#регистрация-пациента-patient) / [CancerConditionPrimary](#регистрация-первичного-диагноза-cancerconditionprimary) | `subject` / `focus` |
-| Исполнитель | - | ссылка на [PractitionerRole](#поддерживающие-ресурсы) | `performer` |
-
-Каждая из шести систем кодирования значений категорий представляет шкалу, специфичную для соответствующей оси TNM (клиническая или патологическая, T, N или M). Поэтому значения категорий сохраняют локальные Cancer-коды; только сама ось, которая регистрируется (`CancerTNMCategoryCS`), представляет собой фиксированный закрытый список.
-
-#### Общая группа стадии
-
-Profile: [CancerObservationTNMStageGroup](StructureDefinition-cancer-observation-tnm-stage-group.html)
-
-Example: [cancer-observation-tnm-stage-group-example](Observation-cancer-observation-tnm-stage-group-example.html)
-
-| Информация для записи | Value set | Пример кода | Где хранится |
-| :--- | :--- | :--- | :--- |
-| Тип Observation | [CancerStageGroupCS](CodeSystem-cancer-stage-group-cs.html) | `cancer-stage-group-cs#cancer-0021-0001` (Группировка стадий TNM / TNM bosqichlarini guruhlash) | `Observation.code` |
-| Стадия | [CancerStageCS](CodeSystem-cancer-stage-cs.html) через component-код `cancer-stage-group-cs#cancer-0021-0004` | `cancer-stage-cs#cancer-0012-0002` (I) | `component[stage].valueCodeableConcept` |
-| Уточнение стадии (подстадия) | [CancerSubStageCS](CodeSystem-cancer-sub-stage-cs.html) через component-код `cancer-stage-group-cs#cancer-0021-0005` | `cancer-sub-stage-cs#cancer-0013-0007` (a1) | `component[stageClarification].valueCodeableConcept` |
-| Субъект / focus | - | ссылки на [Patient](#регистрация-пациента-patient) / [CancerConditionPrimary](#регистрация-первичного-диагноза-cancerconditionprimary) | `subject` / `focus` |
-| Поддерживающие наблюдения категорий | - | ссылка/ссылки на [CancerObservationTNMCategory](#отдельная-категория-tnm) | `hasMember` |
-| Дата проведения / исполнитель | - | `2025-08-15T10:30` / ссылка на [PractitionerRole](#поддерживающие-ресурсы) | `effectiveDateTime` / `performer` |
-
-Стадия и подстадия представляют собой простые порядковые/буквенные шкалы (0, I–IV и a–d, а также подуровни вроде a1/b2), для которых в данном реестре отсутствует стандартная эквивалентная терминология стадирования. Поэтому оба значения сохраняются как локальные Cancer-коды. `hasMember` используется для связывания Observation группы стадии с отдельными наблюдениями категорий (например, cT), на основании которых была определена группа стадии.
-
-### Поддерживающие ресурсы
-
-Эти ресурсы используются в приведённых выше записях в качестве ссылок и непосредственно используют профили UZ Core.
-
-| Ресурс | Профиль | Роль |
+| Записываемая информация | Пример | Элемент |
 | :--- | :--- | :--- |
-| Organization | [UZCoreOrganization](https://dhp.uz/fhir/core/StructureDefinition-uz-core-organization.html) | Онкологическое лечебное учреждение |
-| Practitioner | [UZCorePractitioner](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner.html) | Клиницист, участвующий в оказании помощи |
-| PractitionerRole | [UZCorePractitionerRole](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner-role.html) | Связывает клинициста с учреждением |
+| Статус и класс | `completed`, `v3-ActCode#IMP` | `status`, `class` |
+| Тип обращения | `encounter-type-cs#mserv-0001-00002` | `type` |
+| Эпизод лечения | ссылка на CancerEpisodeOfCare | `episodeOfCare` |
+| Диагноз и его роль | CancerCondition, `final` | `diagnosis.condition`, `diagnosis.use` |
+| Пациент / организация / лечащий специалист | ссылки на ресурсы | `subject`, `serviceProvider`, `participant.actor` |
+| Период обращения | начальная и конечная дата-время | `actualPeriod` |
+| Исход выписки | `encounter-discharge-disposition-home-cs#mserv-0004-00004` | `admission.dischargeDisposition` |
+
+### Панель морфологии опухоли
+
+Панель объединяет наблюдения о поведении опухоли и гистологической степени. Компонентные наблюдения ссылаются через `focus` на тот же `CancerCondition`.
+
+Профиль: [CancerObservationTumorMorphology](StructureDefinition-cancer-observation-tumor-morphology.html)
+
+Пример: [cancer-observation-tumor-morphology-example](Observation-cancer-observation-tumor-morphology-example.html)
+
+| Записываемая информация | Пример кода | Элемент |
+| :--- | :--- | :--- |
+| Тип панели | `LOINC#77753-2` (панель морфологии опухоли) | `Observation.code` |
+| Наблюдение поведения | ссылка на CancerObservationBehavior | `hasMember` |
+| Наблюдение гистологической степени | ссылка на CancerObservationHistologicGrade | `hasMember` |
+| Пациент / онкологический диагноз | ссылки на Patient и CancerCondition | `subject` / `focus` |
+
+### Поведение опухоли и первичная локализация
+
+Содержит код морфологии/поведения и первичную топографию ICD-O-3. `bodySite` содержит код топографии ICD-O-3 и анатомический код SNOMED CT, который также удовлетворяет привязке UZ Core для локализации.
+
+Профиль: [CancerObservationBehavior](StructureDefinition-cancer-observation-behavior.html)
+
+Пример: [cancer-observation-behavior-example](Observation-cancer-observation-behavior-example.html)
+
+| Записываемая информация | Пример кода | Элемент |
+| :--- | :--- | :--- |
+| Тип наблюдения | `LOINC#31206-6` (поведение опухоли ICD-O-3) | `Observation.code` |
+| Морфология и поведение | `ICD-O-3#8070/3` (плоскоклеточная карцинома БДУ) | `valueCodeableConcept` |
+| Первичная топография | `ICD-O-3#C15.1` (грудной отдел пищевода) | `bodySite.coding[icdO3]` |
+| Анатомический эквивалент | `SNOMED CT#59609004` (структура грудного отдела пищевода) | `bodySite.coding[snomed]` |
+
+### Гистологическая степень
+
+Содержит степень опухоли и метод ее подтверждения.
+
+Профиль: [CancerObservationHistologicGrade](StructureDefinition-cancer-observation-histologic-grade.html)
+
+Пример: [cancer-observation-histologic-grade-example](Observation-cancer-observation-histologic-grade-example.html)
+
+| Записываемая информация | Набор значений | Пример кода | Элемент |
+| :--- | :--- | :--- | :--- |
+| Тип наблюдения | [CancerTumorMorphologyPanelVS](ValueSet-cancer-tumor-morphology-panel-vs.html) | `LOINC#21858-6` (степень опухоли) | `Observation.code` |
+| Метод подтверждения | [CancerConfirmationMethodVS](ValueSet-cancer-confirmation-method-vs.html) | `cancer-confirmation-method-cs#cancer-0002-0003` (гистология) | `method` |
+| Степень | [CancerDegreeDifferentiationVS](ValueSet-cancer-degree-differentiation-vs.html) | `SNOMED CT#1155701009` (G1, высокодифференцированная) | `valueCodeableConcept` |
+
+### Регистрация прогрессирования или метастазирования
+
+Содержит рецидив, регионарные или отдаленные метастазы, прогрессирование либо другой развивающийся процесс и пораженную анатомическую область.
+
+Профиль: [CancerObservationMetastase](StructureDefinition-cancer-observation-metastase.html)
+
+Пример: [cancer-observation-metastase-example](Observation-cancer-observation-metastase-example.html)
+
+| Записываемая информация | Набор значений | Пример кода | Элемент |
+| :--- | :--- | :--- | :--- |
+| Тип наблюдения | - | `LOINC#97509-4` (прогрессирование онкологического заболевания) | `Observation.code` |
+| Тип прогрессирования | [CancerEmergingProcessVS](ValueSet-cancer-emerging-process-vs.html) | `cancer-emerging-process-cs#cancer-0015-0003` (отдаленные метастазы) | `valueCodeableConcept` |
+| Пораженная область | [CancerBodyLocationVS](ValueSet-cancer-body-location-vs.html) | `SNOMED CT#110549009` (легкое и плевра) | `bodySite` |
+
+### Регистрация категорий TNM
+
+Для каждой доступной категории cT, pT, cN, pN, cM или pM создается отдельный Observation. `Observation.code` определяет ось, `method` — редакцию системы стадирования, а `valueCodeableConcept` — допустимое для этой оси значение категории.
+
+Профиль: [CancerObservationTNMCategory](StructureDefinition-cancer-observation-tnm-category.html)
+
+Примеры: [cT](Observation-cancer-observation-tnm-category-ct.html), [cN](Observation-cancer-observation-tnm-category-cn.html), [pN](Observation-cancer-observation-tnm-category-pn.html), [cM](Observation-cancer-observation-tnm-category-cm.html), [pM](Observation-cancer-observation-tnm-category-pm.html)
+
+| Записываемая информация | Набор значений | Пример кода | Элемент |
+| :--- | :--- | :--- | :--- |
+| Ось TNM | [CancerTNMCategoryVS](ValueSet-cancer-tnm-category-vs.html) | `SNOMED CT#399504009` (категория cT) | `Observation.code` |
+| Редакция стадирования | [CancerStagingEditionVS](ValueSet-cancer-staging-edition-vs.html) | `SNOMED CT#897275008` (AJCC, 8-я редакция) | `method` |
+| Значение категории | отдельный набор значений cT/pT/cN/pN/cM/pM | `SNOMED CT#1352983006` (значение cT) | `valueCodeableConcept` |
+| Пациент / диагноз / исполнитель | ссылки на ресурсы | Patient, CancerCondition и PractitionerRole | `subject` / `focus` / `performer` |
+
+Наборы значений для отдельных осей: [CancerCCCtCategoryVS](ValueSet-cancer-ccc-t-category-vs.html), [CancerCCpTCategoryVS](ValueSet-cancer-cc-p-t-category-vs.html), [CancerCCcNCategoryVS](ValueSet-cancer-cc-c-n-category-vs.html), [CancerCCpNCategoryVS](ValueSet-cancer-cc-p-n-category-vs.html), [CancerCCcMCategoryVS](ValueSet-cancer-cc-c-m-category-vs.html) и [CancerCCpMCategoryVS](ValueSet-cancer-cc-p-m-category-vs.html). Большинство значений используют SNOMED CT; локальные коды сохраняются там, где точной категории SNOMED CT нет.
+
+### Регистрация общей стадии TNM
+
+Содержит общую стадию и ссылки на отдельные наблюдения категорий TNM, на которых она основана.
+
+Профиль: [CancerObservationTNMStageGroup](StructureDefinition-cancer-observation-tnm-stage-group.html)
+
+Пример: [cancer-observation-tnm-stage-group-example](Observation-cancer-observation-tnm-stage-group-example.html)
+
+| Записываемая информация | Набор значений | Пример кода | Элемент |
+| :--- | :--- | :--- | :--- |
+| Тип наблюдения | - | `SNOMED CT#399390009` (группировка стадий TNM) | `Observation.code` |
+| Общая стадия | [CancerTNMStageVS](ValueSet-cancer-tnm-stage-vs.html) | `SNOMED CT#1352927005` (стадия I) | `valueCodeableConcept` |
+| Подтверждающие категории | - | ссылки на наблюдения cT, cN, pN, cM и pM | `hasMember` |
+
+### Преобразование кодов Онкологического регистра
+
+Эти ConceptMap используются, когда входящие данные содержат числовые идентификаторы Онкологического регистра вместо терминологических кодов DHP.
+
+| Исходные данные | ConceptMap | Целевая терминология |
+| :--- | :--- | :--- |
+| Статус регистра и связанные локальные идентификаторы | [Статус Онкологического регистра в статус DHP](ConceptMap-cancer-registry-status-to-dhp-status-cm.html) | CodeSystem DHP и Cancer |
+| Идентификатор ICD-10 регистра | [ICD-10 Онкологического регистра в ICD-10 DHP](ConceptMap-cancer-registry-icd10-to-dhp-icd10-cm.html) | ICD-10 |
+| Идентификатор топографии ICD-O-3 регистра | [Топография ICD-O-3 Онкологического регистра в ICD-O-3 DHP](ConceptMap-cancer-registry-icd3-topography-to-dhp-icd3-topography-cm.html) | ICD-O-3 |
+
+### Вспомогательные ресурсы
+
+Примеры также ссылаются на [UZCorePatient](https://dhp.uz/fhir/core/StructureDefinition-uz-core-patient.html), [UZCoreOrganization](https://dhp.uz/fhir/core/StructureDefinition-uz-core-organization.html) и [UZCorePractitionerRole](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner-role.html).

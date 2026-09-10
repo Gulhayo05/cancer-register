@@ -1,8 +1,8 @@
-CodeSystem: CancerDetectionCircumstanceCS
-Id: cancer-detection-circumstance-cs
-Title: "Cancer Detection Circumstance translation in Russian and English"
-Description: "Cancer detection circumstance code system for Uzbekistan healthcare system"
-* insert OriginalCodeSystemDraft(cancer-detection-circumstance-cs)
+CodeSystem: CancerDetectionConditionCS
+Id: cancer-detection-condition-cs
+Title: "Cancer Detection Condition translation in Russian and English"
+Description: "Cancer detection condition code system for Uzbekistan healthcare system"
+* insert OriginalCodeSystemDraft(cancer-detection-condition-cs)
 
 * #cancer-0005-0001 "Mustaqil ravishda murojaat qilgan"
   * ^designation[0].language = #ru

@@ -1,7 +1,13 @@
 ValueSet: CancerStageGroupVS
 Id: cancer-stage-group-vs
 Title: "Cancer Stage Group ValueSet"
-Description: "Cancer stage group value set for Uzbekistan healthcare system"
+Description: "ValueSet containing SNOMED CT concepts for cancer stage grouping used in the Uzbekistan healthcare system."
+
 * insert IntegrationsValueSet(cancer-stage-group-vs)
 * ^experimental = true
-* include codes from system cancer-stage-group-cs
+* ^extension[0].url = $valueset-supplement
+* ^extension[=].valueCanonical = Canonical(CancerStageGroupCS)
+
+* $sct#399390009 "TNM stage grouping"
+* $sct#399537006 "Clinical TNM stage grouping"
+* $sct#399588009 "Pathologic TNM stage grouping"

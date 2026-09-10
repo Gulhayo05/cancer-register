@@ -4,103 +4,41 @@
 .col-12 th, .col-12 td { overflow-wrap: anywhere; word-break: break-word; vertical-align: top; }
 </style>
 
-This page documents how oncology case-management data is represented as FHIR resources.
+This page documents how Cancer Registry data is represented as FHIR resources.
 
 ### Overview
 
-The Cancer registry module captures the registration, diagnosis, staging, treatment and follow-up of oncology patients. The data originates from the Cancer information system and is added to the DHP as individual, atomic FHIR resources. Resources conform to the Cancer profiles linked in each section, and to [UZ Core](https://dhp.uz/fhir/core/en/artifacts.html) or standard FHIR profiles otherwise.
+The Cancer Registry records cancer diagnoses, treatment episodes, encounters, tumor morphology and behavior, histologic grade, disease progression and TNM staging. Data is submitted to the DHP as linked, atomic FHIR resources. Each resource conforms to the cancer profile named in its section and to [UZ Core](https://dhp.uz/fhir/core/en/artifacts.html).
 
-Wherever a concept has a standard equivalent, resources carry the standard code directly - ICD-10 for the coded diagnosis and SNOMED CT for body site. The source system records this data with its own local codes (registry disposition, confirmation method, TNM categories, topography, morphology, treatment character, and so on); every local code is kept in its own Cancer CodeSystem and mapped to the corresponding standard or DHP code by a ConceptMap, so an integrator can always look up the standard/target code for a code they hold. In resources, use the standard or DHP code wherever an exact (`equivalent`) match exists - the value set bound to each field offers that code and keeps a local code only where no exact standard equivalent exists (for example TNM category grades, stage sub-classifications and treatment modality combinations, which have no 1:1 external terminology). Each section below gives the governing profile, a concrete example resource, and a table of the value set and an example code for every field that carries a code.
+The central resource is `CancerCondition`. `CancerEpisodeOfCare` groups the treatment course, and `CancerEncounter` records a visit within that course. Observations linked through `focus` describe morphology, behavior, grade, progression and staging. All resources refer to the same patient.
 
-A typical record links together: a [patient](#registering-a-patient-patient), a [primary cancer diagnosis](#recording-the-primary-diagnosis-cancerconditionprimary) and any related [secondary/metastatic condition](#recording-metastatic-or-recurrent-disease-cancerconditionsecondary), an [episode of care](#grouping-the-treatment-course-cancerepisodeofcare) that groups the treatment course, an [encounter](#documenting-a-visit-cancerencounter) at which the condition and treatment plan are determined, and the [staging observations](#recording-staging-cancerobservationtnmcategory-and-cancerobservationtnmstagegroup) (individual TNM categories and the overall stage group) produced from the work-up.
+Standard ICD-10, ICD-O-3, SNOMED CT and LOINC codes are used where available. Registry-specific concepts remain in local Cancer CodeSystems. ConceptMaps translate the registry's numeric identifiers into the terminology used by DHP.
 
-### Registering a patient (Patient)
+### Recording a cancer diagnosis (CancerCondition)
 
-The subject of every cancer record. There is no Cancer-specific Patient profile; use UZ Core directly.
+Records the cancer diagnosis, registry identifier, laterality, detection condition and overall TNM stage. The diagnosis uses ICD-10. Laterality is represented in `bodySite`, while the detection condition is an extension on that element.
 
-Profile: [UZCorePatient](https://dhp.uz/fhir/core/StructureDefinition-uz-core-patient.html)
+Profile: [CancerCondition](StructureDefinition-cancer-condition.html)
 
-| Information to record | Stored in |
-| :--- | :--- |
-| National identifier | `identifier` (national ID slice) |
-| Name, gender, birth date | `name`, `gender`, `birthDate` |
-| Address | `address` (UZ address slice) |
-| Responsible facility | `managingOrganization` → [Organization](#supporting-resources) |
-
-### Recording the primary diagnosis (CancerConditionPrimary)
-
-Determines tumor topography (site of origin) and morphology (histologic type). `Condition.code` carries the diagnosis coded to ICD-10; the tumor-specific detail - laterality, ICD-O-3 topography and morphology, grade of differentiation, tumor behavior, circumstance of detection, ICCC-3 group and method of confirmation - is carried in extensions, since none of these have a direct home on the base `Condition` element.
-
-Profile: [CancerConditionPrimary](StructureDefinition-cancer-condition-primary.html)
-
-Example: [cancer-condition-primary-example](Condition-cancer-condition-primary-example.html)
+Example: [cancer-condition-example](Condition-cancer-condition-example.html)
 
 | Information to record | Value set | Example code | Stored in |
 | :--- | :--- | :--- | :--- |
-| Diagnosis | ICD10VS | `ICD-10#C02` | `Condition.code` |
-| Laterality | [CancerLaterlityQualifierCS](CodeSystem-cancer-laterlity-qualifier-cs.html) | `cancer-laterlity-qualifier-cs#cancer-0004-0002` (Chap tomonda / Слева / Left) | `extension[lateralityQualifier]` |
-| Topography (ICD-O-3) | [CancerICD3TopographyCS](CodeSystem-cancer-icd3-topography-cs.html) | `cancer-icd3-topography-cs#C020` (tilning yuqori yuzasi QA / языка верхняя поверхность БДУ) | `extension[topography]` |
-| Morphology (ICD-O-3) | [CancerICD3morphologyCS](CodeSystem-cancer-icd3-morphology-cs.html) | `cancer-icd3-morphology-cs#8000` (Xavfli o'smalar QA / Новообразование злокачественное БДУ) | `extension[morphology]` |
-| Grade of differentiation | [CancerDegreeDifferentiationCS](CodeSystem-cancer-degree-differentiation-cs.html) | `cancer-degree-differentiation-cs#cancer-0020-0002` (G2, moderately differentiated) | `extension[gradeDifferentiation]` |
-| Tumor behavior | [CancerTumorBehaviorCS](CodeSystem-cancer-tumor-behavior-cs.html) | `cancer-tumor-behavior-cs#cancer-0019-0004` (Yomon sifatli / Malignant) | `extension[tumorBehavior]` |
-| Circumstance of detection | [CancerDetectionCircumstanceCS](CodeSystem-cancer-detection-circumstance-cs.html) | `cancer-detection-circumstance-cs#cancer-0005-0002` (Onkonazorat kabinetida aniqlangan) | `extension[detectionCircumstance]` |
-| ICCC-3 group | `$iccc-3-cs` | `iccc-3-cs#III` | `extension[cancer-iccc-3-group]` |
-| Method of confirmation | [CancerConfirmationMethodCS](CodeSystem-cancer-confirmation-method-cs.html) | `cancer-confirmation-method-cs#cancer-0002-0003` (Gistologiya / Histology) | `extension[confirmationMethod]` |
-| Clinical status | [condition-clinical](https://dhp.uz/fhir/core/CodeSystem-clinical-status-cs.html) | `condition-clinical#active` | `clinicalStatus` |
-| Verification status | [condition-ver-status](https://dhp.uz/fhir/core/CodeSystem-condition-verification-status-cs.html) | `condition-ver-status#confirmed` | `verificationStatus` |
-| Category | [condition-category](http://terminology.hl7.org/CodeSystem/condition-category) | `condition-category#problem-list-item` | `category` |
-| Body site | SNOMED CT | `SNOMED CT#422005` | `bodySite` |
-| Onset / recorded date | - | `2026-08-15` / `2020-08-15` | `onsetDateTime` / `recordedDate` |
-| Overall stage | [CancerStageCS](CodeSystem-cancer-stage-cs.html) | `cancer-stage-cs#cancer-0012-0002` (I) | `stage.summary` |
-| Sub-stage | [CancerSubStageCS](CodeSystem-cancer-sub-stage-cs.html) | `cancer-sub-stage-cs#cancer-0013-0007` (a1) | `stage.summary` |
-| Staging evidence | - | reference to [CancerObservationTNMStageGroup](#recording-staging-cancerobservationtnmcategory-and-cancerobservationtnmstagegroup) | `stage.assessment` |
-| Subject / encounter | - | references to [Patient](#registering-a-patient-patient) / [CancerEncounter](#documenting-a-visit-cancerencounter) | `subject` / `encounter` |
-| Responsible clinician | - | reference to [PractitionerRole](#supporting-resources) | `participant.actor` |
+| Cancer Registry identifier | - | `57dcdd0a-5a68-4cc6-8503-5ab15a41c62b` | `identifier[cancerRegistry]` |
+| Diagnosis | [CancerICD10VS](ValueSet-cancer-icd-10-vs.html) | `ICD-10#C02` | `Condition.code` |
+| Diagnosis source/type | UZ Core diagnosis type | `diagnosis-type-cs#cancer-0003-0003` | `extension[diagnosisType]` |
+| ICCC-3 group | ICCC-3 | `iccc-3-cs#IIId2` | `extension[cancer-iccc-3-group]` |
+| Laterality | [CancerLateralityQualifierVS](ValueSet-cancer-laterality-qualifier-vs.html) | `SNOMED CT#7771000` (Left) | `bodySite` |
+| Detection condition | [CancerDetectionConditionVS](ValueSet-cancer-detection-condition-vs.html) | `cancer-detection-condition-cs#cancer-0005-0002` | `bodySite.extension[detection-condition]` |
+| Overall stage | [CancerTNMStageVS](ValueSet-cancer-tnm-stage-vs.html) | `SNOMED CT#1352944009` (Stage II UICC) | `stage.summary` |
+| Staging evidence | - | reference to the stage-group Observation | `stage.assessment` |
+| Patient / encounter | - | references to Patient and CancerEncounter | `subject` / `encounter` |
+| Onset / registration date | - | `2026-08-15` / `2026-08-20` | `onsetDateTime` / `recordedDate` |
+| Responsible organization | - | reference to Organization | `participant.actor` |
 
-None of the topography, morphology, laterality, detection-circumstance, confirmation-method, grade, or behavior codes have a 1:1 external terminology match, so each keeps its Cancer-derived local code (`cancer-000X-YYYY`); only the base diagnosis (ICD-10) and body site (SNOMED CT) use a standard code. Registration-level fields such as method of case ascertainment (`CancerIdCS` codes #505-#513) and the discharge-disposition-style vital status (#29-#33) are mapped by the [cancer-id-status-to-dhp-status-cm](ConceptMap-cancer-id-status-to-dhp-status-cm.html) ConceptMap onto the corresponding DHP diagnosis-type and discharge-disposition code systems, and by the Cancer-specific `CancerDiagnosisTypeCS`/`CancerEncounterDischargeDispositionCS` code systems otherwise. Topography codes from the source system's numeric `CancerIdICD3TopographyCS` are mapped 1:1 onto the `CancerICD3TopographyCS` alphanumeric (`Cxxx`) codes by the [cancer-id-icd3-topography-to-cancer-icd3-topography-cm](ConceptMap-cancer-id-icd3-topography-to-cancer-icd3-topography-cm.html) ConceptMap, so an integrator holding either code set can resolve to the other.
+### Grouping a treatment course (CancerEpisodeOfCare)
 
-### Recording metastatic or recurrent disease (CancerConditionSecondary)
-
-Captures a metastatic, recurrent or otherwise secondary oncology process and the anatomical area it involves, linked back to the primary diagnosis.
-
-Profile: [CancerConditionSecondary](StructureDefinition-condition-cancer-secondary.html)
-
-Example: [cancer-condition-secondary-example](Condition-cancer-condition-secondary-example.html)
-
-| Information to record | Value set | Example code | Stored in |
-| :--- | :--- | :--- | :--- |
-| Related primary diagnosis | - | reference to [CancerConditionPrimary](#recording-the-primary-diagnosis-cancerconditionprimary) | `extension[relatedCondition]` |
-| Nature of the process | [CancerEmergingProcessCS](CodeSystem-cancer-emerging-process-cs.html) | `cancer-emerging-process-cs#cancer-0015-0001` (Retsidiv / Рецидив / Recurrence) | `code` |
-| Anatomical area involved | [CancerDamageAreaCS](CodeSystem-cancer-damage-area-cs.html) | `cancer-damage-area-cs#cancer-0014-0002` (Suyaklar / Кости / Bones) | `bodySite` |
-| Clinical / verification status | - | `condition-clinical#active` / `condition-verification-status#confirmed` | `clinicalStatus` / `verificationStatus` |
-| Subject / encounter | - | references to [Patient](#registering-a-patient-patient) / [CancerEncounter](#documenting-a-visit-cancerencounter) | `subject` / `encounter` |
-| Onset | - | `2026-08-15` | `onsetDateTime` |
-
-Neither the emerging-process nor the damage-area concepts have a standard terminology equivalent in this registry, so both stay Cancer local codes.
-
-### Documenting a visit (CancerEncounter)
-
-An encounter at which a patient's oncology condition and treatment are assessed. Extends UZ Core's Encounter with a constrained encounter class and a required link to the episode of care it belongs to.
-
-Profile: [CancerEncounter](StructureDefinition-cancer-encounter.html)
-
-Example: [cancer-encounter-example](Encounter-cancer-encounter-example.html)
-
-| Information to record | Value set | Example code | Stored in |
-| :--- | :--- | :--- | :--- |
-| Class | [v3-ActCode](https://dhp.uz/fhir/core/CodeSystem-actcode-cs.html) | `v3-ActCode#IMP` (inpatient encounter) | `class` |
-| Status | [EncounterStatus](https://hl7.org/fhir/R5/valueset-encounter-status.html) | `completed` | `status` |
-| Episode of care | - | reference to [CancerEpisodeOfCare](#grouping-the-treatment-course-cancerepisodeofcare) | `episodeOfCare` |
-| Visit period | - | `2026-08-18T09:00` to `2026-08-18T10:30` | `actualPeriod` |
-| Diagnosis | - | reference to [CancerConditionPrimary](#recording-the-primary-diagnosis-cancerconditionprimary) | `diagnosis.condition` |
-| Diagnosis role | [encounter-diagnosis-use](https://hl7.org/fhir/R5/codesystem-encounter-diagnosis-use.html) | `encounter-diagnosis-use#final` (Final) | `diagnosis.use` |
-| Discharge disposition | [discharge-disposition-home-cs](https://dhp.uz/fhir/core/CodeSystem-discharge-disposition-home-cs.html) | `discharge-disposition-home-cs#mserv-0004-00002` | `admission.dischargeDisposition` |
-
-The registry's own vital-status/disposition codes (`CancerIdCS` #29-#33 - alive, deceased, moved away, diagnosis not confirmed, follow-up period completed) are mapped onto this DHP discharge-disposition code system and onto Cancer-specific disposition codes by the [cancer-id-status-to-dhp-status-cm](ConceptMap-cancer-id-status-to-dhp-status-cm.html) ConceptMap.
-
-### Grouping the treatment course (CancerEpisodeOfCare)
-
-An episode of care groups a patient's cancer diagnosis and the treatment course delivered for it, recording both the intent (character) and the modality (special treatment) of that course.
+Groups a diagnosis and its treatment course. A standard SNOMED CT treatment intent is preferred. Use the local intent slice when no standard concept represents the registry value. Treatment modality remains a local Cancer code.
 
 Profile: [CancerEpisodeOfCare](StructureDefinition-cancer-episode-of-care.html)
 
@@ -108,39 +46,111 @@ Example: [cancer-episode-of-care-example](EpisodeOfCare-cancer-episode-of-care-e
 
 | Information to record | Value set | Example code | Stored in |
 | :--- | :--- | :--- | :--- |
-| Episode type | [episode-of-care-type](https://dhp.uz/fhir/core/CodeSystem-episode-of-care-type-cs.html) | `episode-of-care-type#mserv-0001-00004` (Treatment services) | `type[serviceType]` |
-| Character of treatment | [CancerCharacterTreatmentCS](CodeSystem-cancer-character-treatment-cs.html) | `cancer-character-treatment-cs#cancer-0017-0002` (Radikal / Радикальное / Radical) | `type[characterTreatment]` |
-| Special (modality) treatment | [CancerSpecialTreatmentCS](CodeSystem-cancer-special-treatment-cs.html) | `cancer-special-treatment-cs#cancer-0018-0002` (Jarrohlik davolash / Хирургическое / Surgical treatment) | `type[specialTreatment]` |
-| Status | [EpisodeOfCareStatus](https://hl7.org/fhir/R5/valueset-episode-of-care-status.html) | `active` | `status` |
-| Care period | - | `2026-08-15` to `2026-08-15` | `period.start` / `period.end` |
-| Diagnosis being treated | - | reference to [CancerConditionPrimary](#recording-the-primary-diagnosis-cancerconditionprimary) | `diagnosis.condition` |
-| Patient / managing organization | - | references to [Patient](#registering-a-patient-patient) / [Organization](#supporting-resources) | `patient` / `managingOrganization` |
-| Care manager | - | reference to [PractitionerRole](#supporting-resources) | `careManager` |
+| Cancer Registry identifier | - | registry UUID | `identifier[cancerRegistry]` |
+| DHP service type | UZ Core episode-of-care type | `episode-of-care-type#mserv-0001-00004` | `type[serviceType]` |
+| Standard treatment intent | [CancerTreatmentIntentSnomedVS](ValueSet-cancer-treatment-intent-snomed-vs.html) | `SNOMED CT#373808002` (Curative) | `type[treatmentIntent]` |
+| Local treatment intent | [CancerTreatmentIntentVS](ValueSet-cancer-treatment-intent-vs.html) | `cancer-treatment-intent-cs#cancer-0017-0001` | `type[localTreatmentIntent]` |
+| Treatment modality | [CancerSpecialTreatmentVS](ValueSet-cancer-special-treatment-vs.html) | `cancer-special-treatment-cs#cancer-0018-0002` (Surgical treatment) | `type[specialTreatment]` |
+| Diagnosis | - | reference to CancerCondition | `diagnosis.condition` |
+| Patient / organization / care manager | - | resource references | `patient` / `managingOrganization` / `careManager` |
+| Care period | - | start and optional end date | `period` |
 
-Both character of treatment and special treatment are combinations specific to the registry (e.g. "surgery + external beam radiation + chemotherapy" as a single value) with no standard modality-combination terminology to map onto, so both keep Cancer local codes end to end.
+### Documenting a visit (CancerEncounter)
 
-### Recording staging (CancerObservationTNMCategory and CancerObservationTNMStageGroup)
+Records a cancer-related visit and links it to the treatment episode and diagnosis.
 
-Staging is split across two observation profiles: one instance per individual TNM category (cT, cN, cM, pT, pN, pM), and one summary instance for the overall stage grouping that references the category observations it was derived from.
+Profile: [CancerEncounter](StructureDefinition-cancer-encounter.html)
 
-#### Individual TNM category
+Example: [cancer-encounter-example](Encounter-cancer-encounter-example.html)
 
-Profile: [CancerObservationTNMCategory](StructureDefinition-cancer-observation-tnm-category.html)
+| Information to record | Example | Stored in |
+| :--- | :--- | :--- |
+| Status and class | `completed`, `v3-ActCode#IMP` | `status`, `class` |
+| Encounter type | `encounter-type-cs#mserv-0001-00002` | `type` |
+| Episode of care | reference to CancerEpisodeOfCare | `episodeOfCare` |
+| Diagnosis and role | CancerCondition, `final` | `diagnosis.condition`, `diagnosis.use` |
+| Patient / provider / attending clinician | resource references | `subject`, `serviceProvider`, `participant.actor` |
+| Visit period | start and end date-time | `actualPeriod` |
+| Discharge disposition | `encounter-discharge-disposition-home-cs#mserv-0004-00004` | `admission.dischargeDisposition` |
 
-Example: [cancer-observation-tnm-category-ct](Observation-cancer-observation-tnm-category-ct.html)
+### Tumor morphology panel
+
+The panel groups the tumor behavior and histologic-grade observations. The component observations refer back to the same `CancerCondition` through `focus`.
+
+Profile: [CancerObservationTumorMorphology](StructureDefinition-cancer-observation-tumor-morphology.html)
+
+Example: [cancer-observation-tumor-morphology-example](Observation-cancer-observation-tumor-morphology-example.html)
+
+| Information to record | Example code | Stored in |
+| :--- | :--- | :--- |
+| Panel type | `LOINC#77753-2` (Tumor morphology panel Cancer) | `Observation.code` |
+| Behavior observation | reference to CancerObservationBehavior | `hasMember` |
+| Histologic-grade observation | reference to CancerObservationHistologicGrade | `hasMember` |
+| Patient / cancer diagnosis | references to Patient and CancerCondition | `subject` / `focus` |
+
+### Tumor behavior and primary site
+
+Records the ICD-O-3 morphology/behavior code and primary topography. The body site carries both the ICD-O-3 topography and a SNOMED CT anatomical code so it also satisfies the UZ Core body-site binding.
+
+Profile: [CancerObservationBehavior](StructureDefinition-cancer-observation-behavior.html)
+
+Example: [cancer-observation-behavior-example](Observation-cancer-observation-behavior-example.html)
+
+| Information to record | Example code | Stored in |
+| :--- | :--- | :--- |
+| Observation type | `LOINC#31206-6` (Behavior ICD-O-3 Cancer) | `Observation.code` |
+| Morphology and behavior | `ICD-O-3#8070/3` (Squamous cell carcinoma, NOS) | `valueCodeableConcept` |
+| Primary topography | `ICD-O-3#C15.1` (Thoracic esophagus) | `bodySite.coding[icdO3]` |
+| Anatomical equivalent | `SNOMED CT#59609004` (Thoracic esophagus structure) | `bodySite.coding[snomed]` |
+
+### Histologic grade
+
+Records the tumor grade and the method used to confirm it.
+
+Profile: [CancerObservationHistologicGrade](StructureDefinition-cancer-observation-histologic-grade.html)
+
+Example: [cancer-observation-histologic-grade-example](Observation-cancer-observation-histologic-grade-example.html)
 
 | Information to record | Value set | Example code | Stored in |
 | :--- | :--- | :--- | :--- |
-| Which category is being recorded | [CancerTNMCategoryCS](CodeSystem-cancer-tnm-category-cs.html) | `cancer-tnm-category-cs#cancer-0022-0003` (cT category) | `Observation.code` |
-| Category value | one of `CancerCCcTCategoryCS` / `CancerCCcNCategoryCS` / `CancerCCcMCategoryCS` / `CancerCCpTCategoryCS` / `CancerCCpNCategoryCS` / `CancerCCpMCategoryCS`, matched to the category coded above | `cancer-cc-p-n-category-cs#cancer-0010-0001` (X) | `valueCodeableConcept` |
-| Status | [ObservationStatus](https://hl7.org/fhir/R5/valueset-observation-status.html) | `final` | `status` |
-| Category (kind of observation) | [observation-category](https://hl7.org/fhir/R5/valueset-observation-category.html) | `observation-category#imaging` | `category` |
-| Subject / focus | - | references to [Patient](#registering-a-patient-patient) / [CancerConditionPrimary](#recording-the-primary-diagnosis-cancerconditionprimary) | `subject` / `focus` |
-| Performer | - | reference to [PractitionerRole](#supporting-resources) | `performer` |
+| Observation type | [CancerTumorMorphologyPanelVS](ValueSet-cancer-tumor-morphology-panel-vs.html) | `LOINC#21858-6` (Grade Cancer) | `Observation.code` |
+| Confirmation method | [CancerConfirmationMethodVS](ValueSet-cancer-confirmation-method-vs.html) | `cancer-confirmation-method-cs#cancer-0002-0003` (Histology) | `method` |
+| Grade | [CancerDegreeDifferentiationVS](ValueSet-cancer-degree-differentiation-vs.html) | `SNOMED CT#1155701009` (G1, well differentiated) | `valueCodeableConcept` |
 
-Each of the six category value code systems is a scale specific to that TNM axis (clinical vs. pathologic, T vs. N vs. M), so category values keep Cancer local codes; only which axis is being reported (`CancerTNMCategoryCS`) is a fixed, closed list.
+### Recording progression or metastasis
 
-#### Overall stage group
+Records recurrence, regional or distant metastasis, progression or another emerging process, together with the affected anatomical site.
+
+Profile: [CancerObservationMetastase](StructureDefinition-cancer-observation-metastase.html)
+
+Example: [cancer-observation-metastase-example](Observation-cancer-observation-metastase-example.html)
+
+| Information to record | Value set | Example code | Stored in |
+| :--- | :--- | :--- | :--- |
+| Observation type | - | `LOINC#97509-4` (Cancer disease progression) | `Observation.code` |
+| Progression type | [CancerEmergingProcessVS](ValueSet-cancer-emerging-process-vs.html) | `cancer-emerging-process-cs#cancer-0015-0003` (Distant metastases) | `valueCodeableConcept` |
+| Affected site | [CancerBodyLocationVS](ValueSet-cancer-body-location-vs.html) | `SNOMED CT#110549009` (Lung and pleura) | `bodySite` |
+
+### Recording TNM categories
+
+Create one Observation for each available cT, pT, cN, pN, cM or pM category. `Observation.code` identifies the axis, `method` identifies the staging edition, and `valueCodeableConcept` records the category value permitted for that axis.
+
+Profile: [CancerObservationTNMCategory](StructureDefinition-cancer-observation-tnm-category.html)
+
+Examples: [cT](Observation-cancer-observation-tnm-category-ct.html), [cN](Observation-cancer-observation-tnm-category-cn.html), [pN](Observation-cancer-observation-tnm-category-pn.html), [cM](Observation-cancer-observation-tnm-category-cm.html), [pM](Observation-cancer-observation-tnm-category-pm.html)
+
+| Information to record | Value set | Example code | Stored in |
+| :--- | :--- | :--- | :--- |
+| TNM axis | [CancerTNMCategoryVS](ValueSet-cancer-tnm-category-vs.html) | `SNOMED CT#399504009` (cT category) | `Observation.code` |
+| Staging edition | [CancerStagingEditionVS](ValueSet-cancer-staging-edition-vs.html) | `SNOMED CT#897275008` (AJCC 8th edition) | `method` |
+| Category value | axis-specific cT/pT/cN/pN/cM/pM value set | `SNOMED CT#1352983006` (cT value) | `valueCodeableConcept` |
+| Patient / diagnosis / performer | resource references | Patient, CancerCondition and PractitionerRole | `subject` / `focus` / `performer` |
+
+The axis-specific value sets are [CancerCCCtCategoryVS](ValueSet-cancer-ccc-t-category-vs.html), [CancerCCpTCategoryVS](ValueSet-cancer-cc-p-t-category-vs.html), [CancerCCcNCategoryVS](ValueSet-cancer-cc-c-n-category-vs.html), [CancerCCpNCategoryVS](ValueSet-cancer-cc-p-n-category-vs.html), [CancerCCcMCategoryVS](ValueSet-cancer-cc-c-m-category-vs.html) and [CancerCCpMCategoryVS](ValueSet-cancer-cc-p-m-category-vs.html). Most values use SNOMED CT; local codes remain where no exact SNOMED CT category exists.
+
+### Recording the overall TNM stage
+
+Records the overall stage and links the individual TNM category observations that support it.
 
 Profile: [CancerObservationTNMStageGroup](StructureDefinition-cancer-observation-tnm-stage-group.html)
 
@@ -148,21 +158,20 @@ Example: [cancer-observation-tnm-stage-group-example](Observation-cancer-observa
 
 | Information to record | Value set | Example code | Stored in |
 | :--- | :--- | :--- | :--- |
-| Observation type | [CancerStageGroupCS](CodeSystem-cancer-stage-group-cs.html) | `cancer-stage-group-cs#cancer-0021-0001` (TNM bosqichlarini guruhlash / TNM stage grouping) | `Observation.code` |
-| Stage | [CancerStageCS](CodeSystem-cancer-stage-cs.html) via component code `cancer-stage-group-cs#cancer-0021-0004` | `cancer-stage-cs#cancer-0012-0002` (I) | `component[stage].valueCodeableConcept` |
-| Stage clarification (sub-stage) | [CancerSubStageCS](CodeSystem-cancer-sub-stage-cs.html) via component code `cancer-stage-group-cs#cancer-0021-0005` | `cancer-sub-stage-cs#cancer-0013-0007` (a1) | `component[stageClarification].valueCodeableConcept` |
-| Subject / focus | - | references to [Patient](#registering-a-patient-patient) / [CancerConditionPrimary](#recording-the-primary-diagnosis-cancerconditionprimary) | `subject` / `focus` |
-| Supporting category observations | - | reference(s) to [CancerObservationTNMCategory](#individual-tnm-category) | `hasMember` |
-| Effective date / performer | - | `2025-08-15T10:30` / reference to [PractitionerRole](#supporting-resources) | `effectiveDateTime` / `performer` |
+| Observation type | - | `SNOMED CT#399390009` (TNM stage grouping) | `Observation.code` |
+| Overall stage | [CancerTNMStageVS](ValueSet-cancer-tnm-stage-vs.html) | `SNOMED CT#1352927005` (Stage I) | `valueCodeableConcept` |
+| Supporting categories | - | references to cT, cN, pN, cM and pM observations | `hasMember` |
 
-Stage and sub-stage are plain ordinal/letter scales (0, I-IV and a-d plus sub-splits like a1/b2) with no standard staging terminology equivalent in this registry, so both stay as Cancer local codes; `hasMember` is how a stage-group observation ties back to the individual category observations (e.g. cT) that support it.
+### Translating Cancer Registry codes
+
+Use these ConceptMaps when incoming registry data contains numeric Cancer Registry identifiers rather than DHP terminology codes.
+
+| Source data | ConceptMap | Target terminology |
+| :--- | :--- | :--- |
+| Registry status and related local identifiers | [Cancer Registry Status to DHP Status](ConceptMap-cancer-registry-status-to-dhp-status-cm.html) | DHP and Cancer CodeSystems |
+| Registry ICD-10 identifier | [Cancer Registry ICD-10 to DHP ICD-10](ConceptMap-cancer-registry-icd10-to-dhp-icd10-cm.html) | ICD-10 |
+| Registry ICD-O-3 topography identifier | [Cancer Registry ICD-O-3 Topography to DHP ICD-O-3 Topography](ConceptMap-cancer-registry-icd3-topography-to-dhp-icd3-topography-cm.html) | ICD-O-3 |
 
 ### Supporting resources
 
-These resources are referenced by the records above and use UZ Core profiles directly.
-
-| Resource | Profile | Role |
-| :--- | :--- | :--- |
-| Organization | [UZCoreOrganization](https://dhp.uz/fhir/core/StructureDefinition-uz-core-organization.html) | The oncology treatment facility |
-| Practitioner | [UZCorePractitioner](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner.html) | A clinician involved in care |
-| PractitionerRole | [UZCorePractitionerRole](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner-role.html) | Links a clinician to a facility |
+The examples also reference [UZCorePatient](https://dhp.uz/fhir/core/StructureDefinition-uz-core-patient.html), [UZCoreOrganization](https://dhp.uz/fhir/core/StructureDefinition-uz-core-organization.html) and [UZCorePractitionerRole](https://dhp.uz/fhir/core/StructureDefinition-uz-core-practitioner-role.html).

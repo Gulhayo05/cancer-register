@@ -2,64 +2,56 @@ Profile: CancerObservationTNMStageGroup
 Parent: UZCoreObservation
 Id: cancer-observation-tnm-stage-group
 Title: "Cancer Observation TNM Stage Group"
-Description: "Observation profile for documenting the TNM stage group and stage clarification of a patient's primary cancer."
+Description: "Observation defining the TNM stage group of a patient's cancer."
 
 * ^experimental = true
 * ^status = #active
-* ^date = "2026-08-15"
+* ^date = "2026-09-15"
 * ^publisher = "Uzinfocom"
 
-* code 1..1 MS
+* status = #final
+
+* category = $observation-category#imaging
+
+* code MS
 * code from CancerStageGroupVS (required)
 
 * subject 1..1 MS
+* subject only Reference(UZCorePatient)
 
 * focus 1..1 MS
-* focus only Reference(UZCoreCondition)
+* focus only Reference(CancerCondition)
 
-* component ^slicing.discriminator.type = #value
-* component ^slicing.discriminator.path = "code"
-* component ^slicing.rules = #open
+* effective[x] MS
+* effective[x] only dateTime
 
-* component ^slicing.discriminator.type = #value
-* component ^slicing.discriminator.path = "code"
-* component ^slicing.rules = #open
+* performer MS
+* performer only Reference(UZCorePractitionerRole)
 
-* component contains
-    stage 0..1 MS and
-    stageClarification 0..1 MS
+* value[x] only CodeableConcept
+* valueCodeableConcept 0..1 MS
+* valueCodeableConcept from CancerTNMStageVS (required)
 
-* component[stage].code 1..1
-* component[stage].code = cancer-stage-group-cs#cancer-0021-0004
-* component[stage].value[x] 0..1
-* component[stage].valueCodeableConcept 0..1 MS
-* component[stage].valueCodeableConcept from CancerStageVS (required)
-
-* component[stageClarification].code 1..1
-* component[stageClarification].code = cancer-stage-group-cs#cancer-0021-0005
-* component[stageClarification].value[x] 0..1
-* component[stageClarification].valueCodeableConcept 0..1 MS
-* component[stageClarification].valueCodeableConcept from CancerSubStageVS (required)
+* hasMember MS
+* hasMember only Reference(CancerObservationTNMCategory)
 
 
 Instance: cancer-observation-tnm-stage-group-example
 InstanceOf: CancerObservationTNMStageGroup
+Description: "Example of a cancer observation representing the overall TNM stage group for a patient. This observation records Stage I and references the corresponding TNM category observations for clinical tumor (cT), clinical node (cN), pathological node (pN), clinical metastasis (cM), and pathological metastasis (pM) assessments."
 Usage: #example
-Title: "Cancer Observation TNM Stage Group Example"
-Description: "Example of an observation documenting the TNM stage group and stage clarification for a patient's primary cancer."
 
 * status = #final
 * category = $observation-category#imaging
-* code = cancer-stage-group-cs#cancer-0021-0001 "TNM stage grouping"
+* code = $sct#399390009 "TNM stage grouping"
 * subject = Reference(Patient/example-salim)
-* focus = Reference(cancer-condition-primary-example)
-* effectiveDateTime = "2025-08-15T10:30:00+05:00"
+* focus = Reference(Condition/cancer-condition-example)
+* effectiveDateTime = "2026-09-15T10:00:00+05:00"
 * performer = Reference(PractitionerRole/practitionerrole-001)
+* valueCodeableConcept = $sct#1352927005 
 
-* component[stage].code = cancer-stage-group-cs#cancer-0021-0004 
-* component[stage].valueCodeableConcept = cancer-stage-cs#cancer-0012-0002
-
-* component[stageClarification].code = cancer-stage-group-cs#cancer-0021-0005
-* component[stageClarification].valueCodeableConcept = cancer-sub-stage-cs#cancer-0013-0007
-
-* hasMember = Reference(cancer-observation-tnm-category-ct)
+* hasMember[0] = Reference(Observation/cancer-observation-tnm-category-ct)
+* hasMember[+] = Reference(Observation/cancer-observation-tnm-category-cn)
+* hasMember[+] = Reference(Observation/cancer-observation-tnm-category-pn)
+* hasMember[+] = Reference(Observation/cancer-observation-tnm-category-cm)
+* hasMember[+] = Reference(Observation/cancer-observation-tnm-category-pm)
